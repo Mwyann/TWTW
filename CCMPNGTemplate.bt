@@ -1,0 +1,518 @@
+//--------------------------------------
+//--- 010 Editor v3.1 Binary Template
+//
+// File: TWTW.PNG (French version)
+// Author: Yann
+// Revision: 0.9
+// Purpose: Open and understand it
+//
+// CHANGELOG
+// 0.8 to 0.9 :
+//  - finally discovered where letter pages and nav bar pages are stored!...
+// 0.7 to 0.8 :
+//  - fixed some variables
+// 0.6 to 0.7 :
+//  - cleaned up a bit some old unused variables
+//  - changed some variables and some code
+//  - again new informations dicovered
+// 0.5 to 0.6 :
+//  - changed some var types
+//  - pages are now read directly from the pointer's array (easier to read)
+// 0.4 to 0.5 :
+//  - discovered pointers!
+//  - decoded some items types
+//  - decoded some variables
+//  - decoded frames
+//  - renamed enditem by actionitem
+// 0.3 to 0.4 :
+//  - changed variable names to unique names
+//  - added open=suppress to IDSTRINGS and quotes to ReadIdWord to permit clean CSV export
+//  - added possible values
+//  - replaced ushort by short
+//--------------------------------------
+//
+// Note: Every x and y positions are counted from 1.
+//       Every pointer is counted from 0.
+//       Every "idword" is counted from 1.
+//
+
+// HEADER
+
+typedef struct {
+    ulong pages_start <format=hex>;
+    ulong idstrings_size <format=hex>;
+    ulong idpointers_start <format=hex>;
+} HEADER;
+
+// STRING ARRAY
+
+typedef struct {
+    short strlength;
+    char str[strlength] <open=suppress>;
+} IDSTRING;
+
+typedef struct {
+    short nbid;
+    IDSTRING str[nbid] <optimize=false>;
+} IDSTRINGS;
+
+typedef struct {
+    short id;
+} idword <read=ReadIdWord>;
+
+// FRAME INFORMATIONS
+
+typedef struct (short id_info2) {  // 13 of them
+    short unknown_framearray_201_a; // 7 of them are 0, 6 of them are 1.
+        // If 0, then there is no frame to display. This means the position of the image inside the frame.
+        // If 1, then there is a frame to display.
+    short unknown_framearray_201_b; // 7 of them are 255, 6 of them are 0
+    short idpointer_frame;
+    short unknown_framearray_201_c; // 5 of them are 240, 5 are 0 and 3 are 255
+    if (id_info2 > 1) { // 6 of them
+        short unknown_framearray_201_d;
+        short unknown_framearray_201_e;
+    }
+    short size_x;
+    short size_y;
+    short offset_x;
+    short offset_y;
+} FRAMEARRAY201;
+
+typedef struct { // Only one...
+    short unknown_framearray_202_a; // 0
+    short unknown_framearray_202_b; // 255
+    short unknown_framearray_202_c; // 251
+    short unknown_framearray_202_d; // 240
+    short size_x;
+    short size_y;
+    short offset_x;
+    short offset_y;
+} FRAMEARRAY202;
+
+typedef struct { // 2 of them
+    short ignore_framearray_203_a;  // Always 1
+    ulong idpointer_frame;            // Always 983 (navigation frame pointer)
+    short unknown_framearray_203_d; // One is 0, the other 255
+    short ignore_framearray_203_e;
+    short ignore_framearray_203_f;
+    short offset_x;
+    short offset_y;
+    short imageoffset_x;
+    short imageoffset_y;
+} FRAMEARRAY203;
+
+typedef struct { // 16 of them
+    short typeframe2; // 201 or 202 or 203
+    short id_frame2; // Not unique : 7 are 1, 2 are 39, 38, 37 or 45, and 1 is 6.
+    if (typeframe2 == 201)
+        FRAMEARRAY201 framearray2bis(id_frame2);
+    if (typeframe2 == 202)
+        FRAMEARRAY202 framearray2bis;
+    if (typeframe2 == 203)
+        FRAMEARRAY203 framearray2bis;
+} FRAMEARRAY2;
+
+typedef struct { // 5 of them (one is 103)
+    short unknown_framearray_101_a[16];
+        // 1 : Always 1
+        // 2 : Always 3
+        // 3 : Always 1
+        // 4 : Always 0
+        // 5 : Always 0
+        // 6 : Always 0
+        // 7 : Always 0
+        // 8 : 4 of them are 1, one is 0
+        // 9 : 4 of them are 4, one is 8
+        // 10 : Always 0
+        // 11 : Always 0
+        // 12 : Always 0
+        // 13 : Always 257
+        // 14 : 4 of them are 9, one is 0
+        // 15 : Always 0
+        // 16 : Always 0
+    short numids;
+    short ids[numids];
+    short ignore_framearray_101_b; // Always 0
+    short numinfos;
+    FRAMEARRAY2 framearray2[numinfos] <optimize=false>;
+} FRAMEARRAY101;
+
+typedef struct { // 3 of them
+    short ignore_framearray_102_b; // Always 0
+    short ignore_framearray_102_c; // Always 0
+    short size_x;
+    short size_y;
+    short ignore_framearray_102_d[12]; // Always 0, 1, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0
+    short numinfos;
+    FRAMEARRAY2 framearray2[numinfos] <optimize=false>;
+} FRAMEARRAY102;
+
+typedef struct {
+    short typeframe; // 101 or 102 or 103 (just like pages....)
+    short id_frame; // 101 : Different values are : 0, 41, 57 and 58
+                    // 102 : Different values are : 3, 5 and 55
+                    // 103 : 44
+    if ((typeframe == 101) || (typeframe == 103)) // 4 of type 101, and only one 103
+        FRAMEARRAY101 framearraybis;
+    if (typeframe == 102) // 3 of them
+        FRAMEARRAY102 framearraybis;
+    short ignore_framearray_a; // Always 0
+} FRAMEARRAY;
+
+// END FRAME INFORMATIONS
+
+// GENERAL INFORMATIONS AND FRAME ARRAY
+
+typedef struct {
+    short unknown_infos_a; // 1
+    short screenwidth;
+    short screenheight;
+    short unknown_infos_b[0x6];
+    ulong page_start;
+    short numframes; // 8
+    FRAMEARRAY framearray[numframes] <optimize=false>;
+} INFOS;
+
+// INDEX ARRAY
+
+typedef struct {
+    ulong idpopup;              // The popup(s) to open (pointer)
+} INDEXPOPUP;
+
+typedef struct {
+    idword indexword;
+    short unknown_itemindex_b; // Random values from 3 to 56
+    short ignore_itemindex_c; // Always 0
+    short ignore_itemindex_d; // Always 0
+    short idpage;  // The main page to display (pointer)
+    short nbpopups;
+    if (nbpopups > 0) // Up to 4!
+        INDEXPOPUP popups[nbpopups];
+} INDEXITEM;
+
+typedef struct {
+    ulong indexlen; // 1674
+    INDEXITEM index[indexlen] <optimize=false>;
+} INDEX;
+
+// ITEMS
+
+// ACTION ITEM BLOCKS
+
+typedef struct {
+    short type;
+    if (type == 1) { // 2150 of them
+        // These are links to a popup (add a level)
+        ulong popup_id; // Pointer to the popup to display
+        short popuplevel; // Popup level (exemple: 0 = normal popup, then 1 = glossary popup)
+        short unknown_actionitem_1_d;
+        if (unknown_actionitem_1_d != 0) FSkip(-2);
+    }
+    if (type == 2) { // 78 of them
+        // Shortcut to the item
+        short item_id; // Always 36
+        short ignore_actionitem_2_b; // Always 4
+        short unknown_actionitem_2_c; // Always 0 BUT 3 of them which are 2
+        if (unknown_actionitem_2_c != 0) FSkip(-2);
+    }
+    if (type == 3) { // 7090 of them
+        // These are links to pointers
+        ulong linkto; // idpointer to the next page to reach
+        short unknown_actionitem_3_c; // Always 0 BUT 121 of them which are 1
+        short ignore_actionitem_3_d;
+        if (ignore_actionitem_3_d != 0) FSkip(-2);
+    }
+    if (type == 4) { // 285 of them
+        // These are sounds.
+        idword soundtoplay;
+        long ignore_actionitem_4_b; // Always -1
+        short ignore_actionitem_4_c; // Always 1
+        short ignore_actionitem_4_d; // Always 1
+        short unknown_actionitem_4_e;
+        short unknown_actionitem_4_f;
+        if (unknown_actionitem_4_f != 0) FSkip(-2);
+    }
+    if (type == 7) { // 557 of them
+        // These are short animations. What is the difference with itemtype2 95?
+        idword anim;
+        short ignore_actionitem_7_b; // Always -1
+        short ignore_actionitem_7_c; // Always -1
+        short ignore_actionitem_7_d; // Always 1
+        short ignore_actionitem_7_e; // Always 1
+        short ignore_actionitem_7_f; // Always 0
+        short unknown_actionitem_7_g; // Always 0 BUT 2 of them which are 3
+        if (unknown_actionitem_7_g != 0) FSkip(-2);
+    }
+    if (type == 11) { // 3 of them
+        // Execute special commands.
+        short command; // Different values are: 1, 2, 3
+            // 1 = Copy actual page
+            // 2 = Print actual page
+            // 3 = Show "Printer setup"
+        short ignore_actionitem_11_b; // Always 0
+        if (ignore_actionitem_11_b != 0) FSkip(-2);
+    }
+    if (type == 12) { // Only 1, "Ciné-mammouth" in options page.
+        // Means: close the popup.
+        // In ciné-mamouth, this action item is followed by a popup action.
+        short ignore_actionitem_12_a; // 0
+        short popup_to_close; // 981
+    }
+    if (type == 36) { // 3 of them
+        // ?? unknown
+        short ignore_actionitem_36_a; // Always 4
+        short ignore_actionitem_36_b; // Always 0
+    }
+} ACTIONITEM;
+
+// GENERAL ITEM
+
+typedef struct {
+    short itemtype;
+    short item_id; // Mainly 2, or random, max 56
+    short item_props; // Mainly 4 or 0, or 1, 5, 16, 32, 51, 274, 496, 515
+        // 16 - no auto start ; 32 - auto start
+    if (itemtype == 601) { // 1663 of them
+        // These are background pictures. They are usually the first item in the list.
+        short ignore_item_89_a; // Always 0
+        short ignore_item_89_b; // Always 0
+        short imgwidth, imgheight;
+        short ignore_item_89_c; // Always 3
+        short ignore_item_89_d; // Always 0
+        idword image;
+    }
+    if (itemtype == 602) { // 59 of them
+        // This is an animation with a control bar.
+        short x1,y1,x2,y2; // This is the position for the control bar
+        idword cursor;
+        short ignore_item_90_a; // Always 0, probaby the x offset.
+        short ignore_item_90_b; // Always 0, probably the y offset.
+        short x1,y1,x2,y2; // This is the position for the control bar too ?
+        idword anim;
+        idword cursor;
+        short ignore_item_90_c; // Always 0
+        short autostart; // 0 = autostart, 1 = no autostart
+        short ignore_item_90_e; // Always 4
+    }
+    if (itemtype == 603) { // 10163 of them
+        // These are objects. They can be: sound or links, etc. See ACTIONITEM for more details.
+        short x1,y1,x2,y2;
+        idword cursor;
+        short ignore_item_91_a; // Always 1
+        short ignore_item_91_b; // Always 4
+        short numactions; // Never more than 2
+        ACTIONITEM actions[numactions] <optimize=false>;
+    }
+    if (itemtype == 604) { // 62 of them
+        // Used only in the alphabet wheel (page 67)
+        short x1,y1,x2,y2;
+        idword cursor;
+        short ignore_item_92_a; // Always 0
+        short ignore_item_92_b; // Always 0
+        short letter; // Random values, from 0 to 28, probably the choosed letter
+    }
+    if (itemtype == 605) { // 660 of them
+        // Known to be used in "See also" and informations popups. Glossary popups doesn't have this.
+        short ignore_item_93_a; // Always 0
+        short ignore_item_93_b; // Always 0
+        short ignore_item_93_c; // Always 0
+        short ignore_item_93_d; // Always 0
+        short ignore_item_93_e; // Always 0
+        short ignore_item_93_f; // Always 0
+    }
+    if (itemtype == 606) { // 9 of them (the 9 buttons in the menu!)
+        // This is the type of button for the left menu (NAV folder).
+        // Where is the page id for each of those? Just after the definition of the nav! But in the wrong order...
+        // item_id | id_page
+        // 46        978    (Atelier)
+        // 47        246*   (Machines)
+        // 48        979*   (Grands Principes)
+        // 49        980*   (Histoire)
+        // 50        754*   (Inventeurs)
+        // 51        (?)**  (Retour)
+        // 52        808    (Index)
+        // 53        981    (Options)
+        // 54        670    (Aide)
+        //  * : Variables found in PAGE100 have priority over these default values.
+        //  ** : This changes over time, of course
+        short x1,y1,x2,y2;
+        idword cursor;
+        short ignore_item_94_a; // Always 0
+        idword pathanimation; // anim
+        short ignore_item_94_b; // Always 1
+        numlinkto++;
+    }
+    if (itemtype == 607) { // 222 of them
+        // These are animations.
+        short x1,y1,x2,y2;
+        idword cursor;
+        short page_skip; // 34 of them are 0, 188 are 1
+        if (page_skip == 1) {
+            // When finished playing, we skip to page (or popup) idpointer.
+            short ignore_item_95_1_a; // Always 6
+            short ignore_item_95_1_b; // Always 1
+            short unknown_item_95_1_c; // Always 3 BUT 3 of them which are 1
+            ulong idpointer;
+            short unknown_item_95_1_f; // Always 0 BUT 2 of them which are 1
+        }
+        idword animation;
+        short ignore_item_95_1_h; // Always 1
+    }
+    if (itemtype == 608) { // Only 1 (in page 867, "Options" page)
+        // "Cancel" button (can be pushed)
+        // Could also mean "close popup" with the popup id following.
+        short x1,y1,x2,y2;
+        idword cursor;
+        short unknown_item_96_a; // 1
+        short unknown_item_96_b; // 4
+        short unknown_item_96_c; // 1
+        short unknown_item_96_d; // 12
+        short unknown_item_96_e; // 0
+        short popup_id; // 981 ( = P867, the "Options" page!)
+        short unknown_item_96_g; // 0
+        short unknown_item_96_h; // 0
+        short unknown_item_96_i; // 0
+    }
+    if (itemtype == 609) { // 4 of them, one is used in the "Help" page (P545)
+        // This is the image used in the scrollable zone. It's a very long image, text only.
+        short unknown_item_97_a; // 3 of them are 50 and one of them is 1
+        short x1;
+        short x2;
+        short ignore_item_97_b; // Always 3
+        short ignore_item_97_c; // Always 0
+        short ignore_item_97_d; // Always 2
+        short ignore_item_97_e; // Always 0
+        short unknown_item_97_f; // Different values are: 8, 39, 59, 71
+        short ignore_item_97_g; // Always 0
+        idword image;
+    }
+    if (itemtype == 610) { // 4 of them, one is used in the "Help" page (P545)
+        // These seems to be shortcuts to use the scrollable zone (arrow keys doesn't work though)
+        short unknown_item_98_a; // 3 of them are 49 and one of them is 48
+        short x1;
+        short x2;
+        idword cursor;
+        short ignore_item_98_b; // Always 1
+        short ignore_item_98_c; // Always 43
+        short ignore_item_98_d; // Always 0
+        short ignore_item_98_e; // Always 0
+        short ignore_item_98_f; // Always 0
+        idword unknown_item_98_g; // @LINEUP
+        idword unknown_item_98_h; // @LINEDOWN
+        idword unknown_item_98_i; // @THUMB
+        idword unknown_item_98_j; // @THUMBTRACK
+        idword unknown_item_98_k; // @LINEUPALT
+        idword unknown_item_98_l; // @LINEDOWNALT
+        idword unknown_item_98_m; // @THUMBALT
+        idword unknown_item_98_n; // @THUMBTRACKALT
+    }
+} ITEM;
+
+// PAGE
+
+typedef struct {
+    // This kind of page takes all the screen, and are deserved to keep being onscreen (example the navigation frame).
+    short id_frame;
+    short numitems; // Max is 83!
+    local short numlinkto = 0;
+    ITEM items[numitems] <optimize=false>;
+    short ignore_page0_b; // Always 0
+    if (numlinkto > 0) {
+        short linkto_id[numlinkto];
+        ulong linkto_page[numlinkto];
+        short unknown_linkto;
+    }
+} PAGE0;
+
+typedef struct {
+    // This kind of page is the most common.
+    short id_frame; // Values : 0 (1186), 3 (385 times, 102 is 390 times), 5 (only one), 41, 44, 55 (the three first pages)
+    short xoffset;
+    short yoffset;
+    idword basedirectory;
+    short ignore_page100_b; // Always 1
+    short unknown_page100_c; // Always 201 BUT one which is 202
+    short unknown_page100_d; // Always 1 BUT one which is 6
+    short numitems; // Max is 83!
+    ITEM items[numitems] <optimize=false>;
+    short links_infos; // Always 0 BUT 22 which are 1
+    short unknown_page100_f; // Always 0 BUT 22 which are 1
+    short more_infos; // Always 0 BUT 171 which are 1 AND 1 which is 73
+    if (more_infos == 1) {
+        if (links_infos == 0) { // 149 of them
+            ulong related_principles_popup; // Pointer to the "Related principles" popup
+            ulong machines_page; // Pointer to the "Machines" page
+            ulong inventors_page; // Pointer to the "Inventors" page
+            ulong timeline_page; // Pointer to the "Timeline" page
+        }
+        if (links_infos == 1) { // 22 of them
+            short ignore_item2_100_11_a; // Always 2
+            short ignore_item2_100_11_b; // Always 36
+            short ignore_item2_100_11_c; // Always 4
+            short ignore_item2_100_11_d; // Always 0
+            short ignore_item2_100_11_e; // Always 0
+        }
+    }
+    if (more_infos == 73) { // Here for the only one which is 73...
+        FSkip(-4);
+        ulong to_idpages[26];
+        short to_idpages2[26];
+        short unknown_page100_1_d; // 0
+        short unknown_page100_1_e; // 0
+    }
+} PAGE100;
+
+typedef struct {
+    local short tmptypepage;
+    tmptypepage = ReadShort(FTell());
+    while (tmptypepage == -1) {  // Serves as NOP - SHOULDN'T BE FOUND IN ORIGINAL FILES!
+        FSkip(2);
+        tmptypepage = ReadShort(FTell());
+    }
+    short typepage;
+    if (typepage == 0)
+        // These are the frame images
+        PAGE0 page; // 4 of them
+    if ((typepage == 101) || (typepage == 102) || (typepage == 103))
+        // 101: popup (1268 of them)
+        // 102: normal frame (390 of them)
+        // 103: the index popup
+        PAGE100 page; // 1659 of them
+} PAGE;
+
+string ReadIdWord(idword &id) {
+    if (id.id == 0) return "(0)";
+    return "\""+TWTW.idstrings.str[id.id-1].str+"\"";
+}
+
+// PAGE INDEX POINTERS
+// Pointers ID always start with 0. If there is a page ID somewhere, it is a pointer.
+
+typedef struct {
+    ulong pointer; // Make sure to add value of pages_start to get your full pointer
+    // Read the page directly in the pointer declaration (easier to read)
+    local int64 currentpos = FTell();
+    FSeek(pointer+header.pages_start);
+    PAGE page;
+    FSeek(currentpos);
+} IDPOINTER;
+
+typedef struct {
+    ulong numpointers;
+    IDPOINTER idpointer[numpointers] <optimize=false>;
+} IDPOINTERS;
+
+typedef struct {
+    BigEndian();
+    
+    HEADER header;
+    IDSTRINGS idstrings;
+    INFOS infos;
+    INDEX index;
+    IDPOINTERS idpointers;
+    FSeek(header.pages_start);
+    PAGE pages[1663] <optimize=false>;
+} PNGFILE <open=true>;
+
+PNGFILE TWTW;

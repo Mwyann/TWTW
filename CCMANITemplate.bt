@@ -1,0 +1,38 @@
+//--------------------------------------
+//--- 010 Editor v3.2 Binary Template
+//
+// File: CCM ANI
+// Author: Yann
+// Revision: 0.7
+// Purpose: Open ANI files
+//--------------------------------------
+
+typedef struct {
+    ushort unknown_a;
+    ushort soundsize;
+    char data_a[14];
+    ulong imagesize;
+    char soundheader[6];
+    char sounddata[soundsize];
+    if (imagesize > 0) char imagedata[imagesize];
+} FRAME;
+
+typedef struct {
+    ushort unknown_a;
+    ushort num_frames;
+    ushort unknown_b;
+    ushort framespersec; 
+    ushort preloadsecs;
+    ushort unknown_e;
+    ushort unknown_f;
+    ushort unknown_g;
+    ushort unknown_h;
+    ulong soundrate;
+    ulong soundrate;
+    ushort unknown_c;
+    ushort unknown_d;
+    FRAME preload[preloadsecs*framespersec] <optimize=false>;
+    FRAME frames[num_frames] <optimize=false>;
+} ANIFILE <open=true>;
+
+ANIFILE ANI;
