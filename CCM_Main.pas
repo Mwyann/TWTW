@@ -450,20 +450,20 @@ begin
   edit1.Text:=inttostr(info.page_start);
   BufferImage:=TBitmap.Create;
   BufferImage.Width:=info.screenwidth-2; // 638
-  BufferImage.Height:=info.screenheight-20; // 460
+  BufferImage.Height:=info.screenheight-22; // 458
   for i:=0 to 7 do begin
     actualPages[i].PageImage:=TBitmap.Create;
     actualPages[i].PageImage.Width:=info.screenwidth-2; // 638
-    actualPages[i].PageImage.Height:=info.screenheight-20; // 460
+    actualPages[i].PageImage.Height:=info.screenheight-22; // 458
   end;
   for i:=0 to index.indexlen-1 do IndexList.Items.Add(strings.strings[index.indexitems[i].indexword]);
-  TWTW.Width:=info.screenwidth+6;
+  TWTW.Width:=info.screenwidth+4;
   pbx.width:=info.screenwidth;
   if (not debug) then begin
-    TWTW.Height:=info.screenheight+5;
+    TWTW.Height:=info.screenheight+3;
     Button1.Click;
   end;
-  pbx.height:=info.screenheight;
+  pbx.height:=info.screenheight-2;
   IndexEdit.Visible:=false;
   IndexList.Visible:=false;
   ScrollBox.Left:=CCMScrollBoxPos[0];

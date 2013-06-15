@@ -5,7 +5,7 @@ object TWTW: TTWTW
   BorderStyle = bsSingle
   Caption = 'CCM emulator v 0.9'
   ClientHeight = 630
-  ClientWidth = 638
+  ClientWidth = 636
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -181,8 +181,8 @@ object TWTW: TTWTW
     object pbx: TPaintBox
       Left = 0
       Top = 0
-      Width = 640
-      Height = 460
+      Width = 638
+      Height = 458
       OnMouseDown = pbxMouseDown
       OnMouseMove = pbxMouseMove
       OnPaint = pbxPaint

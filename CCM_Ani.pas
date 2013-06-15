@@ -15,6 +15,7 @@ type
     offsetX,offsetY:integer;
     GIFFramems:word;
     ThisAniSaveToDisk:boolean;
+    DiffPicture:TPicture; // utilisé pour la sauvegarde du GIF
     procedure InitAnim;
     procedure OpenAnim(FileName:string);
     procedure ExtractSound;
@@ -294,7 +295,10 @@ begin
           if (px=x) and ((not skip) and onemore) then begin
             skip:=true;
           end else begin
-            if (px >= pred(AniRect.Left)) and (py >= pred(AniRect.Top)) and (px <= pred(AniRect.Right)) and (py <= AniRect.Bottom) then CCMBufferImage.Canvas.Pixels[px,py]:=k;
+            if (px >= pred(AniRect.Left)) and (py >= pred(AniRect.Top)) and (px <= pred(AniRect.Right)) and (py <= AniRect.Bottom) then begin
+                if ThisAniSaveToDisk then if CCMBufferImage.Canvas.Pixels[px,py] <> k then DiffPicture.Bitmap.Canvas.Pixels[px,py]:=k;
+                CCMBufferImage.Canvas.Pixels[px,py]:=k;
+              end;
             inc(px);
             skip:=false;
           end;
@@ -307,7 +311,11 @@ begin
           if (px=x) and ((not skip) and onemore) then begin
             skip:=true;
           end else begin
-            if (px >= pred(AniRect.Left)) and (py >= pred(AniRect.Top)) and (px <= pred(AniRect.Right)) and (py <= pred(AniRect.Bottom)) then CCMBufferImage.Canvas.Pixels[px,py]:=colors[ord(buf[i])];
+            if (px >= pred(AniRect.Left)) and (py >= pred(AniRect.Top)) and (px <= pred(AniRect.Right)) and (py <= pred(AniRect.Bottom)) then begin
+              k:=colors[ord(buf[i])];
+              if ThisAniSaveToDisk then if CCMBufferImage.Canvas.Pixels[px,py] <> k then DiffPicture.Bitmap.Canvas.Pixels[px,py]:=k;
+              CCMBufferImage.Canvas.Pixels[px,py]:=k;
+            end;
             inc(px);
             skip:=false;
           end;
@@ -338,13 +346,14 @@ begin
   OpenAnim(FileName);
   FreeOnTerminate:=true;
   Priority:=tpNormal;
+  DiffPicture := nil;
 end;
 
 destructor TCCMAni.Destroy;
 begin
+  if DiffPicture <> nil then DiffPicture.Free;
   f.Free;
   Sound.Free;
-  //déchargez la mémoire ici si vous avez créé des objets
   inherited;
 end;
 
@@ -378,11 +387,17 @@ begin
     CCMAddControlBar(cbx,cby);
     PerctPos:=(30*(PlayPos-PlayStart)) div (PlayEnd-PlayStart);
     for i:=0 to PerctPos-1 do
-      for j:=0 to 8 do
+      for j:=0 to 8 do begin
         if (i = 0) or (j = 0) then
           CCMBufferImage.Canvas.Pixels[cbx+i+39,cby+j+7]:=$BB
         else
           CCMBufferImage.Canvas.Pixels[cbx+i+39,cby+j+7]:=$DD;
+        if ThisAniSaveToDisk then
+          if (i = 0) or (j = 0) then
+            DiffPicture.Bitmap.Canvas.Pixels[cbx+i+39,cby+j+7]:=$BB
+          else
+            DiffPicture.Bitmap.Canvas.Pixels[cbx+i+39,cby+j+7]:=$DD;
+      end;
   end;
 end;
 
@@ -405,7 +420,7 @@ begin
   Synchronize(PlayTheSound);
   AnimBegin:=GetTickCount();
   if ThisAniSaveToDisk then begin
-    GifAnimateBegin(640, 460);
+    GifAnimateBegin(638, 458);
     GIFFramems:=0;
     Synchronize(SaveGIFFrame);
     GIFFramems:=trunc(1000/FrameRate);
@@ -438,16 +453,16 @@ begin
 end;
 
 procedure TCCMAni.SaveGIFFrame;
-var Picture:TPicture;
 begin
-  Picture := TPicture.Create;
-  Picture.Bitmap.Width:=640;
-  Picture.Bitmap.Height:=460;
-  Picture.Bitmap.Canvas.CopyRect(Picture.Bitmap.Canvas.ClipRect,CCMBufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
-  GifAnimateAddImage(Picture.Graphic,$101010,GIFFramems,1);
-  Picture.Free;
-  CCMBufferImage.Canvas.Brush.Color:=$101010;
-  CCMBufferImage.Canvas.FillRect(CCMBufferImage.Canvas.ClipRect);
+  if DiffPicture = nil then begin
+    DiffPicture := TPicture.Create;
+    DiffPicture.Bitmap.Width:=638;
+    DiffPicture.Bitmap.Height:=458;
+    DiffPicture.Bitmap.Canvas.CopyRect(DiffPicture.Bitmap.Canvas.ClipRect,CCMBufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
+  end;
+  GifAnimateAddImage(DiffPicture.Graphic,$101010,GIFFramems,1);
+  DiffPicture.Bitmap.Canvas.Brush.Color:=$101010;
+  DiffPicture.Bitmap.Canvas.FillRect(DiffPicture.Bitmap.Canvas.ClipRect);
 end;
 
 function CCMIsPlaying:boolean;
@@ -491,7 +506,6 @@ end;
 destructor TCCMWav.Destroy;
 begin
   Sound.Free;
-  //déchargez la mémoire ici si vous avez créé des objets
   inherited;
 end;
 
@@ -537,7 +551,7 @@ end;
 begin
   CCMBufferImage:=TBitmap.Create;
   CCMBufferImage.Width:=638;
-  CCMBufferImage.Height:=460;
+  CCMBufferImage.Height:=458;
   CCMCanvas:=nil;
   Ani:=nil;
   Wav:=nil;

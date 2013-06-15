@@ -264,9 +264,9 @@ procedure GifAnimateBegin;
 begin
   GIF.Free;
   GIF := TGIFImage.Create;
-  GIF.ColorReduction := rmQuantizeWindows;
+  GIF.ColorReduction := rmNone;  // rmQuantize rmNone
   //  GIF.DitherMode := dmNearest;  // no dither, use nearest color in palette
-  GIF.DitherMode := dmFloydSteinberg;
+  GIF.DitherMode := dmNearest;       // dmNearest dmFloydSteinberg
   GIF.Compression := gcLZW;
 end;
 
@@ -276,9 +276,9 @@ begin
   GIF := TGIFImage.Create;
   GIF.Width := Width;
   GIF.Height := Height;
-  GIF.ColorReduction := rmQuantizeWindows;
+  GIF.ColorReduction := rmNone;  // rmQuantize rmNone
   //  GIF.DitherMode := dmNearest;  // no dither, use nearest color in palette
-  GIF.DitherMode := dmFloydSteinberg;
+  GIF.DitherMode := dmNearest;       // dmNearest dmFloydSteinberg
   GIF.Compression := gcLZW;
 end;
 
