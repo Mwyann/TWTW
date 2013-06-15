@@ -429,6 +429,7 @@ begin
     Synchronize(CentralControl);
     WaitFor:=trunc((PlayPos-PlayStart)*1000/FrameRate)-(GetTickCount()-AnimBegin);
     if ThisAniSaveToDisk then begin
+      if (PlayPos=PlayEnd) then GIFFramems:=60000;
       Synchronize(SaveGIFFrame);
       WaitFor:=0;
     end;
