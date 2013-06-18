@@ -25,6 +25,7 @@ type
     MenuAPropos: TMenuItem;
     MenuRestart: TMenuItem;
     MenuRandomPage: TMenuItem;
+    ExportTimer: TTimer;
     procedure Button1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -41,6 +42,7 @@ type
     procedure MenuAProposClick(Sender: TObject);
     procedure MenuRestartClick(Sender: TObject);
     procedure MenuRandomPageClick(Sender: TObject);
+    procedure ExportTimerTimer(Sender: TObject);
   private
     { Déclarations privées }
   public
@@ -52,7 +54,7 @@ var
 
 implementation
 
-uses CCM_Png, CCM_Ani, CCM_Zip;
+uses CCM_Png, CCM_Ani, CCM_Zip, GIFImage;
 
 type TLINK=record
     linktype:smallint;
@@ -92,9 +94,41 @@ var nextpage_ani:IDPOINTER;
     actualPageLevel,predPageLevel:smallint;  // Niveaux de pages
     history:array[0..1000] of IDPOINTER; // Historique
     numhistory:smallint;
-    debug:boolean;
+    debug,exportres,exportjs:boolean;
+    exportpos:cardinal;
 
 {$R *.dfm}
+
+procedure writefile(filename,contenu:string);
+var f:file;
+    fullname:string;
+begin
+  fullname:=GetCurrentDir()+'\res\'+filename;
+  ForceDirectories(ExtractFileDir(fullname));
+  assignfile(f,fullname);
+  rewrite(f,1);
+  blockwrite(f,contenu,length(contenu));
+  closefile(f);
+end;
+
+procedure writegif(filename:string;bmp:TBitmap);
+var fullname:string;
+    GIF:TGIFImage;
+    i:word;
+begin
+  fullname:=GetCurrentDir()+'\res\'+filename;
+  i:=length(fullname);
+  while (i>0) and (fullname[i]<>'.') do dec(i);
+  fullname:=copy(fullname,1,i)+'gif';
+  ForceDirectories(ExtractFileDir(fullname));
+  GIF := TGIFImage.Create;
+  GIF.ColorReduction := rmNone;  // rmQuantize rmNone
+  //  GIF.DitherMode := dmNearest;  // no dither, use nearest color in palette
+  GIF.DitherMode := dmNearest;       // dmNearest dmFloydSteinberg
+  GIF.Add(bmp);
+  GIF.SaveToFile(fullname);
+  GIF.Free;
+end;
 
 procedure centerizeform(f:TForm);
 begin
@@ -148,6 +182,7 @@ var bmp:TBitmap;
     bmpstream:TStream;
 begin
   bmpstream:=OpenFile(filename);
+  if (bmpstream = nil) then exit;
   bmp:=TBitmap.Create();
   bmp.LoadFromStream(bmpstream);
   bmpstream.free;
@@ -156,13 +191,22 @@ begin
     x1:=xoffset;
     y1:=yoffset;
     x2:=xoffset+bmp.Canvas.ClipRect.Right;
+    if x2 > BufferImage.Canvas.ClipRect.Right then x2:=BufferImage.Canvas.ClipRect.Right;
     y2:=yoffset+bmp.Canvas.ClipRect.Bottom;
+    if y2 > BufferImage.Canvas.ClipRect.Bottom then y2:=BufferImage.Canvas.ClipRect.Bottom;
     // Limites d'affichage des animations dans l'image actuelle
     AniRect:=Rect(x1,y1,x2,y2);
   end;
   // Insertion de l'image dans le buffer
   BufferImage.Canvas.CopyRect(bmpto,bmp.Canvas,bmp.Canvas.ClipRect);
   bmp.free;
+  if (exportres) then begin
+    bmp:=TBitmap.Create();
+    bmp.Width:=AniRect.Right-AniRect.Left;
+    bmp.Height:=AniRect.Bottom-AniRect.Top;
+    bmp.Canvas.CopyRect(bmp.Canvas.ClipRect,BufferImage.Canvas,AniRect);
+    writegif(filename,bmp);
+  end;
 end;
 
 procedure addItems(page:TPAGE;basedir:string;xoff_,yoff_:smallint);
@@ -182,6 +226,11 @@ begin
       links[numlinks].y1:=yoff_+y1;
       links[numlinks].x2:=xoff_+x2;
       links[numlinks].y2:=yoff_+y2;
+      if (debug) then begin
+        BufferImage.Canvas.Brush.Style := bsClear;
+        BufferImage.Canvas.Pen.Color := $ee;
+        BufferImage.Canvas.Rectangle(links[numlinks].x1, links[numlinks].y1, links[numlinks].x2, links[numlinks].y2);
+      end;
       links[numlinks].xoffset:=xoff_;
       links[numlinks].yoffset:=yoff_;
       links[numlinks].cursor:=cursor;
@@ -337,6 +386,8 @@ begin
 
   // Lecture des informations sur la page.
   page:=ReadPagePNG(idpage);
+  if page.typepage=0 then exit; // On n'est pas sur une vraie page, on saute. 
+
   if (page.typepage <> 102) then // S'il ne s'agit pas d'une pleine page (donc une popup à priori) et que le niveau est = 0 ou identique au précédent, alors on avance d'un niveau.
    if (actualPageLevel = 0) and (actualPages[actualPageLevel].actualPage <> idpage) and (actualPageLevel = predPageLevel) then
     inc(actualPageLevel) else
@@ -373,6 +424,7 @@ begin
     end;
     if (typepage=102) then begin  // Page pleine
       // On ajoute à l'historique
+      if (numhistory >= 1000) then numhistory:=999;
       if (numhistory >= 0) then begin
         if history[numhistory] <> idpage then begin
           inc(numhistory);
@@ -426,7 +478,11 @@ begin
   if (nextpage_ani > -1) then nextpage_load:=nextpage_ani
     else if (nextpage_ani = -1) then nextpage_load:=actualPages[actualPageLevel].actualPage;
   // On lance le timer pour actualiser la page (petit truc pour éviter de s'embêter avec les threads) 
-  TWTW.NextPageTimer.Enabled:=true;
+  if (exportres or exportjs) then begin
+    TWTW.ExportTimer.Enabled:=True;
+  end else begin
+    TWTW.NextPageTimer.Enabled:=true;
+  end;
 end;
 
 procedure TTWTW.Button1Click(Sender: TObject);
@@ -454,8 +510,10 @@ var i:word;
 begin
   memo1.Lines.Clear;
   param:='TWTW';
-  debug:=false;
+  debug:=false;exportres:=false;exportjs:=false;
   if (paramstr(1) = '--debug') then debug:=true;
+  if (paramstr(1) = '--exportres') then exportres:=true;
+  if (paramstr(1) = '--exportjs') then exportjs:=true;
   if (paramcount > 0) then param:=paramstr(paramcount);
   TWTWZip:=nil;
   if FileExists(param+'.ZIP') then begin
@@ -487,10 +545,8 @@ begin
   for i:=0 to index.indexlen-1 do IndexList.Items.Add(strings.strings[index.indexitems[i].indexword]);
   TWTW.Width:=info.screenwidth+4;
   pbx.width:=info.screenwidth;
-  if (not debug) then begin
-    TWTW.Height:=info.screenheight+3;
-    Button1.Click;
-  end;
+  if (not debug) then TWTW.Height:=info.screenheight+3;
+  if (not debug) and (not exportres) and (not exportjs) then Button1.Click;
   pbx.height:=info.screenheight-2;
   IndexEdit.Visible:=false;
   IndexList.Visible:=false;
@@ -499,6 +555,10 @@ begin
   ScrollBox.Width:=CCMScrollBoxPos[2];
   ScrollBox.Height:=CCMScrollBoxPos[3];
   centerizeform(TWTW);
+  if (exportres or exportjs) then begin
+    exportpos:=0;
+    ExportTimer.Enabled:=True;
+  end;
 end;
 
 procedure TTWTW.FormCreate(Sender: TObject);
@@ -518,13 +578,14 @@ procedure TTWTW.pbxMouseMove(Sender: TObject; Shift: TShiftState; X,
 var i:smallint;
     linkFound:boolean;
 begin
+  if (exportres or exportjs) then exit;
   with actualPages[actualPageLevel] do begin
   if not (CCMIsPlaying) then begin
     linkFound:=false;
     for i:=0 to numlinks-1 do with links[i] do begin
       if (x >= x1) and (y >= y1) and (x <= x2) and (y <= y2) then begin
         linkFound:=true;
-        if (debug) then begin; CCMCanvas.Brush.Color:=$cc0000; CCMCanvas.Pen.Color:=$cc0000; CCMCanvas.Rectangle(x1,y1,x2,y2); end;
+        {CCMCanvas.Brush.Color:=$cc0000; CCMCanvas.Pen.Color:=$cc0000; CCMCanvas.Rectangle(x1,y1,x2,y2);}
         setCursor(cursor);
       end;
     end;
@@ -542,6 +603,7 @@ var i,j,k:smallint;
     actionTaken:boolean;
 
 begin
+  if (exportres or exportjs) then exit;
   if Button <> mbLeft then exit;
   if CCMIsPlaying then begin
     CCMStopAni;
@@ -761,6 +823,25 @@ begin
     inc(actualPageLevel);
     displayPage(indexitem.popups[i-1]);
   end;
+end;
+
+procedure TTWTW.ExportTimerTimer(Sender: TObject);
+begin
+  ExportTimer.Enabled:=False;
+  if (exportpos >= pointers.nbpointers) then begin
+    CCMCanvas.TextOut(5,5,'Finish!');
+    TWTW.pbx.Cursor:=crDefault;
+    exit;
+  end;
+  TWTW.pbx.Cursor:=crHourGlass;
+  if (exportres) then begin
+    AniSaveToDisk:=true;
+    AniSavePrefix:='res?';
+  end;
+  displayPage(exportpos);
+  CCMCanvas.TextOut(5,5,inttostr(exportpos));
+  inc(exportpos);
+  if (not CCMIsPlaying) then ExportTimer.Enabled:=True;
 end;
 
 end.

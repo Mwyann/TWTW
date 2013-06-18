@@ -15,6 +15,7 @@ type
     offsetX,offsetY:integer;
     GIFFramems:word;
     ThisAniSaveToDisk:boolean;
+    ThisAniSavePrefix:string;
     DiffPicture:TPicture; // utilisé pour la sauvegarde du GIF
     procedure InitAnim;
     procedure OpenAnim(FileName:string);
@@ -225,7 +226,7 @@ begin
   buf[2]:=chr(totalsize shr 16);
   buf[3]:=chr(totalsize shr 24);
   Sound.WriteBuffer(buf,4);
-  if ThisAniSaveToDisk then Sound.SaveToFile(AniSavePrefix+'.wav');
+  if ThisAniSaveToDisk then Sound.SaveToFile(ThisAniSavePrefix+'.wav');
 end;
 
 procedure TCCMAni.SeekFrame;
@@ -338,12 +339,22 @@ begin
 end;
 
 constructor TCCMAni.Create(FileName:string;X,Y:integer);
+var fullname:string;
+    i:word;
 begin
   inherited Create(true);
   Sound:=TMemoryStream.Create;
   offsetX:=X;
   offsetY:=Y;
   ThisAniSaveToDisk:=AniSaveToDisk;
+  ThisAniSavePrefix:=AniSavePrefix;
+  if (ThisAniSavePrefix = 'res?') then begin
+    fullname:=GetCurrentDir()+'\res\'+filename;
+    i:=length(fullname);
+    while (i>0) and (fullname[i]<>'.') do dec(i);
+    ThisAniSavePrefix:=copy(fullname,1,i-1);
+    ForceDirectories(ExtractFileDir(ThisAniSavePrefix+'.gif'));
+  end;
   OpenAnim(FileName);
   FreeOnTerminate:=true;
   Priority:=tpNormal;
@@ -441,7 +452,8 @@ begin
   WaitFor:=SoundDuration-(AnimEnd-AnimBegin);
   if ThisAniSaveToDisk then begin
     GIF:=GifAnimateEndGif;
-    GIF.SaveToFile(AniSavePrefix+'.gif');
+    GIF.SaveToFile(ThisAniSavePrefix+'.gif');
+    GIF.Free;
     WaitFor:=0;
   end;
   while (not Terminated) and (Waitfor > 0) do begin

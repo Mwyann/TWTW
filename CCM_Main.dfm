@@ -1,6 +1,6 @@
 object TWTW: TTWTW
-  Left = 233
-  Top = 192
+  Left = 207
+  Top = 115
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'CCM emulator v 0.9'
@@ -281,5 +281,12 @@ object TWTW: TTWTW
       Caption = 'A propos...'
       OnClick = MenuAProposClick
     end
+  end
+  object ExportTimer: TTimer
+    Enabled = False
+    Interval = 1
+    OnTimer = ExportTimerTimer
+    Left = 600
+    Top = 464
   end
 end

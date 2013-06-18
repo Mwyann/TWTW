@@ -142,7 +142,7 @@ var realOpenPNG:function(filename:string):boolean;
     realClosePNG:procedure;
     realReadPagePNG:function(idpointer:longint):TPAGE;
     realFixedNavBar:function(item_id:smallint; actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page:IDPOINTER):IDPOINTER;
-    currentEngine:word;
+    currentEngine:word; // Moteur de décodage, 1 = EN, 2 = FR
 
 function loadNextEngine:boolean;
 begin
