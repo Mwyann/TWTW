@@ -62,6 +62,7 @@ var CCMCanvas:TCanvas;
     CCMBufferImage:TBitmap;
     AniRect:TRect;
     AniSaveToDisk:boolean;
+    AniSavePrefix:string;
 
 implementation
 
@@ -224,7 +225,7 @@ begin
   buf[2]:=chr(totalsize shr 16);
   buf[3]:=chr(totalsize shr 24);
   Sound.WriteBuffer(buf,4);
-  if ThisAniSaveToDisk then Sound.SaveToFile('Ani.wav');
+  if ThisAniSaveToDisk then Sound.SaveToFile(AniSavePrefix+'.wav');
 end;
 
 procedure TCCMAni.SeekFrame;
@@ -440,7 +441,7 @@ begin
   WaitFor:=SoundDuration-(AnimEnd-AnimBegin);
   if ThisAniSaveToDisk then begin
     GIF:=GifAnimateEndGif;
-    GIF.SaveToFile('Ani.gif');
+    GIF.SaveToFile(AniSavePrefix+'.gif');
     WaitFor:=0;
   end;
   while (not Terminated) and (Waitfor > 0) do begin

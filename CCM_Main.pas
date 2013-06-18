@@ -89,9 +89,8 @@ var nextpage_ani:IDPOINTER;
     actualletter:smallint;
     BufferImage:TBitmap;
     actualPages:array[0..7] of TDISPLAY; // 0 = main frame, 1 to 7 = popups
-    actualPageLevel:smallint;
-    predPageLevel:smallint;
-    history:array[0..1000] of IDPOINTER;
+    actualPageLevel,predPageLevel:smallint;  // Niveaux de pages
+    history:array[0..1000] of IDPOINTER; // Historique
     numhistory:smallint;
     debug:boolean;
 
@@ -154,12 +153,14 @@ begin
   bmpstream.free;
   bmpto:=Rect(xoffset,yoffset,xoffset+bmp.Canvas.ClipRect.Right,yoffset+bmp.Canvas.ClipRect.Bottom);
   with actualPages[actualPageLevel] do begin
-    {if (x1 = -1) or (x1 > xoffset) then }x1:=xoffset;
-    {if (y1 = -1) or (y1 > yoffset) then }y1:=yoffset;
-    {if (x2 = -1) or (x2 < xoffset+bmp.Canvas.ClipRect.Right) then }x2:=xoffset+bmp.Canvas.ClipRect.Right;
-    {if (y2 = -1) or (y2 < yoffset+bmp.Canvas.ClipRect.Bottom) then }y2:=yoffset+bmp.Canvas.ClipRect.Bottom;
+    x1:=xoffset;
+    y1:=yoffset;
+    x2:=xoffset+bmp.Canvas.ClipRect.Right;
+    y2:=yoffset+bmp.Canvas.ClipRect.Bottom;
+    // Limites d'affichage des animations dans l'image actuelle
     AniRect:=Rect(x1,y1,x2,y2);
   end;
+  // Insertion de l'image dans le buffer
   BufferImage.Canvas.CopyRect(bmpto,bmp.Canvas,bmp.Canvas.ClipRect);
   bmp.free;
 end;
@@ -186,6 +187,7 @@ begin
       links[numlinks].cursor:=cursor;
       links[numlinks].linktype:=itemtype;
       if (itemtype = 601) then begin
+        // Image de fond. C'est le premier item dans la liste
         filename:=basedir+strings.strings[image]+'.DIB';
         if (debug) then twtw.memo1.lines.add('Background image '+filename+' '+inttostr(xoff_)+' '+inttostr(yoff_));
         displayPicture(filename,xoff_,yoff_);
@@ -195,6 +197,7 @@ begin
       links[numlinks].fx2:=actualPages[actualPageLevel].x2;
       links[numlinks].fy2:=actualPages[actualPageLevel].y2;
       if (itemtype = 602) then begin
+        // Animation avec barre de défilement
         CCMBufferImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
         CCMaddControlbar(xoff_+x1,yoff_+y1);
         BufferImage.Canvas.CopyRect(CCMBufferImage.Canvas.ClipRect,CCMBufferImage.Canvas,BufferImage.Canvas.ClipRect);
@@ -213,6 +216,7 @@ begin
         inc(numlinks);
       end;
       if (itemtype = 603) then begin
+        // Objets cliquables, possédant une ou deux actions réalisables. Voir le mouseDown pour plus d'infos
         // item_props : 4 (mainly) or 5 or 1
         if (debug) then twtw.memo1.lines.add('Link: '+inttostr(links[numlinks].x1)+':'+inttostr(links[numlinks].y1)+'/'+inttostr(links[numlinks].x2)+':'+inttostr(links[numlinks].y2));
         links[numlinks].numactions:=numactions;
@@ -221,6 +225,7 @@ begin
         inc(numlinks);
       end;
       if (itemtype = 604) then begin
+        // Lettres utilisées dans la roue alphabétique
         links[numlinks].numactions:=0;
         links[numlinks].letter:=letter;
         links[numlinks].anim_skip:=page_skip;
@@ -228,6 +233,7 @@ begin
         inc(numlinks);
       end;
       if (itemtype = 606) then begin
+        // Boutons de navigation à gauche (il y en a 9, dans la frame externe)
         filename:=basedir+strings.strings[anim]+'.ANI';
         //TWTW.memo1.Lines.add('NAV bar '+filename);
         links[numlinks].anim:=filename;
@@ -238,6 +244,7 @@ begin
         inc(numlinks);
       end;
       if (itemtype = 607) then begin
+        // Animation
         filename:=basedir+strings.strings[anim]+'.ANI';
         if (debug) then twtw.memo1.lines.add('Animation ('+inttostr(item_props)+' '+filename+': '+inttostr(links[numlinks].x1)+':'+inttostr(links[numlinks].y1)+'/'+inttostr(links[numlinks].x2)+':'+inttostr(links[numlinks].y2));
         //setCursor(cursor);
@@ -258,6 +265,7 @@ begin
         inc(numlinks);
       end;
       if (itemtype = 608) then begin
+        // Bouton d'annulation, utilisé dans la page d'options
         TWTW.CancelButton.Left:=links[numlinks].x1;
         TWTW.CancelButton.Top:=links[numlinks].y1;
         TWTW.CancelButton.Width:=links[numlinks].x2-links[numlinks].x1;
@@ -266,6 +274,7 @@ begin
         inc(numlinks);
       end;
       if (itemtype = 609) then begin
+        // Longue image scrollable utilisée dans l'aide
         filename:=basedir+strings.strings[image]+'.DIB';
         bmpstream:=OpenFile(filename);
         bmp:=TBitmap.Create();
@@ -282,7 +291,7 @@ begin
         bmp.free;
       end;
     end;
-    if (actualletter = 0) then displayPicture(actualBaseDir+'AZAZ0MAA.DIB',255,105);
+    if (actualletter = 0) then displayPicture(actualBaseDir+'AZAZ0MAA.DIB',255,105); // Lettre A affichée par défaut
   end;
 end;
 
@@ -291,15 +300,15 @@ var i,j:smallint;
     frame:TPAGE;
 begin
   with actualPages[actualPageLevel] do
-  for i:=0 to info.numframes-1 do with info.frames[i] do if (id_frame = idframe) then begin
-    for j:=0 to numinfos-1 do with infos[j] do begin
+  for i:=0 to info.numframes-1 do with info.frames[i] do if (id_frame = idframe) then begin // On cherche la frame à afficher dans la liste des frames
+    for j:=0 to numinfos-1 do with infos[j] do begin // On parcours les infos disponibles
       if (id_frame2 = 1) then begin
-        if (typepage = 102) then begin
+        if (typepage = 102) then begin // Page pleine : on ajoute un offset (les popups ont leur propre offset)
           xoff:=offset_x;
           yoff:=offset_y;
         end;
       end else begin
-        if (typeframe2 <> 202) then begin
+        if (typeframe2 <> 202) then begin // On affiche le fond de la frame et ses items (exemple, les boutons de navigation).
           frame:=ReadPagePNG(idpointer_frame);
           addItems(frame,'',imageoffset_x,imageoffset_y);
         end;
@@ -312,21 +321,28 @@ procedure displayPage(idpage:IDPOINTER);
 var page:TPAGE;
     basedir:string;
 begin
+  // On arrête une éventuelle animation en cours
   if CCMIsPlaying then CCMStopAni;
   while CCMIsPlaying do;
+
+  // On met à jour et cache d'éventuels éléments d'interface
   TWTW.Edit1.Text:=inttostr(idpage);
   TWTW.IndexEdit.Visible:=(idpage = CCMIndex);
   TWTW.IndexList.Visible:=(idpage = CCMIndex);
   TWTW.CancelButton.Visible:=false;
   TWTW.ScrollBox.Visible:=false;
+
+  // On met à jour le statut de la sauvegarde de l'animation (mise à zéro lorsque c'est fait).
   TWTW.MenuSauveAnim.Checked:=AniSaveToDisk;
-  CCMStopAni;
+
+  // Lecture des informations sur la page.
   page:=ReadPagePNG(idpage);
-  if (page.typepage <> 102) then
+  if (page.typepage <> 102) then // S'il ne s'agit pas d'une pleine page (donc une popup à priori) et que le niveau est = 0 ou identique au précédent, alors on avance d'un niveau.
    if (actualPageLevel = 0) and (actualPages[actualPageLevel].actualPage <> idpage) and (actualPageLevel = predPageLevel) then
     inc(actualPageLevel) else
-   else actualPageLevel:=0;
-  with actualPages[actualPageLevel] do begin
+   else actualPageLevel:=0; // Sinon, il s'agit d'une pleine page, on revient au début.
+  with actualPages[actualPageLevel] do begin // Ensuite, on donne les infos sur le niveau de page actuel
+  // Initialisation des infos
   actualPage:=idpage;
   nextpage_ani:=-1;
   numlinks:=0;
@@ -344,7 +360,9 @@ begin
     if (debug) then twtw.memo1.lines.add('Page type: '+inttostr(typepage));
     if (debug) then twtw.memo1.lines.add('Frame: '+inttostr(id_frame));
     basedir:=strings.strings[basedirectory];
-    if ((basedir <> '\HELP\') or (actualPageLevel <> predPageLevel)) then begin
+    if (debug) then twtw.memo1.lines.add('Base directory: '+basedir);
+    actualBasedir:=basedir;
+    if ((actualBasedir <> '\HELP\') or (actualPageLevel <> predPageLevel)) then begin
       // - Aide : problèmes avec quelques pages (gros souk des offsets). Résultat : les liens entre les pages "molécules" par ex changent
       //   la position de la fenêtre (même déplacée), mais pas les pages d'aide (si déplacement de la fenêtre, on reste)...
       xoff:=actualPages[0].xoff;
@@ -353,7 +371,8 @@ begin
     if (typepage=101) then begin  // Popup
       BufferImage.Canvas.CopyRect(actualPages[pred(actualPageLevel)].PageImage.Canvas.ClipRect,actualPages[pred(actualPageLevel)].PageImage.Canvas,BufferImage.Canvas.ClipRect);
     end;
-    if (typepage=102) then begin  // Full page
+    if (typepage=102) then begin  // Page pleine
+      // On ajoute à l'historique
       if (numhistory >= 0) then begin
         if history[numhistory] <> idpage then begin
           inc(numhistory);
@@ -364,39 +383,49 @@ begin
         if (numhistory >= 0) then history[numhistory]:=idpage;
       end;
       if (more_infos = 1) and (links_infos = 0) then begin
+        // Si disponible, on renseigne les pages principes, inventions, inventeurs...
         actualrelated_principles_popup:=related_principles_popup;
         actualmachines_page:=machines_page;
         actualinventors_page:=inventors_page;
         actualtimeline_page:=timeline_page;
       end;
     end;
-    if (typepage = 103) then begin
+    if (typepage = 103) then begin  // Popup également ?
       BufferImage.Canvas.CopyRect(actualPages[pred(actualPageLevel)].PageImage.Canvas.ClipRect,actualPages[pred(actualPageLevel)].PageImage.Canvas,BufferImage.Canvas.ClipRect);
     end;
+    // Affichage de la frame extérieure
     displayFrame(id_frame,typepage);
-    if ((basedir <> '\HELP\') or (actualPageLevel <> predPageLevel)) then begin
+    if ((actualBasedir <> '\HELP\') or (actualPageLevel <> predPageLevel)) then begin
+      // Si il ne s'agit pas d'une page d'aide ou si le niveau de page a changé, on décale la page dans la fenêtre.
       inc(xoff,xoffset);
       inc(yoff,yoffset);
     end;
-    if (debug) then twtw.memo1.lines.add('Base directory: '+basedir);
-    actualBasedir:=basedir;
+    // On ajoute les différents items sur la page (image de fond, liens, animations...)
     if (debug) then twtw.memo1.lines.add('Loading items: '+inttostr(numitems));
     addItems(page,basedir,xoff,yoff);
   end;
+  // Une fois tous les items ajoutés, on affiche sur le buffer
   CCMBufferImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
+  // On sauvegarde l'image pour utilisation future (retour en arrière notamment, ou changement de popup)
   actualPages[actualPageLevel].PageImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,actualPages[actualPageLevel].PageImage.Canvas.ClipRect);
+  // On rafraichit l'image à l'écran
   TWTW.pbx.Refresh;
+  // Mettre à jour le curseur de la souris, si il y a un item ou pas en dessous
   simulateMouseMove;
+  // On commence à compter l'historique à partir du workshop
   if (numhistory < 0) and (idpage = CCMWorkshop) then numhistory:=0;
   end;
+  // On garde le niveau actuel pour usage futur
   predPageLevel:=actualPageLevel;
 end;
 
 procedure FinishedAnimation;
 begin
+  // On écrase la valeur de nextpage_load par la valeur de nextpage_ani (ou la page actuelle pour rafficher la page à l'issue de l'animation)
   nextpage_load:=-1;
   if (nextpage_ani > -1) then nextpage_load:=nextpage_ani
     else if (nextpage_ani = -1) then nextpage_load:=actualPages[actualPageLevel].actualPage;
+  // On lance le timer pour actualiser la page (petit truc pour éviter de s'embêter avec les threads) 
   TWTW.NextPageTimer.Enabled:=true;
 end;
 
@@ -428,12 +457,11 @@ begin
   debug:=false;
   if (paramstr(1) = '--debug') then debug:=true;
   if (paramcount > 0) then param:=paramstr(paramcount);
+  TWTWZip:=nil;
   if FileExists(param+'.ZIP') then begin
     TWTWZip:=TZipFile.Create;
     TWTWZip.OpenFromFile(param+'.ZIP');
     TWTWZip.LoadZip;
-  end else begin
-    TWTWZip:=nil;
   end;
   actualPageLevel:=0;
   numhistory:=-10;history[0]:=CCMWorkshop;
@@ -442,7 +470,7 @@ begin
   cdroot:=s;
   if (debug) then memo1.lines.add('Loading...');
   if not OpenPNG('DKCODE\TWTW.PNG') then begin
-    Application.MessageBox('Fichier TWTW.ANI non trouvé ou illisible, spécifiez le chemin en ligne de commande.','Erreur',mb_ICONSTOP);
+    Application.MessageBox('Fichier TWTW.PNG non trouvé ou illisible, spécifiez le chemin en ligne de commande.','Erreur',mb_ICONSTOP);
     Application.Terminate;
     exit;
   end;
@@ -496,7 +524,7 @@ begin
     for i:=0 to numlinks-1 do with links[i] do begin
       if (x >= x1) and (y >= y1) and (x <= x2) and (y <= y2) then begin
         linkFound:=true;
-        //CCMCanvas.Brush.Color:=$cc0000; CCMCanvas.Pen.Color:=$cc0000; CCMCanvas.Rectangle(x1,y1,x2,y2);
+        if (debug) then begin; CCMCanvas.Brush.Color:=$cc0000; CCMCanvas.Pen.Color:=$cc0000; CCMCanvas.Rectangle(x1,y1,x2,y2); end;
         setCursor(cursor);
       end;
     end;
@@ -529,7 +557,9 @@ begin
     for i:=1 to numlinks do if not actionTaken then with links[i-1] do begin
       if (x >= x1) and (y >= y1) and (x <= x2) and (y <= y2) then begin
         if (debug) then twtw.memo1.lines.add(inttostr(linktype));
+        // Item 601 ignoré, car c'est l'image de fond.
         if (linktype = 602) then begin
+          // Animation avec barre de défilement
           actionTaken:=true;
           nextpage_ani:=anim_skip;
           AniRect:=Rect(fx1,fy1,fx2,fy2);
@@ -537,13 +567,15 @@ begin
           setCursor(-2);
         end;
         if (linktype = 603) then begin
+          // Objets avec actions
           for j:=1 to numactions do with actions[j-1] do begin
             if (typeaction = 1) then begin
+              // Popup : aller au niveau suivant, et indiquer l'ID de la popup à afficher.
               inc(nextlevel);
-              //nextlevel:=actualPageLevel+1;
               nextpage:=popup_id;
             end;
             if (typeaction = 2) then begin
+              // Raccourci (lien secondaire) vers un item présent sur la page
               for k:=0 to actualNumitems-1 do if (actualItems[k].item_id = item_id) then begin
                 if (actualItems[k].itemtype = 602) then begin
                   if (debug) then twtw.memo1.lines.add('Animation with control bar');
@@ -557,14 +589,17 @@ begin
               end;
             end;
             if (typeaction = 3) then begin
+              // Nouvelle page
               nextpage:=linkto;
             end;
             if (typeaction = 4) then begin
+              // Jouer un son
               filename:=actualBaseDir+strings.strings[soundtoplay]+'.WAV';
               setCursor(-2);
               CCMPlayWav(filename);
             end;
             if (typeaction = 7) then begin
+              // Animation simple
               filename:=actualBaseDir+strings.strings[anim]+'.ANI';
               actionTaken:=true;
               AniRect:=Rect(fx1,fy1,fx2,fy2);
@@ -572,6 +607,7 @@ begin
               setCursor(-2);
             end;
             if (typeaction = 11) then begin
+              // Commandes spéciales
               if (command = 1) then begin // Copier
                 clipboard.assign(actualPages[0].PageImage);
                 Application.MessageBox('Image copiée dans le presse-papiers !','CCM',mb_ICONINFORMATION);
@@ -586,13 +622,15 @@ begin
               end;
             end;
             if (typeaction = 12) then begin
-              //nextlevel:=actualPageLevel-1;
+              // Fermer la popup.
+              // In ciné-mamouth, this action item is followed by a popup action.
               dec(nextlevel);
               nextpage:=actualPages[nextlevel].actualPage;
             end;
           end;
         end;
         if (linktype = 604) then begin
+          // Utilisé dans la roue aplhabétique
           actionTaken:=true;
           if (letter >= 0) and (letter < 26) then begin
             actualletter:=letter;
@@ -623,6 +661,7 @@ begin
           end;
         end;
         if (linktype = 606) then begin
+          // Boutons de navigation à gauche
           nextpage_ani:=anim_skip;
           if (anim_skip = -51) and (numhistory > 0) then begin
             dec(numhistory);
@@ -634,6 +673,7 @@ begin
           setCursor(-2);
         end;
         if (linktype = 607) then begin
+          // Animations
           nextpage_ani:=anim_skip;
           actionTaken:=true;
           AniRect:=Rect(fx1,fy1,fx2,fy2);
@@ -641,13 +681,16 @@ begin
           setCursor(-2);
         end;
         if (linktype = 608) then begin
-          //nextlevel:=actualPageLevel-1;
+          // Uniquement une utilisation (page "Options")
+          // bouton "Annuler"
+          // Pourrait également servir à fermer la popup, avec l'ID de popup qui suivrait.
           dec(nextlevel);
           nextpage:=actualPages[nextlevel].actualPage;
         end;
       end;
     end;
     if (nextpage > -1) then begin
+      // Si on est supposé changer de page, on le le fait.
       actualPageLevel:=nextlevel;
       displayPage(nextpage);
     end;
@@ -689,7 +732,8 @@ procedure TTWTW.MenuSauveAnimClick(Sender: TObject);
 begin
   AniSaveToDisk:=not AniSaveToDisk;
   MenuSauveAnim.Checked:=AniSaveToDisk;
-  if AniSaveToDisk then Application.MessageBox('La prochaine animation à être jouée sera sauvegardée sous le nom de Ani.gif et Ani.wav. Sélectionnez cette option à nouveau pour annuler.','Activé !',mb_ICONINFORMATION);
+  AniSavePrefix:='Ani';
+  if AniSaveToDisk then Application.MessageBox(PAnsiChar('La prochaine animation à être jouée sera sauvegardée sous le nom de '+AniSavePrefix+'.gif et '+AniSavePrefix+'.wav. Sélectionnez cette option à nouveau pour annuler.'),'Activé !',mb_ICONINFORMATION);
 end;
 
 procedure TTWTW.MenuAProposClick(Sender: TObject);
