@@ -375,8 +375,7 @@ begin
           if (exportres or exportjs) and (not exportstatus[idpointer_frame].pageexported) then begin
             exportstatus[idpointer_frame].pageexported:=true;
             nextexportpage:=idpointer_frame; // On prévoit d'exporter les liens, pour passer en fullexported
-            actualPages[actualPageLevel].numlinks:=0;
-            actualPages[actualPageLevel].actualNumitems:=0;
+            exit;
           end;
         end;
       end;
@@ -492,7 +491,6 @@ begin
   end;
   // On garde le niveau actuel pour usage futur
   predPageLevel:=actualPageLevel;
-
 end;
 
 procedure FinishedAnimation;
@@ -635,7 +633,7 @@ begin
   if (exportres or exportjs) and (Sender <> nil) then exit;
   if Button <> mbLeft then exit;
   if CCMIsPlaying then begin
-    CCMStopAni;
+    CCMStopAni;  // Stoppe simplement l'animation en cours avec un clic
   end else with actualPages[actualPageLevel] do begin
     nextpage:=-1;
     nextpage_ani:=-1;
@@ -882,7 +880,8 @@ begin
       exit;
     end else begin
       nextitem:=i;
-      //TWTW.pbxMouseDown(nil, mbLeft, [], X, Y);
+      CCMBufferImage.Canvas.CopyRect(actualPages[actualPageLevel].PageImage.Canvas.ClipRect,actualPages[actualPageLevel].PageImage.Canvas,CCMBufferImage.Canvas.ClipRect);
+      TWTW.pbxMouseDown(nil, mbLeft, [], actualPages[actualPageLevel].links[nextitem].x1, actualPages[actualPageLevel].links[nextitem].y1);
       exportstatus[nextpage].itemexported[nextitem] := true;
     end;
   end else begin

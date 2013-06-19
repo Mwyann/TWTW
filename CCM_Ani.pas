@@ -39,6 +39,8 @@ type
   private
     Sound:TMemoryStream;
     SoundDuration:cardinal;
+    ThisAniSaveToDisk:boolean;
+    ThisAniSavePrefix:string;
     procedure PlayTheSound;
     procedure StopTheSound;
   public
@@ -467,14 +469,17 @@ begin
 end;
 
 procedure TCCMAni.SaveGIFFrame;
+var skipFirstFrame:boolean;
 begin
+  skipFirstFrame:=false;
   if DiffPicture = nil then begin
     DiffPicture := TPicture.Create;
     DiffPicture.Bitmap.Width:=638;
     DiffPicture.Bitmap.Height:=458;
     DiffPicture.Bitmap.Canvas.CopyRect(DiffPicture.Bitmap.Canvas.ClipRect,CCMBufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
+    if (AniSavePrefix = 'res?') then skipFirstFrame:=true;
   end;
-  GifAnimateAddImage(DiffPicture.Graphic,$101010,GIFFramems,1);
+  if not skipFirstFrame then GifAnimateAddImage(DiffPicture.Graphic,$101010,GIFFramems,1);
   DiffPicture.Bitmap.Canvas.Brush.Color:=$101010;
   DiffPicture.Bitmap.Canvas.FillRect(DiffPicture.Bitmap.Canvas.ClipRect);
 end;
@@ -510,11 +515,23 @@ begin
 end;
 
 constructor TCCMWav.Create(FileName:string);
+var fullname:string;
+    i:word;
 begin
   inherited Create(true);
   Sound:=OpenFile(FileName);
   FreeOnTerminate:=true;
   Priority:=tpNormal;
+
+  ThisAniSaveToDisk:=AniSaveToDisk;
+  ThisAniSavePrefix:=AniSavePrefix;
+  if (ThisAniSavePrefix = 'res?') then begin
+    fullname:=GetCurrentDir()+'\res\'+filename;
+    i:=length(fullname);
+    while (i>0) and (fullname[i]<>'.') do dec(i);
+    ThisAniSavePrefix:=copy(fullname,1,i-1);
+    ForceDirectories(ExtractFileDir(ThisAniSavePrefix+'.wav'));
+  end;
 end;
 
 destructor TCCMWav.Destroy;
@@ -526,13 +543,17 @@ end;
 procedure TCCMWav.Execute;
 var c:cardinal;
 begin
-  Synchronize(PlayTheSound);
-  repeat
-    if SoundDuration > 300 then c:=300 else c:=SoundDuration;
-    dec(SoundDuration,c);
-    Sleep(c);
-  until (SoundDuration = 0) or Terminated;
-  Synchronize(StopTheSound);
+  if ThisAniSaveToDisk then begin
+    Sound.SaveToFile(ThisAniSavePrefix+'.wav');
+  end else begin
+    Synchronize(PlayTheSound);
+    repeat
+      if SoundDuration > 300 then c:=300 else c:=SoundDuration;
+      dec(SoundDuration,c);
+      Sleep(c);
+    until (SoundDuration = 0) or Terminated;
+    Synchronize(StopTheSound);
+  end;
   CCMFinishedPlaying;
 end;
 
