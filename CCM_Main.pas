@@ -75,7 +75,7 @@ type TDISPLAY=record
     links:array[0..100] of TLINK;
     numlinks:smallint;
     actualItems:array[0..100] of TITEM;
-    actualNumitems:smallint;
+    actualNumitems:word;
     actualBasedir:string;
     xoff,yoff:smallint;
     actualrelated_principles_popup:IDPOINTER;
@@ -84,6 +84,11 @@ type TDISPLAY=record
     actualtimeline_page:IDPOINTER;
     x1,y1,x2,y2:smallint;
     PageImage:TBitmap;
+  end;
+
+type TEXPORT=record
+    pageexported,fullexported:boolean;
+    itemexported:array[0..100] of boolean;
   end;
 
 var nextpage_ani:IDPOINTER;
@@ -95,7 +100,8 @@ var nextpage_ani:IDPOINTER;
     history:array[0..1000] of IDPOINTER; // Historique
     numhistory:smallint;
     debug,exportres,exportjs:boolean;
-    exportpos:cardinal;
+    nextexportpage:word;
+    exportstatus:array[0..2000] of TEXPORT;
 
 {$R *.dfm}
 
@@ -358,8 +364,20 @@ begin
         end;
       end else begin
         if (typeframe2 <> 202) then begin // On affiche le fond de la frame et ses items (exemple, les boutons de navigation).
-          frame:=ReadPagePNG(idpointer_frame);
-          addItems(frame,'',imageoffset_x,imageoffset_y);
+          if (exportres or exportjs) and (not exportstatus[idpointer_frame].pageexported) then begin
+            actualPages[actualPageLevel].numlinks:=0;
+            actualPages[actualPageLevel].actualNumitems:=0;
+          end;
+          if (not (exportres or exportjs)) or (not exportstatus[idpointer_frame].pageexported) then begin
+            frame:=ReadPagePNG(idpointer_frame);
+            addItems(frame,'',imageoffset_x,imageoffset_y);
+          end;
+          if (exportres or exportjs) and (not exportstatus[idpointer_frame].pageexported) then begin
+            exportstatus[idpointer_frame].pageexported:=true;
+            nextexportpage:=idpointer_frame; // On prévoit d'exporter les liens, pour passer en fullexported
+            actualPages[actualPageLevel].numlinks:=0;
+            actualPages[actualPageLevel].actualNumitems:=0;
+          end;
         end;
       end;
     end;
@@ -386,7 +404,7 @@ begin
 
   // Lecture des informations sur la page.
   page:=ReadPagePNG(idpage);
-  if page.typepage=0 then exit; // On n'est pas sur une vraie page, on saute. 
+  if page.typepage=0 then exit; // On n'est pas sur une vraie page, on ignore. 
 
   if (page.typepage <> 102) then // S'il ne s'agit pas d'une pleine page (donc une popup à priori) et que le niveau est = 0 ou identique au précédent, alors on avance d'un niveau.
    if (actualPageLevel = 0) and (actualPages[actualPageLevel].actualPage <> idpage) and (actualPageLevel = predPageLevel) then
@@ -454,7 +472,12 @@ begin
     end;
     // On ajoute les différents items sur la page (image de fond, liens, animations...)
     if (debug) then twtw.memo1.lines.add('Loading items: '+inttostr(numitems));
-    addItems(page,basedir,xoff,yoff);
+    if (exportres or exportjs) then begin
+      if (nextexportpage = 0) or (nextexportpage = idpage) then begin
+        addItems(page,basedir,xoff,yoff);
+        exportstatus[idpage].pageexported:=true;
+      end;
+    end else addItems(page,basedir,xoff,yoff);
   end;
   // Une fois tous les items ajoutés, on affiche sur le buffer
   CCMBufferImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
@@ -469,6 +492,7 @@ begin
   end;
   // On garde le niveau actuel pour usage futur
   predPageLevel:=actualPageLevel;
+
 end;
 
 procedure FinishedAnimation;
@@ -505,7 +529,7 @@ begin
 end;
 
 procedure TTWTW.FormShow(Sender: TObject);
-var i:word;
+var i,j:word;
     s,param:string;
 begin
   memo1.Lines.Clear;
@@ -556,7 +580,12 @@ begin
   ScrollBox.Height:=CCMScrollBoxPos[3];
   centerizeform(TWTW);
   if (exportres or exportjs) then begin
-    exportpos:=0;
+    for i:=0 to 2000 do begin
+      exportstatus[i].pageexported:=false;
+      exportstatus[i].fullexported:=false;
+      for j:=0 to 100 do exportstatus[i].itemexported[j]:=false;
+    end;
+    nextexportpage:=0;
     ExportTimer.Enabled:=True;
   end;
 end;
@@ -603,7 +632,7 @@ var i,j,k:smallint;
     actionTaken:boolean;
 
 begin
-  if (exportres or exportjs) then exit;
+  if (exportres or exportjs) and (Sender <> nil) then exit;
   if Button <> mbLeft then exit;
   if CCMIsPlaying then begin
     CCMStopAni;
@@ -743,16 +772,16 @@ begin
           setCursor(-2);
         end;
         if (linktype = 608) then begin
-          // Uniquement une utilisation (page "Options")
-          // bouton "Annuler"
+          // Utilisé à un seul endroit (page "Options")
+          // Bouton "Annuler"
           // Pourrait également servir à fermer la popup, avec l'ID de popup qui suivrait.
           dec(nextlevel);
           nextpage:=actualPages[nextlevel].actualPage;
         end;
       end;
     end;
-    if (nextpage > -1) then begin
-      // Si on est supposé changer de page, on le le fait.
+    if (nextpage > -1) and (not (exportres or exportjs)) then begin
+      // Si on est supposé changer de page, on le fait.
       actualPageLevel:=nextlevel;
       displayPage(nextpage);
     end;
@@ -826,21 +855,42 @@ begin
 end;
 
 procedure TTWTW.ExportTimerTimer(Sender: TObject);
+var i:word;
+    nextpage,nextitem:word;
 begin
   ExportTimer.Enabled:=False;
-  if (exportpos >= pointers.nbpointers) then begin
-    CCMCanvas.TextOut(5,5,'Finish!');
+  i:=nextexportpage;
+  while (i < pointers.nbpointers) and (exportstatus[i].fullexported) do inc(i);
+  if (i >= pointers.nbpointers) then begin
+    TWTW.Caption := 'CCM Export finished!';
     TWTW.pbx.Cursor:=crDefault;
     exit;
   end;
+  nextpage:=i;
   TWTW.pbx.Cursor:=crHourGlass;
   if (exportres) then begin
     AniSaveToDisk:=true;
     AniSavePrefix:='res?';
   end;
-  displayPage(exportpos);
-  CCMCanvas.TextOut(5,5,inttostr(exportpos));
-  inc(exportpos);
+  if (exportstatus[nextpage].pageexported) then begin
+    i:=0;
+    while (i < actualPages[actualPageLevel].actualNumitems) and (exportstatus[nextpage].itemexported[i]) do inc(i);
+    if (i >= actualPages[actualPageLevel].actualNumitems) then begin
+      exportstatus[nextpage].fullexported := true;
+      nextexportpage:=0;
+      ExportTimer.Enabled:=True; // Next page please!
+      exit;
+    end else begin
+      nextitem:=i;
+      //TWTW.pbxMouseDown(nil, mbLeft, [], X, Y);
+      exportstatus[nextpage].itemexported[nextitem] := true;
+    end;
+  end else begin
+    actualPageLevel:=1;
+    predPageLevel:=0;
+    displayPage(nextpage);
+  end;
+  TWTW.Caption := 'CCM Exporting '+inttostr(nextpage);
   if (not CCMIsPlaying) then ExportTimer.Enabled:=True;
 end;
 
