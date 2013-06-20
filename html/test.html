@@ -1,0 +1,34 @@
+<html>
+<head>
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+
+var runningAnimID = 0;
+
+function stopAnim() {
+  if (runningAnimID) {
+    window.clearTimeout(runningAnimID);runningAnimID = 0;
+    jQuery('#foreground').css("cursor", "pointer").html('');
+  }
+}
+
+function runAnim() {
+  if (runningAnimID) return stopAnim();
+  jQuery('#foreground').css("cursor", "wait").html('<img />').children().attr('src','res/ARTICLE1/BURG/burg0m0a.gif');
+  runningAnimID = window.setTimeout(stopAnim,7000);
+}
+
+</script>
+</head>
+<body>
+
+<div style="position:relative">
+<img style="position:absolute;left:0px;top:0px" src="res/nav/nav.gif"/>
+<img style="position:absolute;left:94px;top:4px" src="res/ARTICLE1/BURG/BURG0m.gif"/>
+<div style="position:absolute;left:0px;top:0px;width:638px;height:458px;cursor:pointer" id="foreground" onclick="runAnim()"></div>
+</div>
+<div style="display:none" id="preload">
+<img src="res/ARTICLE1/BURG/burg0m0a.gif"/>
+</div>
+</body>
+</html>

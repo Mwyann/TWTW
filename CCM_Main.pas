@@ -697,17 +697,19 @@ begin
             end;
             if (typeaction = 11) then begin
               // Commandes spéciales
-              if (command = 1) then begin // Copier
-                clipboard.assign(actualPages[0].PageImage);
-                Application.MessageBox('Image copiée dans le presse-papiers !','CCM',mb_ICONINFORMATION);
-                //dec(nextlevel);
-                //nextpage:=actualPages[nextlevel].actualPage;
-              end;
-              if (command = 2) then begin // Imprimer
-                Application.MessageBox('Non supporté','Non supporté',mb_ICONSTOP);
-              end;
-              if (command = 3) then begin // Configurer impression
-                Application.MessageBox('Non supporté','Non supporté',mb_ICONSTOP);
+              if (not (exportres or exportjs)) then begin
+                if (command = 1) then begin // Copier
+                  clipboard.assign(actualPages[0].PageImage);
+                  Application.MessageBox('Image copiée dans le presse-papiers !','CCM',mb_ICONINFORMATION);
+                  //dec(nextlevel);
+                  //nextpage:=actualPages[nextlevel].actualPage;
+                end;
+                if (command = 2) then begin // Imprimer
+                  Application.MessageBox('Non supporté','Non supporté',mb_ICONSTOP);
+                end;
+                if (command = 3) then begin // Configurer impression
+                  Application.MessageBox('Non supporté','Non supporté',mb_ICONSTOP);
+                end;
               end;
             end;
             if (typeaction = 12) then begin

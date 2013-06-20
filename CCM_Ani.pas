@@ -501,10 +501,8 @@ procedure CCMStopAni;
 begin
   if CCMIsPlaying then begin
     if (Ani <> nil) then begin
-      if (not Ani.ThisAniSaveToDisk) then begin
-        Ani.StopTheSound;
-        Ani.Terminate;
-      end;
+      Ani.StopTheSound;
+      Ani.Terminate;
     end;
     if (Wav <> nil) then begin
       Wav.StopTheSound;
