@@ -79,6 +79,10 @@ function preloadRes(idPage) {
     t.append('<source />').children().last().attr('type','audio/ogg').attr('src',anims[i].audio+'.ogg');
     t.append('<source />').children().last().attr('type','audio/mpeg').attr('src',anims[i].audio+'.mp3');
   }
+
+  jQuery('#preload img').imagesLoaded(function (e) {
+    displayImages(0);
+  }, true);
 }
 
 function displayImages(idPage) {
@@ -127,9 +131,6 @@ function runAnim(idPage, idAnim) {
 
 jQuery(document).ready(function() {
     preloadRes(0);
-    jQuery('#preload img').imagesLoaded(function (e) {
-        displayImages(0);
-    });
 });
 
 /*
