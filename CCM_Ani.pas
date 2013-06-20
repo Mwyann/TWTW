@@ -16,7 +16,8 @@ type
     GIFFramems:word;
     ThisAniSaveToDisk:boolean;
     ThisAniSavePrefix:string;
-    DiffPicture:TPicture; // utilisé pour la sauvegarde du GIF
+    ThisAniSaveRect:TRect;
+    DiffPicture, GIFPicture:TPicture; // utilisé pour la sauvegarde du GIF
     procedure InitAnim;
     procedure OpenAnim(FileName:string);
     procedure ExtractSound;
@@ -66,6 +67,7 @@ var CCMCanvas:TCanvas;
     AniRect:TRect;
     AniSaveToDisk:boolean;
     AniSavePrefix:string;
+    AniSaveRect:TRect;
 
 implementation
 
@@ -350,22 +352,26 @@ begin
   offsetY:=Y;
   ThisAniSaveToDisk:=AniSaveToDisk;
   ThisAniSavePrefix:=AniSavePrefix;
+  ThisAniSaveRect:=AniSaveRect;
   if (ThisAniSavePrefix = 'res?') then begin
     fullname:=GetCurrentDir()+'\res\'+filename;
     i:=length(fullname);
     while (i>0) and (fullname[i]<>'.') do dec(i);
     ThisAniSavePrefix:=copy(fullname,1,i-1);
     ForceDirectories(ExtractFileDir(ThisAniSavePrefix+'.gif'));
+    ThisAniSaveRect:=AniRect;
   end;
   OpenAnim(FileName);
   FreeOnTerminate:=true;
   Priority:=tpNormal;
   DiffPicture := nil;
+  GIFPicture := nil;
 end;
 
 destructor TCCMAni.Destroy;
 begin
   if DiffPicture <> nil then DiffPicture.Free;
+  if GIFPicture <> nil then GIFPicture.Free;
   f.Free;
   Sound.Free;
   inherited;
@@ -434,7 +440,7 @@ begin
   Synchronize(PlayTheSound);
   AnimBegin:=GetTickCount();
   if ThisAniSaveToDisk then begin
-    GifAnimateBegin(638, 458);
+    GifAnimateBegin(ThisAniSaveRect.Right-ThisAniSaveRect.Left, ThisAniSaveRect.Bottom-ThisAniSaveRect.Top);
     GIFFramems:=0;
     Synchronize(SaveGIFFrame);
     GIFFramems:=trunc(1000/FrameRate);
@@ -473,13 +479,19 @@ var skipFirstFrame:boolean;
 begin
   skipFirstFrame:=false;
   if DiffPicture = nil then begin
-    DiffPicture := TPicture.Create;
+    DiffPicture := TPicture.Create; // On crée la première image, qui sera la page de "fond".
     DiffPicture.Bitmap.Width:=638;
     DiffPicture.Bitmap.Height:=458;
-    DiffPicture.Bitmap.Canvas.CopyRect(DiffPicture.Bitmap.Canvas.ClipRect,CCMBufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
-    if (AniSavePrefix = 'res?') then skipFirstFrame:=true;
+    if (AniSavePrefix = 'res?') then skipFirstFrame:=true // Inutile de sauver la première frame (l'image de fond de départ) dans le cas d'un export
+      else DiffPicture.Bitmap.Canvas.CopyRect(DiffPicture.Bitmap.Canvas.ClipRect,CCMBufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
+    GIFPicture := TPicture.Create; // Ceci sera l'image qui contiendra l'animation uniquement
+    GIFPicture.Bitmap.Width:=ThisAniSaveRect.Right-ThisAniSaveRect.Left;
+    GIFPicture.Bitmap.Height:=ThisAniSaveRect.Bottom-ThisAniSaveRect.Top;
   end;
-  if not skipFirstFrame then GifAnimateAddImage(DiffPicture.Graphic,$101010,GIFFramems,1);
+  if not skipFirstFrame then begin
+    GIFPicture.Bitmap.Canvas.CopyRect(GIFPicture.Bitmap.Canvas.ClipRect,DiffPicture.Bitmap.Canvas,ThisAniSaveRect);
+    GifAnimateAddImage(GIFPicture.Graphic,$101010,GIFFramems,1);
+  end;
   DiffPicture.Bitmap.Canvas.Brush.Color:=$101010;
   DiffPicture.Bitmap.Canvas.FillRect(DiffPicture.Bitmap.Canvas.ClipRect);
 end;
@@ -489,9 +501,21 @@ begin
   Result:=((Assigned(Ani)) and (not Ani.Terminated)) or ((Assigned(Wav)) and (not Wav.Terminated));
 end;
 
+var playedAni:array[1..2000] of string;
+    numPlayedAni:word;
+
 procedure CCMPlayAni(FileName:string;X,Y:integer;isControlBar:boolean);
+var i:word;
 begin
   CCMStopAni;
+  if (AniSavePrefix = 'res?') then begin // Système permettant d'éviter d'exporter plusieurs fois la même animation
+    for i:=1 to numPlayedAni do if playedAni[i] = FileName then begin
+      CCMFinishedPlaying;
+      exit;
+    end;
+    inc(numPlayedAni);
+    playedAni[numPlayedAni]:=FileName;
+  end;
   aniControlBar:=isControlBar;
   Ani:=TCCMAni.Create(FileName,X,Y);
   Ani.Resume;
@@ -591,5 +615,7 @@ begin
   OnCCMFinished:=nil;
   AniRect:=Rect(0,0,0,0);
   AniSaveToDisk:=false;
+  AniSaveRect:=Rect(0,0,638,458);
+  numPlayedAni:=0;
   InitColors;
 end.

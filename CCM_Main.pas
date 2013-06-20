@@ -744,7 +744,7 @@ begin
           end;
           if (nextpage_ani = -1) then begin
             if (debug) then twtw.memo1.lines.add('Current letter: '+chr(ord('A')+actualletter));
-            PlaySound(TMemoryStream(OpenFile(actualBaseDir+'DIAL.WAV')).Memory,0,SND_ASYNC or SND_MEMORY);
+            if (not (exportres or exportjs)) then PlaySound(TMemoryStream(OpenFile(actualBaseDir+'DIAL.WAV')).Memory,0,SND_ASYNC or SND_MEMORY);
             displayPicture(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A.DIB',255,105);
             CCMBufferImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
             actualPages[actualPageLevel].PageImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,actualPages[actualPageLevel].PageImage.Canvas.ClipRect);
@@ -855,12 +855,13 @@ begin
 end;
 
 procedure TTWTW.ExportTimerTimer(Sender: TObject);
-var i:word;
+var i,adv:word;
     nextpage,nextitem:word;
 begin
   ExportTimer.Enabled:=False;
   i:=nextexportpage;
-  while (i < pointers.nbpointers) and (exportstatus[i].fullexported) do inc(i);
+  adv:=0;
+  while (i < pointers.nbpointers) and (exportstatus[i].fullexported) do begin; inc(i); inc(adv); end;
   if (i >= pointers.nbpointers) then begin
     TWTW.Caption := 'CCM Export finished!';
     TWTW.pbx.Cursor:=crDefault;
@@ -891,7 +892,7 @@ begin
     predPageLevel:=0;
     displayPage(nextpage);
   end;
-  TWTW.Caption := 'CCM Exporting '+inttostr(nextpage);
+  TWTW.Caption := 'CCM Exporting '+inttostr(round(100*adv/pointers.nbpointers))+'%';
   if (not CCMIsPlaying) then ExportTimer.Enabled:=True;
 end;
 
