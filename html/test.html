@@ -1,34 +1,160 @@
+<!DOCTYPE html>
 <html>
 <head>
+<title>Comment ça marche</title>
+<meta charset="UTF-8" />
+<style type="text/css">
+
+body {
+    background-color: #ECE3D1;
+}
+
+#onscreen {
+    margin: 20px auto 5px auto;
+    width: 638px;
+    height: 458px;
+}
+
+</style>
 <script src="jquery.min.js"></script>
 <script type="text/javascript">
 
+// 'fireOne' argument is optional, if set, will invoke the callback once for every
+// image in the 'this' collection, thus making 'this' in the callback that element alone
+// If it's not used, the callback will be invoked once all the images in the collection has
+// been loaded. And 'this' will be the jQuery collection of the filtered 'img' elements.
+
+jQuery.fn.imagesLoaded = function(callback, fireOne) {
+  var
+    args = arguments,
+    elems = this.filter('img'),
+    elemsLen = elems.length - 1;
+
+  elems
+    .bind('load', function(e) {
+        if (fireOne) {
+            !elemsLen-- && callback.call(elems, e);
+        } else {
+            callback.call(this, e);
+        }
+    }).each(function() {
+        // cached images don't fire load sometimes, so we reset src.
+        if (this.complete || this.complete === undefined){
+            this.src = this.src;
+        }
+    });
+}
+
+var pages=new Array();
+
+pages[0] = {images:new Array(
+                     {src:'res/nav/nav.gif', left:0, top:0},
+                     {src:'res/ARTICLE3/TAPE/TAPE0m.gif', left:94, top:4},
+                     {src:'res/ARTICLE3/TAPE/TAPE0z.gif', left:150, top:20},
+                     {src:'controlbar.gif', left:288, top:283}
+            ),
+            anims:new Array(
+                     {src:'res/ARTICLE3/TAPE/TAPE0z0a.gif', audio:'res/ARTICLE3/TAPE/TAPE0z0a', left:150, top:20, frames:133}
+            )
+           };
+
+function preloadRes(idPage) {
+  var preload = jQuery('#preload');
+  preload.html('');
+  var images = pages[idPage].images;
+
+  for(var i=0; i < images.length; i++)
+    preload.append('<img />').children().last().attr('src',images[i].src);
+
+  var anims = pages[idPage].anims;
+
+  for(var i=0; i < anims.length; i++)
+    preload.append('<img />').children().last().attr('src',anims[i].src);
+
+  var audiores = jQuery('#audiores');
+  audiores.html('');
+
+  for(var i=0; i < anims.length; i++) {
+    var t = audiores.append('<audio />').children().last();
+    t.append('<source />').children().last().attr('type','audio/ogg').attr('src',anims[i].audio+'.ogg');
+    t.append('<source />').children().last().attr('type','audio/mpeg').attr('src',anims[i].audio+'.mp3');
+  }
+}
+
+function displayImages(idPage) {
+  var onscreen = jQuery('#onscreen');
+  onscreen.html('');
+  var images = pages[idPage].images;
+
+  for(var i=0; i < images.length; i++)
+    onscreen.append('<img />').children().last().attr('src',images[i].src)
+      .css({position:'absolute', left:images[i].left.toString()+'px', top:images[i].top.toString()+'px'});
+
+  onscreen.append('<div style="position:absolute;left:0px;top:0px;width:638px;height:458px;cursor:pointer" id="foreground" onclick="runAnim(0,0)"><img src="transparent.gif" style="width:638px;height:458px" /></div>');
+}
+
 var runningAnimID = 0;
+var nbFramesLeft = 0;
+var windowFocus = true;
+
+function countingFrames() {
+    if (windowFocus) nbFramesLeft--;
+    if (nbFramesLeft > 0) {
+        runningAnimID = window.setTimeout(countingFrames,300);
+    } else stopAnim();
+}
 
 function stopAnim() {
   if (runningAnimID) {
     window.clearTimeout(runningAnimID);runningAnimID = 0;
-    jQuery('#foreground').css("cursor", "pointer").html('');
+    jQuery('#foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:638px;height:458px" />');
+    var audiofile = jQuery('#audiores').children().last().get(0);
+    audiofile.pause();
   }
 }
 
-function runAnim() {
+function runAnim(idPage, idAnim) {
   if (runningAnimID) return stopAnim();
-  jQuery('#foreground').css("cursor", "wait").html('<img />').children().attr('src','res/ARTICLE1/BURG/burg0m0a.gif');
-  runningAnimID = window.setTimeout(stopAnim,7000);
+  var anim = pages[idPage].anims[idAnim];
+  jQuery('#foreground').css("cursor", "wait").html('<img />').children().attr('src',anim.src)
+    .css({position:'relative', left:anim.left.toString()+'px', top:anim.top.toString()+'px'});
+  nbFramesLeft = anim.frames;
+  runningAnimID = window.setTimeout(countingFrames,0);
+  var audiofile = jQuery('#audiores').children().last().get(0);
+  audiofile.currentTime=0;
+  audiofile.play();
 }
+
+jQuery(document).ready(function() {
+    preloadRes(0);
+    jQuery('#preload img').imagesLoaded(function (e) {
+        displayImages(0);
+    });
+});
+
+/*
+jQuery(document).focus(function() {
+    windowFocus = true;
+    if (runningAnimID) {
+        jQuery('#audiores').children().last().get(0).play();
+    }
+}).blur(function() {
+    windowFocus = false;
+    if (runningAnimID) {
+        jQuery('#audiores').children().last().get(0).pause();
+    }
+});
+*/
 
 </script>
 </head>
 <body>
 
-<div style="position:relative">
-<img style="position:absolute;left:0px;top:0px" src="res/nav/nav.gif"/>
-<img style="position:absolute;left:94px;top:4px" src="res/ARTICLE1/BURG/BURG0m.gif"/>
-<div style="position:absolute;left:0px;top:0px;width:638px;height:458px;cursor:pointer" id="foreground" onclick="runAnim()"></div>
-</div>
-<div style="display:none" id="preload">
-<img src="res/ARTICLE1/BURG/burg0m0a.gif"/>
-</div>
+<div style="position:relative" id="onscreen"><div style="text-align:center;font-size:smaller">Chargement...</div></div>
+<div style="text-align:center;font-size:smaller">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley</div>
+
+<div style="display:none" id="preload"></div>
+<div style="display:none" id="audiores"></div>
+
 </body>
 </html>
