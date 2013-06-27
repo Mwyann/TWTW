@@ -272,25 +272,20 @@ var i:integer;
     tm:TMemoryStream;
     tf:TFileStream;
 begin
+  tm:=nil;
   if (filename[1]) = '\' then delete(filename,1,1);
   if TWTWZip <> nil then begin
     i:=TWTWZip.SearchFile(filename);
-    if i = -1 then begin
-      result:=nil;
-      exit;
-    end;
-    result := TWTWZip.GetUncompressed(i);
+    if i <> -1 then tm := TWTWZip.GetUncompressed(i);
   end else begin
-    if (Not FileExists(cdroot+'\'+filename)) then begin
-      result := nil;
-      exit;
+    if (FileExists(cdroot+'\'+filename)) then begin
+      tm:=TMemoryStream.Create;
+      tf:=TFileStream.Create(cdroot+'\'+filename, fmOpenRead or fmShareDenyWrite);
+      tm.LoadFromStream(tf);
+      tf.Free;
     end;
-    tm:=TMemoryStream.Create;
-    tf:=TFileStream.Create(cdroot+'\'+filename, fmOpenRead or fmShareDenyWrite);
-    tm.LoadFromStream(tf);
-    tf.Free;
-    result := tm;
   end;
+  result := tm;
 end;
 
 end.

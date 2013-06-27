@@ -102,30 +102,55 @@ var nextpage_ani:IDPOINTER;
     debug,exportres,exportjs:boolean;
     nextexportpage:word;
     exportstatus:array[0..2000] of TEXPORT;
+    jsexport,jstotal:string;
 
 {$R *.dfm}
 
+function revertandaddslashes(str:string):string;
+var i:word;
+begin
+  i:=length(str);
+  while i > 0 do begin
+    if (str[i] = '\') then begin
+      str[i]:='/';
+    end;
+    if (str[i] = '''') or (str[i] = '"') then begin
+      insert('\',str,i);
+    end;
+    dec(i);
+  end;
+  result:=str;
+end;
+
+function replaceExt(filename,newext:string):string;
+var i:word;
+begin
+  i:=length(filename);
+  while (i>0) and (filename[i]<>'.') do dec(i);
+  if newext = '' then result:=copy(filename,1,i-1)
+    else result:=copy(filename,1,i)+newext;
+end;
+
 procedure writefile(filename,contenu:string);
-var f:file;
+var f:system.text;
     fullname:string;
 begin
-  fullname:=GetCurrentDir()+'\res\'+filename;
+  fullname:=GetCurrentDir()+'\'+filename;
+  if (exportres) then fullname:=GetCurrentDir()+'\res\'+filename;
+  if (exportjs) then fullname:=GetCurrentDir()+'\js\'+filename;
   ForceDirectories(ExtractFileDir(fullname));
   assignfile(f,fullname);
-  rewrite(f,1);
-  blockwrite(f,contenu,length(contenu));
+  rewrite(f);
+  write(f,contenu);
   closefile(f);
 end;
 
 procedure writegif(filename:string;bmp:TBitmap);
 var fullname:string;
     GIF:TGIFImage;
-    i:word;
 begin
   fullname:=GetCurrentDir()+'\res\'+filename;
-  i:=length(fullname);
-  while (i>0) and (fullname[i]<>'.') do dec(i);
-  fullname:=copy(fullname,1,i)+'gif';
+  fullname:=replaceExt(fullname,'gif');
   ForceDirectories(ExtractFileDir(fullname));
   GIF := TGIFImage.Create;
   GIF.ColorReduction := rmNone;  // rmQuantize rmNone
@@ -188,7 +213,10 @@ var bmp:TBitmap;
     bmpstream:TStream;
 begin
   bmpstream:=OpenFile(filename);
-  if (bmpstream = nil) then exit;
+  if (bmpstream = nil) then begin
+    raise Exception.Create('bmpstream for '+filename+' is nil');
+    exit;
+  end;
   bmp:=TBitmap.Create();
   bmp.LoadFromStream(bmpstream);
   bmpstream.free;
@@ -213,6 +241,10 @@ begin
     bmp.Canvas.CopyRect(bmp.Canvas.ClipRect,BufferImage.Canvas,AniRect);
     writegif(filename,bmp);
   end;
+  if (exportjs) then begin
+    filename:=replaceExt(filename,'gif');
+    jsexport:=jsexport+'{src:''res/'+revertandaddslashes(filename)+''', left:'+inttostr(AniRect.Left)+', top:'+inttostr(AniRect.Top)+'};'#13#10;
+  end;
 end;
 
 procedure addItems(page:TPAGE;basedir:string;xoff_,yoff_:smallint);
@@ -233,18 +265,22 @@ begin
       links[numlinks].x2:=xoff_+x2;
       links[numlinks].y2:=yoff_+y2;
       if (debug) then begin
-        BufferImage.Canvas.Brush.Style := bsClear;
-        BufferImage.Canvas.Pen.Color := $ee;
+        BufferImage.Canvas.Brush.Style:=bsClear;
+        BufferImage.Canvas.Pen.Color:=$ee;
         BufferImage.Canvas.Rectangle(links[numlinks].x1, links[numlinks].y1, links[numlinks].x2, links[numlinks].y2);
       end;
       links[numlinks].xoffset:=xoff_;
       links[numlinks].yoffset:=yoff_;
       links[numlinks].cursor:=cursor;
       links[numlinks].linktype:=itemtype;
+      if (exportjs) then begin
+        jsexport:=jsexport+'page.items['+inttostr(item-1)+'] = '+inttostr(itemtype)+';'#13#10;
+      end;
       if (itemtype = 601) then begin
         // Image de fond. C'est le premier item dans la liste
         filename:=basedir+strings.strings[image]+'.DIB';
         if (debug) then twtw.memo1.lines.add('Background image '+filename+' '+inttostr(xoff_)+' '+inttostr(yoff_));
+        if (exportjs) then jsexport:=jsexport+'//'+filename+#13#10'page.images['+inttostr(item-1)+'] = ';
         displayPicture(filename,xoff_,yoff_);
       end;
       links[numlinks].fx1:=actualPages[actualPageLevel].x1;
@@ -262,7 +298,10 @@ begin
         links[numlinks].anim_skip:=actualPage;
         if (autostart = 0) then begin
           AniRect:=Rect(links[numlinks].fx1,links[numlinks].fy1,links[numlinks].fx2,links[numlinks].fy2);
-          CCMPlayAni(filename,xoff_,yoff_,true);
+          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,true) else begin
+            jsexport:=jsexport+'page.anims['+inttostr(item-1)+'] = ';
+            jsexport:=jsexport+'{src:''res/'+revertandaddslashes(replaceExt(filename,'gif'))+''', audio:''res/'+revertandaddslashes(replaceExt(filename,''))+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', length:'+inttostr(CCMAniLength(filename))+', autostart:true, controlbar:true, cbx:'+inttostr(xoff_+x1)+', cby:'+inttostr(yoff_+y1)+'};'#13#10;
+          end;
           setCursor(-2);
           nextpage_ani:=-2;
           links[numlinks].anim_skip:=-2;
@@ -305,7 +344,7 @@ begin
         //setCursor(cursor);
         if (item_props = 32) then begin
           nextpage_ani:=nextpage;
-          CCMPlayAni(filename,xoff_,yoff_,false);
+          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,false);
           setCursor(-2);
           dec(numhistory); // Doesn't count in the history
         end;
@@ -367,10 +406,13 @@ begin
           if (exportres or exportjs) and (not exportstatus[idpointer_frame].pageexported) then begin
             actualPages[actualPageLevel].numlinks:=0;
             actualPages[actualPageLevel].actualNumitems:=0;
+            jsexport:='';
           end;
           if (not (exportres or exportjs)) or (not exportstatus[idpointer_frame].pageexported) then begin
             frame:=ReadPagePNG(idpointer_frame);
             addItems(frame,'',imageoffset_x,imageoffset_y);
+          end else if (exportjs) then begin
+            jsexport:=jsexport+'page.frames.push('+inttostr(idpointer_frame)+');'#13#10;
           end;
           if (exportres or exportjs) and (not exportstatus[idpointer_frame].pageexported) then begin
             exportstatus[idpointer_frame].pageexported:=true;
@@ -436,6 +478,7 @@ begin
       xoff:=actualPages[0].xoff;
       yoff:=actualPages[0].yoff;
     end;
+    jsexport:='page.type='+inttostr(typepage)+';'#13#10;
     if (typepage=101) then begin  // Popup
       BufferImage.Canvas.CopyRect(actualPages[pred(actualPageLevel)].PageImage.Canvas.ClipRect,actualPages[pred(actualPageLevel)].PageImage.Canvas,BufferImage.Canvas.ClipRect);
     end;
@@ -584,6 +627,7 @@ begin
       for j:=0 to 100 do exportstatus[i].itemexported[j]:=false;
     end;
     nextexportpage:=0;
+    jstotal:='';
     ExportTimer.Enabled:=True;
   end;
 end;
@@ -652,7 +696,7 @@ begin
           actionTaken:=true;
           nextpage_ani:=anim_skip;
           AniRect:=Rect(fx1,fy1,fx2,fy2);
-          CCMPlayAni(anim,xoff,yoff,true);
+          if (not exportjs) then CCMPlayAni(anim,xoff,yoff,true);
           setCursor(-2);
         end;
         if (linktype = 603) then begin
@@ -672,7 +716,7 @@ begin
                   actionTaken:=true;
                   if (actualItems[k].autostart = 0) then nextpage_ani:=-2;
                   AniRect:=Rect(fx1,fy1,fx2,fy2);
-                  CCMPlayAni(filename,xoff,yoff,true);
+                  if (not exportjs) then CCMPlayAni(filename,xoff,yoff,true);
                   setCursor(-2);
                 end;
               end;
@@ -685,14 +729,14 @@ begin
               // Jouer un son
               filename:=actualBaseDir+strings.strings[soundtoplay]+'.WAV';
               setCursor(-2);
-              CCMPlayWav(filename);
+              if (not exportjs) then CCMPlayWav(filename);
             end;
             if (typeaction = 7) then begin
               // Animation simple
               filename:=actualBaseDir+strings.strings[anim]+'.ANI';
               actionTaken:=true;
               AniRect:=Rect(fx1,fy1,fx2,fy2);
-              CCMPlayAni(filename,xoff,yoff,false);
+              if (not exportjs) then CCMPlayAni(filename,xoff,yoff,false);
               setCursor(-2);
             end;
             if (typeaction = 11) then begin
@@ -738,13 +782,14 @@ begin
               if (debug) then twtw.memo1.lines.add('Other letter movement: OK');
               for j:=1 to numlinks do if (links[j-1].letter = actualletter) then nextpage_ani:=links[j-1].anim_skip;
               AniRect:=Rect(fx1,fy1,fx2,fy2);
-              CCMPlayAni(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A.ANI',xoff,yoff,false);
+              if (not exportjs) then CCMPlayAni(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A.ANI',xoff,yoff,false);
               setCursor(-2);
             end;
           end;
           if (nextpage_ani = -1) then begin
             if (debug) then twtw.memo1.lines.add('Current letter: '+chr(ord('A')+actualletter));
             if (not (exportres or exportjs)) then PlaySound(TMemoryStream(OpenFile(actualBaseDir+'DIAL.WAV')).Memory,0,SND_ASYNC or SND_MEMORY);
+            if (exportjs) then jsexport:='//'; // Exporter les images des lettres
             displayPicture(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A.DIB',255,105);
             CCMBufferImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
             actualPages[actualPageLevel].PageImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,actualPages[actualPageLevel].PageImage.Canvas.ClipRect);
@@ -760,7 +805,7 @@ begin
           end;
           actionTaken:=true;
           AniRect:=Rect(fx1,fy1,fx2,fy2);
-          CCMPlayAni(anim,xoffset,yoffset,false);
+          if (not exportjs) then CCMPlayAni(anim,xoffset,yoffset,false);
           setCursor(-2);
         end;
         if (linktype = 607) then begin
@@ -768,7 +813,7 @@ begin
           nextpage_ani:=anim_skip;
           actionTaken:=true;
           AniRect:=Rect(fx1,fy1,fx2,fy2);
-          CCMPlayAni(anim,xoffset,yoffset,false);
+          if (not exportjs) then CCMPlayAni(anim,xoffset,yoffset,false);
           setCursor(-2);
         end;
         if (linktype = 608) then begin
@@ -873,12 +918,19 @@ begin
     AniSaveToDisk:=true;
     AniSavePrefix:='res?';
   end;
+  TWTW.Caption := 'CCM Exporting '+inttostr(nextpage)+' ('+inttostr(round(100*adv/pointers.nbpointers))+'%)';
   if (exportstatus[nextpage].pageexported) then begin
     i:=0;
     while (i < actualPages[actualPageLevel].actualNumitems) and (exportstatus[nextpage].itemexported[i]) do inc(i);
     if (i >= actualPages[actualPageLevel].actualNumitems) then begin
       exportstatus[nextpage].fullexported := true;
       nextexportpage:=0;
+      if (exportjs) then begin
+        jsexport:='page = {frames:new Array(), items:new Array(), images:new Array(), anims:new Array(), sounds:new Array(), links:new Array(), type:0};'#13#10+jsexport+'pages['+inttostr(nextpage)+'] = page;'#13#10;
+        //writefile(inttostr(nextpage)+'.js',jsexport+'preloadRes('+inttostr(nextpage)+');'#13#10) ;
+        jstotal:=jstotal+jsexport;
+        writefile('total.js',jstotal) ;
+      end;
       ExportTimer.Enabled:=True; // Next page please!
       exit;
     end else begin
@@ -890,9 +942,11 @@ begin
   end else begin
     actualPageLevel:=1;
     predPageLevel:=0;
+    if (exportjs) then begin
+      jsexport:='';
+    end;
     displayPage(nextpage);
   end;
-  TWTW.Caption := 'CCM Exporting '+inttostr(round(100*adv/pointers.nbpointers))+'%';
   if (not CCMIsPlaying) then ExportTimer.Enabled:=True;
 end;
 

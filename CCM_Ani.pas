@@ -32,6 +32,7 @@ type
     PlayStart,PlayEnd,PlayPos:integer;
     constructor Create(FileName:string;X,Y:integer);
      destructor Destroy; override;
+    function GetLength:cardinal;
   protected
     procedure Execute; override;
   end;
@@ -53,6 +54,7 @@ type
 
 procedure CCMPlayAni(FileName:string;X,Y:integer;isControlBar:boolean);
 procedure CCMStopAni;
+function CCMAniLength(FileName:string):cardinal;
 procedure CCMAddControlBar(x,y:smallint);
 procedure CCMPlayWav(FileName:string);
 procedure CCMStopWav;
@@ -118,6 +120,11 @@ begin
   SoundRate:=ord(buf[19])*256+ord(buf[18]);
   PlayEnd:=PlayStart+numframes;
   PlayPos:=PlayStart;
+end;
+
+function TCCMAni.GetLength;
+begin
+  result:=FrameRate*(PlayEnd-PlayStart);
 end;
 
 procedure TCCMAni.ExtractSound;
@@ -534,6 +541,15 @@ begin
     end;
     While CCMIsPlaying do;
   end;
+end;
+
+function CCMAniLength(FileName:string):cardinal;
+var TmpAni:TCCMAni;
+begin
+  TmpAni:=TCCMAni.Create(FileName,0,0);
+  result:=TmpAni.GetLength();
+  TmpAni.Terminate;
+  TmpAni.Free;
 end;
 
 constructor TCCMWav.Create(FileName:string);

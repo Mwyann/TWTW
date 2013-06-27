@@ -100,7 +100,7 @@ Conditionals=
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=--exportres TWTWFR
+RunParams=--exportjs TWTWFR
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -130,3 +130,6 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
+[Excluded Packages]
+C:\PROGRA~2\Borland\Delphi7\Projects\Bpl\JclRepositoryExpert70.bpl=JCL Package containing repository wizards
+C:\PROGRA~2\Borland\Delphi7\Projects\Bpl\JclStackTraceViewerExpert70.bpl=JCL Stack Trace Viewer

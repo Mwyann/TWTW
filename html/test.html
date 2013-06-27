@@ -32,6 +32,7 @@ jQuery.fn.imagesLoaded = function(callback, fireOne) {
 
   elems
     .bind('load', function(e) {
+        //TODO Ajouter un bargraph ici
         if (fireOne) {
             !elemsLen-- && callback.call(elems, e);
         } else {
@@ -45,22 +46,18 @@ jQuery.fn.imagesLoaded = function(callback, fireOne) {
     });
 }
 
-var pages=new Array();
-
-pages[0] = {images:new Array(
-                     {src:'res/nav/nav.gif', left:0, top:0},
-                     {src:'res/ARTICLE3/TAPE/TAPE0m.gif', left:94, top:4},
-                     {src:'res/ARTICLE3/TAPE/TAPE0z.gif', left:150, top:20},
-                     {src:'controlbar.gif', left:288, top:283}
-            ),
-            anims:new Array(
-                     {src:'res/ARTICLE3/TAPE/TAPE0z0a.gif', audio:'res/ARTICLE3/TAPE/TAPE0z0a', left:150, top:20, frames:133}
-            )
-           };
+var currentPage = -1;
+var pages = new Array();
 
 function preloadRes(idPage) {
   var preload = jQuery('#preload');
-  preload.html('');
+  if (currentPage == idPage) preload.html('');
+
+  var frames = pages[idPage].frames;
+
+  for(var i=0; i < frames.length; i++)
+    preloadRes(frames[i]);
+
   var images = pages[idPage].images;
 
   for(var i=0; i < images.length; i++)
@@ -80,14 +77,15 @@ function preloadRes(idPage) {
     t.append('<source />').children().last().attr('type','audio/mpeg').attr('src',anims[i].audio+'.mp3');
   }
 
-  jQuery('#preload img').imagesLoaded(function (e) {
-    displayImages(0);
-  }, true);
+  if (currentPage == idPage) {
+    jQuery('#preload img').imagesLoaded(function (e) {
+      displayPage(idPage);
+    }, true);
+  }
 }
 
 function displayImages(idPage) {
   var onscreen = jQuery('#onscreen');
-  onscreen.html('');
   var images = pages[idPage].images;
 
   for(var i=0; i < images.length; i++)
@@ -129,8 +127,35 @@ function runAnim(idPage, idAnim) {
   audiofile.play();
 }
 
+
+function loadPage(pageId) {
+    if (!(pageId in pages)) {
+        filename='js/'+pageId+'.js?rand='+Math.random();
+        var body = document.getElementsByTagName('body').item(0);
+        script = document.createElement('script');
+        script.src = filename;
+        script.type = 'text/javascript';
+        body.appendChild(script);
+    } else {
+        preloadRes(pageId);
+    }
+}
+
+function displayPage(idPage) {
+  var onscreen = jQuery('#onscreen');
+  if (currentPage == idPage) onscreen.html('');
+
+  var frames = pages[idPage].frames;
+
+  for(var i=0; i < frames.length; i++)
+    displayPage(frames[i]);
+
+  displayImages(idPage);
+}
+
 jQuery(document).ready(function() {
-    preloadRes(0);
+    currentPage = 0;
+    loadPage(currentPage);
 });
 
 /*
@@ -148,6 +173,7 @@ jQuery(document).focus(function() {
 */
 
 </script>
+<script src="js/total.js" type="text/javascript"></script>
 </head>
 <body>
 
