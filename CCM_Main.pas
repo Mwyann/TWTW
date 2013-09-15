@@ -132,7 +132,7 @@ begin
     else result:=copy(filename,1,i)+newext;
 end;
 
-procedure writefile(filename,contenu:string);
+procedure resetfile(filename:string);
 var f:system.text;
     fullname:string;
 begin
@@ -142,6 +142,19 @@ begin
   ForceDirectories(ExtractFileDir(fullname));
   assignfile(f,fullname);
   rewrite(f);
+  closefile(f);
+end;
+
+procedure appendfile(filename,contenu:string);
+var f:system.text;
+    fullname:string;
+begin
+  fullname:=GetCurrentDir()+'\'+filename;
+  if (exportres) then fullname:=GetCurrentDir()+'\res\'+filename;
+  if (exportjs) then fullname:=GetCurrentDir()+'\js\'+filename;
+  ForceDirectories(ExtractFileDir(fullname));
+  assignfile(f,fullname);
+  append(f);
   write(f,contenu);
   closefile(f);
 end;
@@ -250,8 +263,8 @@ begin
 end;
 
 procedure addItems(page:TPAGE;basedir:string;xoff_,yoff_:smallint);
-var item:smallint;
-    filename,linkdata:string;
+var item,i:smallint;
+    filename,linkdata,actiondata:string;
     bmp:TBitmap;
     bmpto:TRect;
     bmpstream:TStream;
@@ -321,6 +334,48 @@ begin
         links[numlinks].numactions:=numactions;
         links[numlinks].actions[0]:=actions[0];
         links[numlinks].actions[1]:=actions[1];
+        if (exportjs) then begin
+          actiondata:='';
+          for i:=0 to numactions do begin
+            if (actions[i].typeaction = 1) then begin
+              // Popup : aller au niveau suivant, et indiquer l'ID de la popup à afficher.
+              if (actiondata <> '') then actiondata:=actiondata+', ';
+              actiondata:=actiondata+'{type:1,nextpage:'+inttostr(actions[i].popup_id)+'}';
+            end;
+            if (actions[i].typeaction = 2) then begin
+              // Raccourci (lien secondaire) vers un item présent sur la page
+              if (actiondata <> '') then actiondata:=actiondata+', ';
+              actiondata:=actiondata+'{type:2,linkId:'+inttostr(actions[i].item_id)+'}';
+            end;
+            if (actions[i].typeaction = 3) then begin
+              // Nouvelle page
+              if (actiondata <> '') then actiondata:=actiondata+', ';
+              actiondata:=actiondata+'{type:3,nextpage:'+inttostr(actions[i].linkto)+'}';
+            end;
+            if (actions[i].typeaction = 4) then begin
+              // Jouer un son
+              filename:=actualBaseDir+strings.strings[actions[i].soundtoplay];
+              if (actiondata <> '') then actiondata:=actiondata+', ';
+              actiondata:=actiondata+'{type:4,audio:''res'+revertandaddslashes(filename,true)+'''}';
+            end;
+            if (actions[i].typeaction = 7) then begin
+              // Animation simple
+              filename:=actualBaseDir+strings.strings[actions[i].anim]+'.ANI';
+              if (actiondata <> '') then actiondata:=actiondata+', ';
+              actiondata:=actiondata+'{type:7,src:''res'+revertandaddslashes(replaceExt(filename,'gif'),true)+''', audio:''res'+revertandaddslashes(replaceExt(filename,''),true)+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', time:'+inttostr(CCMAniLength(filename))+'}';
+            end;
+            if (actions[i].typeaction = 11) then begin
+              // Commandes spéciales (copier dans le presse papiers, imprimer, configurer impression)
+            end;
+            if (actions[i].typeaction = 12) then begin
+              // Fermer la popup.
+              // In ciné-mamouth, this action item is followed by a popup action.
+              if (actiondata <> '') then actiondata:=actiondata+', ';
+              actiondata:=actiondata+'{type:12}';
+            end;
+          end;
+          if (actiondata <> '') then linkdata:=linkdata+', actions:['+actiondata+']';
+        end;
         inc(numlinks);
       end;
       if (itemtype = 604) then begin
@@ -336,7 +391,7 @@ begin
         filename:=basedir+strings.strings[anim]+'.ANI';
         //TWTW.memo1.Lines.add('NAV bar '+filename);
         links[numlinks].anim:=filename;
-        links[numlinks].anim_skip:=page_skip;
+        //links[numlinks].anim_skip:=page_skip;
         //TWTW.Memo1.lines.add('(Theorically) Link '+inttostr(item_id)+' to '+inttostr(page_skip));
         // The order in the file is wrong!!
         links[numlinks].anim_skip:=fixedNavBar(item_id, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page);
@@ -351,7 +406,7 @@ begin
         //setCursor(cursor);
         if (item_props = 32) then begin
           nextpage_ani:=nextpage;
-          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,false) else linkdata:=linkdata+', autostart:true';
+          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,false) else linkdata:=linkdata+', autostart:true, nextpage:'+inttostr(nextpage);
           setCursor(-2);
           dec(numhistory); // Doesn't count in the history
         end;
@@ -392,7 +447,7 @@ begin
         TWTW.ImageScrolled.Height:=bmp.Canvas.ClipRect.Bottom;
         bmp.free;
       end;
-      if (exportjs) then begin
+      if ((exportjs) and (itemtype <> 605)) then begin
         jsexport:=jsexport+'page.links['+inttostr(numlinks-1)+'] = {'+linkdata+'};'#13#10;
       end;
     end;
@@ -491,7 +546,7 @@ begin
       xoff:=actualPages[0].xoff;
       yoff:=actualPages[0].yoff;
     end;
-    jsexport:='page.type='+inttostr(typepage)+';'#13#10;
+    jsexport:='page.type='+inttostr(typepage-100)+';'#13#10;
     if (typepage=101) then begin  // Popup
       BufferImage.Canvas.CopyRect(actualPages[pred(actualPageLevel)].PageImage.Canvas.ClipRect,actualPages[pred(actualPageLevel)].PageImage.Canvas,BufferImage.Canvas.ClipRect);
     end;
@@ -641,6 +696,7 @@ begin
     end;
     for i:=658 to 747 do exportstatus[i].fullexported:=true; // On passe les pages d'aide qui posent problème pour le moment
     nextexportpage:=0;
+    if (exportjs) then resetfile('total.js');
     jstotal:='';
     ExportTimer.Enabled:=True;
   end;
@@ -940,9 +996,10 @@ begin
       nextexportpage:=0;
       if (exportjs) then begin
         // Tous ces espaces vides empêchent le programme de planter pendant de l'export... Faudrait trouver une meilleure solution... 
-        jsexport:='page = {frames:new Array(), links:new Array(), type:0                                                        };'#13#10+jsexport+'pages['+inttostr(nextpage)+'] = page;'#13#10;
+        jsexport:='page = {frames:new Array(), links:new Array(), type:0};'#13#10+jsexport+'pages['+inttostr(nextpage)+'] = page;'#13#10;
         jstotal:=jstotal+jsexport;
-        writefile('total.js',jstotal) ;
+        appendfile('total.js',jstotal);
+        jstotal:='';
       end;
       ExportTimer.Enabled:=True; // Next page please!
       exit;
@@ -950,7 +1007,7 @@ begin
       nextitem:=i;
       CCMBufferImage.Canvas.CopyRect(actualPages[actualPageLevel].PageImage.Canvas.ClipRect,actualPages[actualPageLevel].PageImage.Canvas,CCMBufferImage.Canvas.ClipRect);
       TWTW.pbxMouseDown(nil, mbLeft, [], actualPages[actualPageLevel].links[nextitem].x1, actualPages[actualPageLevel].links[nextitem].y1);
-      exportstatus[nextpage].itemexported[nextitem] := true;
+      exportstatus[nextpage].itemexported[nextitem]:=true;
     end;
   end else begin
     actualPageLevel:=1;

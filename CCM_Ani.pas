@@ -442,6 +442,7 @@ var AnimBegin,AnimEnd:cardinal;
     WaitFor,c:longint;
     GIF:TGIFImage; // GIF
 begin
+  if (Terminated) then exit;
   Synchronize(SeekFrame);
   Synchronize(PlayTheSound);
   AnimBegin:=GetTickCount();
@@ -547,8 +548,8 @@ var TmpAni:TCCMAni;
 begin
   TmpAni:=TCCMAni.Create(FileName,0,0);
   result:=TmpAni.GetLength();
-  TmpAni.Terminate;
-  //TmpAni.Free;  // A éviter apparemment
+  TmpAni.Terminate; // Ceci tue le thread avant même son exécution, ce qui libère la mémoire instantanément.
+  TmpAni.Resume;
 end;
 
 constructor TCCMWav.Create(FileName:string);
