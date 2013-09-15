@@ -32,7 +32,6 @@ jQuery.fn.imagesLoaded = function(callback, fireOne) {
 
   elems
     .bind('load', function(e) {
-        //TODO Ajouter un bargraph ici
         if (fireOne) {
             !elemsLen-- && callback.call(elems, e);
         } else {
@@ -81,25 +80,27 @@ function preloadRes(idPage) {
     jQuery('#preload img').imagesLoaded(function (e) {
       displayPage(idPage);
     }, true);
+    //TODO ajouter une "couche" de chargement foncé avec un symbole de chargement animé au milieu
   }
 }
 
 var runningAnimID = 0;
 var runningAnimTimeoutID = 0;
 var nextPage = -1;
-var nbFramesLeft = 0; // Utilisé pour détecter la fin d'une animation
+var animTimeLeft = 0; // Utilisé pour détecter la fin d'une animation
 var windowFocus = true;
 
 function countingFrames() {
-    //if (windowFocus) nbFramesLeft--;
-    if (nbFramesLeft > 0) {
-        runningAnimID = window.setTimeout(countingFrames,300);
+    if (windowFocus) animTimeLeft-=200;
+    if (animTimeLeft > 0) {
+        runningAnimID = window.setTimeout(countingFrames,200);
+        //TODO Ajouter une synchro du son : si le son joue avec plus de x ms de décalage, on recale
     } else stopAnim();
 }
 
 function stopAnim() {
   if (runningAnimTimeoutID) {
-    window.clearTimeout(runningAnimTimeoutID);runningAnimTimeoutID = 0;nbFramesLeft = 0;
+    window.clearTimeout(runningAnimTimeoutID);runningAnimTimeoutID = 0;animTimeLeft = 0;
     jQuery('#foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />');
     jQuery('#mask').css("cursor", "pointer").click(function(){}).html('<img src="transparent.gif" style="width:0;height:0" />').css({width:'0',height:'0'});
     var audiofile = jQuery('#'+currentLinks[runningAnimID].audioid).get(0);
@@ -111,12 +112,12 @@ function stopAnim() {
 
 function runAnim(anim) {
   if (runningAnimTimeoutID) return stopAnim();
-  jQuery('#mask').css("cursor", "wait").click(function(){stopAnim()}).html('<img src="transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
+  jQuery('#mask').css("cursor", "wait").click(function(){stopAnim();return false}).html('<img src="transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
   jQuery('#foreground').html('<img />').children().attr('src',anim.src).css({position:'relative', left:anim.left.toString()+'px', top:anim.top.toString()+'px'});
-  nbFramesLeft = 0;
+  animTimeLeft = anim.time+500;
   if ("nextpage" in anim) nextPage = anim.nextpage;
   runningAnimID = anim.id;
-  runningAnimTimeoutID = window.setTimeout(countingFrames,anim.time+500);
+  runningAnimTimeoutID = window.setTimeout(countingFrames,200);
   var audiofile = jQuery('#'+anim.audioid).get(0);
   audiofile.currentTime = 0;
   audiofile.play();
@@ -125,7 +126,7 @@ function runAnim(anim) {
 function runLink(idLink) {
   var link = currentLinks[idLink];
   link.id = idLink;
-  if (link.type == 2) {  // Animation avec barre de défilement
+  if (link.type == 2) {  // Animation avec barre de défilement (intégrée au gif)
     runAnim(link);
   }
   if (link.type == 3) {  // Objets cliquables avec différentes actions
@@ -184,10 +185,10 @@ function displayPage(idPage) {
       onscreen.append('<img />').children().last().attr('src',link.src)
         .css({position:'absolute', left:link.left.toString()+'px', top:link.top.toString()+'px'});
     } else {
-      onscreen.append('<div style="position:absolute;left:'+(link.x1.toString())+'px;top:'+(link.y1.toString())+'px;width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px;cursor:pointer" id="link'+(currentLinks.length.toString())+'" onclick="runLink('+(currentLinks.length.toString())+')"><img src="transparent.gif" style="width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px" /></div>');
+      onscreen.append('<div style="position:absolute;left:'+(link.x1.toString())+'px;top:'+(link.y1.toString())+'px;width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px;cursor:pointer" id="link'+(currentLinks.length.toString())+'" onclick="runLink('+(currentLinks.length.toString())+');return false"><img src="transparent.gif" style="width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px" /></div>');
       if (("autostart" in link) && (link.autostart)) autolink = currentLinks.length;
       currentLinks.push(link);
-      // Précharger ici les images de fond des pages suivantes ?
+      // Précharger ici les images de fond + animations autostart des pages suivantes ?
     }
   }
 
