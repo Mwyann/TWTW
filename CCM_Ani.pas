@@ -105,7 +105,6 @@ begin
   cby:=y;
 end;
 
-
 procedure TCCMAni.InitAnim;
 var buf:array[0..30] of char;
     numframes,preloadsecs:word;
@@ -124,7 +123,7 @@ end;
 
 function TCCMAni.GetLength;
 begin
-  result:=FrameRate*(PlayEnd-PlayStart);
+  result:=round((1000/FrameRate)*(PlayEnd-PlayStart));
 end;
 
 procedure TCCMAni.ExtractSound;
@@ -346,7 +345,7 @@ begin
   if f <> nil then begin
     InitAnim;
     ExtractSound;
-  end;
+  end else raise Exception.Create('cannot open '+filename);
 end;
 
 constructor TCCMAni.Create(FileName:string;X,Y:integer);
@@ -549,7 +548,7 @@ begin
   TmpAni:=TCCMAni.Create(FileName,0,0);
   result:=TmpAni.GetLength();
   TmpAni.Terminate;
-  TmpAni.Free;
+  //TmpAni.Free;  // A éviter apparemment
 end;
 
 constructor TCCMWav.Create(FileName:string);
@@ -560,7 +559,6 @@ begin
   Sound:=OpenFile(FileName);
   FreeOnTerminate:=true;
   Priority:=tpNormal;
-
   ThisAniSaveToDisk:=AniSaveToDisk;
   ThisAniSavePrefix:=AniSavePrefix;
   if (ThisAniSavePrefix = 'res?') then begin

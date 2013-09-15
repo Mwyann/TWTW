@@ -106,7 +106,7 @@ var nextpage_ani:IDPOINTER;
 
 {$R *.dfm}
 
-function revertandaddslashes(str:string):string;
+function revertandaddslashes(str:string;forceFirstSlash:boolean):string;
 var i:word;
 begin
   i:=length(str);
@@ -119,6 +119,7 @@ begin
     end;
     dec(i);
   end;
+  if (forceFirstSlash) and (str[1] <> '/') then str:='/'+str;
   result:=str;
 end;
 
@@ -207,7 +208,7 @@ begin
   Application.ProcessMessages;
 end;
 
-procedure displayPicture(filename:string;xoffset,yoffset:smallint);
+function displayPicture(filename:string;xoffset,yoffset:smallint):string;
 var bmp:TBitmap;
     bmpto:TRect;
     bmpstream:TStream;
@@ -240,16 +241,17 @@ begin
     bmp.Height:=AniRect.Bottom-AniRect.Top;
     bmp.Canvas.CopyRect(bmp.Canvas.ClipRect,BufferImage.Canvas,AniRect);
     writegif(filename,bmp);
+    bmp.free;
   end;
   if (exportjs) then begin
     filename:=replaceExt(filename,'gif');
-    jsexport:=jsexport+'{src:''res/'+revertandaddslashes(filename)+''', left:'+inttostr(AniRect.Left)+', top:'+inttostr(AniRect.Top)+'};'#13#10;
-  end;
+    result:=', src:''res'+revertandaddslashes(filename,true)+''', left:'+inttostr(AniRect.Left)+', top:'+inttostr(AniRect.Top);
+  end else result:='';
 end;
 
 procedure addItems(page:TPAGE;basedir:string;xoff_,yoff_:smallint);
 var item:smallint;
-    filename:string;
+    filename,linkdata:string;
     bmp:TBitmap;
     bmpto:TRect;
     bmpstream:TStream;
@@ -274,14 +276,19 @@ begin
       links[numlinks].cursor:=cursor;
       links[numlinks].linktype:=itemtype;
       if (exportjs) then begin
-        jsexport:=jsexport+'page.items['+inttostr(item-1)+'] = '+inttostr(itemtype)+';'#13#10;
+        linkdata:='x1:'+inttostr(links[numlinks].x1)+', y1:'+inttostr(links[numlinks].y1)+', x2:'+inttostr(links[numlinks].x2)+', y2:'+inttostr(links[numlinks].y2)+', type:'+inttostr(links[numlinks].linktype-600);
       end;
       if (itemtype = 601) then begin
         // Image de fond. C'est le premier item dans la liste
+        links[numlinks].x1:=0;
+        links[numlinks].y1:=0;
+        links[numlinks].x2:=0;
+        links[numlinks].y2:=0;
+        linkdata:='type:1';
         filename:=basedir+strings.strings[image]+'.DIB';
         if (debug) then twtw.memo1.lines.add('Background image '+filename+' '+inttostr(xoff_)+' '+inttostr(yoff_));
-        if (exportjs) then jsexport:=jsexport+'//'+filename+#13#10'page.images['+inttostr(item-1)+'] = ';
-        displayPicture(filename,xoff_,yoff_);
+        linkdata:=linkdata+displayPicture(filename,xoff_,yoff_);
+        inc(numlinks);
       end;
       links[numlinks].fx1:=actualPages[actualPageLevel].x1;
       links[numlinks].fy1:=actualPages[actualPageLevel].y1;
@@ -296,12 +303,10 @@ begin
         filename:=basedir+strings.strings[anim]+'.ANI';
         links[numlinks].anim:=filename;
         links[numlinks].anim_skip:=actualPage;
+        if (exportjs) then linkdata:=linkdata+', src:''res'+revertandaddslashes(replaceExt(filename,'gif'),true)+''', audio:''res'+revertandaddslashes(replaceExt(filename,''),true)+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', time:'+inttostr(CCMAniLength(filename))+', controlbar:true, cbx:'+inttostr(xoff_+x1)+', cby:'+inttostr(yoff_+y1);
         if (autostart = 0) then begin
           AniRect:=Rect(links[numlinks].fx1,links[numlinks].fy1,links[numlinks].fx2,links[numlinks].fy2);
-          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,true) else begin
-            jsexport:=jsexport+'page.anims['+inttostr(item-1)+'] = ';
-            jsexport:=jsexport+'{src:''res/'+revertandaddslashes(replaceExt(filename,'gif'))+''', audio:''res/'+revertandaddslashes(replaceExt(filename,''))+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', length:'+inttostr(CCMAniLength(filename))+', autostart:true, controlbar:true, cbx:'+inttostr(xoff_+x1)+', cby:'+inttostr(yoff_+y1)+'};'#13#10;
-          end;
+          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,true) else linkdata:=linkdata+', autostart:true';
           setCursor(-2);
           nextpage_ani:=-2;
           links[numlinks].anim_skip:=-2;
@@ -335,16 +340,18 @@ begin
         //TWTW.Memo1.lines.add('(Theorically) Link '+inttostr(item_id)+' to '+inttostr(page_skip));
         // The order in the file is wrong!!
         links[numlinks].anim_skip:=fixedNavBar(item_id, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page);
+        if (exportjs) then linkdata:=linkdata+', src:''res'+revertandaddslashes(replaceExt(filename,'gif'),true)+''', audio:''res'+revertandaddslashes(replaceExt(filename,''),true)+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', time:'+inttostr(CCMAniLength(filename))+', nextpage:'+inttostr(links[numlinks].anim_skip);
         inc(numlinks);
       end;
       if (itemtype = 607) then begin
         // Animation
         filename:=basedir+strings.strings[anim]+'.ANI';
         if (debug) then twtw.memo1.lines.add('Animation ('+inttostr(item_props)+' '+filename+': '+inttostr(links[numlinks].x1)+':'+inttostr(links[numlinks].y1)+'/'+inttostr(links[numlinks].x2)+':'+inttostr(links[numlinks].y2));
+        if (exportjs) then linkdata:=linkdata+', src:''res'+revertandaddslashes(replaceExt(filename,'gif'),true)+''', audio:''res'+revertandaddslashes(replaceExt(filename,''),true)+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', time:'+inttostr(CCMAniLength(filename));
         //setCursor(cursor);
         if (item_props = 32) then begin
           nextpage_ani:=nextpage;
-          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,false);
+          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,false) else linkdata:=linkdata+', autostart:true';
           setCursor(-2);
           dec(numhistory); // Doesn't count in the history
         end;
@@ -352,6 +359,7 @@ begin
           links[numlinks].anim:=filename;
           if (page_skip = 1) then begin
             links[numlinks].anim_skip:=nextpage;
+            if (exportjs) then linkdata:=linkdata+', nextpage:'+inttostr(nextpage);
           end else begin
             links[numlinks].anim_skip:=-1;
           end;
@@ -384,8 +392,13 @@ begin
         TWTW.ImageScrolled.Height:=bmp.Canvas.ClipRect.Bottom;
         bmp.free;
       end;
+      if (exportjs) then begin
+        jsexport:=jsexport+'page.links['+inttostr(numlinks-1)+'] = {'+linkdata+'};'#13#10;
+      end;
     end;
-    if (actualletter = 0) then displayPicture(actualBaseDir+'AZAZ0MAA.DIB',255,105); // Lettre A affichée par défaut
+    if (actualletter = 0) then begin
+      displayPicture(actualBaseDir+'AZAZ0MAA.DIB',255,105); // Lettre A affichée par défaut
+    end;
   end;
 end;
 
@@ -626,6 +639,7 @@ begin
       exportstatus[i].fullexported:=false;
       for j:=0 to 100 do exportstatus[i].itemexported[j]:=false;
     end;
+    for i:=658 to 747 do exportstatus[i].fullexported:=true; // On passe les pages d'aide qui posent problème pour le moment
     nextexportpage:=0;
     jstotal:='';
     ExportTimer.Enabled:=True;
@@ -789,7 +803,6 @@ begin
           if (nextpage_ani = -1) then begin
             if (debug) then twtw.memo1.lines.add('Current letter: '+chr(ord('A')+actualletter));
             if (not (exportres or exportjs)) then PlaySound(TMemoryStream(OpenFile(actualBaseDir+'DIAL.WAV')).Memory,0,SND_ASYNC or SND_MEMORY);
-            if (exportjs) then jsexport:='//'; // Exporter les images des lettres
             displayPicture(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A.DIB',255,105);
             CCMBufferImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
             actualPages[actualPageLevel].PageImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,actualPages[actualPageLevel].PageImage.Canvas.ClipRect);
@@ -926,8 +939,8 @@ begin
       exportstatus[nextpage].fullexported := true;
       nextexportpage:=0;
       if (exportjs) then begin
-        jsexport:='page = {frames:new Array(), items:new Array(), images:new Array(), anims:new Array(), sounds:new Array(), links:new Array(), type:0};'#13#10+jsexport+'pages['+inttostr(nextpage)+'] = page;'#13#10;
-        //writefile(inttostr(nextpage)+'.js',jsexport+'preloadRes('+inttostr(nextpage)+');'#13#10) ;
+        // Tous ces espaces vides empêchent le programme de planter pendant de l'export... Faudrait trouver une meilleure solution... 
+        jsexport:='page = {frames:new Array(), links:new Array(), type:0                                                        };'#13#10+jsexport+'pages['+inttostr(nextpage)+'] = page;'#13#10;
         jstotal:=jstotal+jsexport;
         writefile('total.js',jstotal) ;
       end;
