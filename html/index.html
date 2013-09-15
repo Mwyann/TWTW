@@ -68,7 +68,7 @@ function waitForAudio(callback) {
   var elems = jQuery("#audiores audio");
   totalAudio = elems.length;
   elems.each(function(){if (this.duration) totalAudio--;});
-  if (totalAudio) window.setTimeout(function(){waitForAudio(callback)},100); else callback.call();
+  if (totalAudio) window.setTimeout(function(){waitForAudio(callback)},50); else callback.call();
 }
 
 function preloadLink(idPage,link,linkId) {
@@ -231,6 +231,7 @@ function runLink(idLink) {
     
   }
   if (link.type == 6) {  // Bouton de la colonne de gauche
+    if (link.nextpage == -51) link.nextpage = -1; // Bouton retour qui ne fonctionne pas encore (implémenter l'historique)
     runAnim(link);
   }
   if (link.type == 7) {  // Animation simple
