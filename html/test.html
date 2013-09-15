@@ -116,7 +116,7 @@ function runAnim(anim) {
   nbFramesLeft = 0;
   if ("nextpage" in anim) nextPage = anim.nextpage;
   runningAnimID = anim.id;
-  runningAnimTimeoutID = window.setTimeout(countingFrames,anim.time);
+  runningAnimTimeoutID = window.setTimeout(countingFrames,anim.time+500);
   var audiofile = jQuery('#'+anim.audioid).get(0);
   audiofile.currentTime = 0;
   audiofile.play();
