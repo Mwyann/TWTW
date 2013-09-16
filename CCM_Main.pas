@@ -132,20 +132,7 @@ begin
     else result:=copy(filename,1,i)+newext;
 end;
 
-procedure resetfile(filename:string);
-var f:system.text;
-    fullname:string;
-begin
-  fullname:=GetCurrentDir()+'\'+filename;
-  if (exportres) then fullname:=GetCurrentDir()+'\res\'+filename;
-  if (exportjs) then fullname:=GetCurrentDir()+'\js\'+filename;
-  ForceDirectories(ExtractFileDir(fullname));
-  assignfile(f,fullname);
-  rewrite(f);
-  closefile(f);
-end;
-
-procedure appendfile(filename,contenu:string);
+procedure writefile(filename,contenu:string);
 var f:system.text;
     fullname:string;
 begin
@@ -703,7 +690,6 @@ begin
     end;
     for i:=658 to 747 do exportstatus[i].fullexported:=true; // On passe les pages d'aide qui posent problème pour le moment
     nextexportpage:=0;
-    if (exportjs) then resetfile('total.js');
     jstotal:='';
     ExportTimer.Enabled:=True;
   end;
@@ -989,6 +975,7 @@ begin
   if (i >= pointers.nbpointers) then begin
     TWTW.Caption := 'CCM Export finished!';
     TWTW.pbx.Cursor:=crDefault;
+    if (exportjs) then writefile('total.js',jstotal);
     exit;
   end;
   nextpage:=i;
@@ -1003,8 +990,6 @@ begin
       // Tous ces espaces vides empêchent le programme de planter pendant de l'export... Faudrait trouver une meilleure solution...
       jsexport:='page = {frames:new Array(), links:new Array(), type:0};'#13#10+jsexport+'pages['+inttostr(nextpage)+'] = page;'#13#10;
       jstotal:=jstotal+jsexport;
-      appendfile('total.js',jstotal);
-      jstotal:='';
       exportstatus[nextpage].fullexported := true;
     end else begin
       i:=0;

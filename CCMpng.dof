@@ -100,7 +100,7 @@ Conditionals=
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=--exportres TWTWFR
+RunParams=--exportjs TWTWFR
 HostApplication=
 Launcher=
 UseLauncher=0
