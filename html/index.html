@@ -47,8 +47,8 @@ jQuery.fn.imagesLoaded = function(callback, fireOne) {
         }
     }).each(function() {
         // cached images don't fire load sometimes, so we reset src.
-        if (this.complete || this.complete === undefined){
-            this.src = this.src;
+        if (this.complete || this.complete === undefined) {
+            if (jQuery(this).hasClass('alreadyLoaded')) jQuery(this).trigger('load'); else this.src = this.src;
         }
     });
 }
@@ -62,6 +62,7 @@ var nextPage = -1;
 var animTimeLeft = 0; animTimePlaying = 0; // Utilisé pour détecter la fin d'une animation
 var windowFocus = true;
 var pageLevels = new Array(1);
+var preload = 0; // Deviendra jQuery('#preload') plus tard
 
 var totalAudio = 0;
 function waitForAudio(callback) {
@@ -72,22 +73,38 @@ function waitForAudio(callback) {
 }
 
 function preloadLink(idPage,link,linkId) {
-  var preload = jQuery('#preload');
   var action;
-  if ("src" in link) preload.append('<img />').children().last().attr('src',link.src);
+  var old;
+  if ("src" in link) {
+    old = jQuery('#preload #img'+idPage+'l'+linkId);
+    if (old.length) old.removeClass('forRemoval');
+    else preload.append('<img />').children().last().attr('id','img'+idPage+'l'+linkId).attr('src',link.src);
+  }
   if ("audio" in link) {
-    var t = preload.append('<audio />').children().last().attr('id','audio'+idPage+'l'+linkId);
-    t.append('<source />').children().last().attr('type','audio/ogg').attr('src',link.audio+'.ogg');
-    t.append('<source />').children().last().attr('type','audio/mpeg').attr('src',link.audio+'.mp3');
+    old = jQuery('#preload #audio'+idPage+'l'+linkId)
+    if (old.length) old.removeClass('forRemoval');
+    else {
+      var t = preload.append('<audio />').children().last().attr('id','audio'+idPage+'l'+linkId);
+      t.append('<source />').children().last().attr('type','audio/ogg').attr('src',link.audio+'.ogg');
+      t.append('<source />').children().last().attr('type','audio/mpeg').attr('src',link.audio+'.mp3');
+    }
   }
   if ((link.type == 3) && ("actions" in link)) {
     for(var j=0; j < link.actions.length; j++) {
       action = link.actions[j];
-      if ("src" in action) preload.append('<img />').children().last().attr('src',action.src);
+      if ("src" in action) {
+        old = jQuery('#preload #img'+idPage+'l'+linkId+'a'+j)
+        if (old.length) old.removeClass('forRemoval');
+        else preload.append('<img />').children().last().attr('id','img'+idPage+'l'+linkId+'a'+j).attr('src',action.src);
+      }
       if ("audio" in action) {
-        var t = preload.append('<audio />').children().last().attr('id','audio'+idPage+'l'+linkId+'a'+j);
-        t.append('<source />').children().last().attr('type','audio/ogg').attr('src',action.audio+'.ogg');
-        t.append('<source />').children().last().attr('type','audio/mpeg').attr('src',action.audio+'.mp3');
+        old = jQuery('#preload #audio'+idPage+'l'+linkId+'a'+j)
+        if (old.length) old.removeClass('forRemoval');
+        else {
+          var t = preload.append('<audio />').children().last().attr('id','audio'+idPage+'l'+linkId+'a'+j);
+          t.append('<source />').children().last().attr('type','audio/ogg').attr('src',action.audio+'.ogg');
+          t.append('<source />').children().last().attr('type','audio/mpeg').attr('src',action.audio+'.mp3');
+        }
       }
     }
   }
@@ -95,12 +112,12 @@ function preloadLink(idPage,link,linkId) {
 
 function preloadRes(idPage) {
   // Initialisation du preload
-  var preload = jQuery('#preload');
   if (!(idPage in pages)) alert('Impossible de précharger la page n°'+idPage);
   var page = pages[idPage];
   if (pageLevels[pageLevels.length-1] == idPage) {
     preloaded = new Array();
-    preload.html(''); // On va charger les infos des frames donc on vide pour initialiser la zone de chargement.
+    //preload.html(''); // On va charger les infos des frames donc on vide pour initialiser la zone de chargement.
+    jQuery('#preload img, #preload audio').addClass('alreadyLoaded forRemoval');
 
     if (pageLevels.length > 1) {
       // Chargement des pages précédentes (if any)
@@ -125,6 +142,7 @@ function preloadRes(idPage) {
 
   // Si on est dans le chargement de la page en question (pas une frame), on demande l'affichage de la page dès les images chargées
   if (pageLevels[pageLevels.length-1] == idPage) {
+    jQuery('#preload img.forRemoval, #preload audio.forRemoval').remove();
     jQuery('#preload img').imagesLoaded(function (e) {
       waitForAudio(function(){displayPage(idPage)});
     }, true);
@@ -163,7 +181,6 @@ function runAnim(anim) {
   runningAudioID = anim.audioid;
   runningAnimTimeoutID = window.setTimeout(countingFrames,200);
   var audiofile = jQuery('#'+anim.audioid).get(0);
-  //while (!audiofile.duration) {jQuery.delay(100)};
   audiofile.currentTime = 0;
   audiofile.play();
 }
@@ -177,7 +194,6 @@ function runSound(sound) {
   if ("nextpage" in sound) nextPage = sound.nextpage;
   runningAudioID = sound.audioid;
   runningAnimTimeoutID = window.setTimeout(countingFrames,200);
-  //while (!audiofile.duration) {jQuery.delay(100)};
   audiofile.currentTime = 0;
   audiofile.play();
 }
@@ -200,13 +216,13 @@ function runLink(idLink) {
       if (action.type == 1) { // Popup : aller au niveau suivant, et indiquer l'ID de la popup à afficher.
         pageLevels.push(-1);
         loadPage(action.nextpage);
-        exit;
+        return;
       }
       if (action.type == 2) { // Raccourci (lien secondaire) vers un item présent sur la page
       }
       if (action.type == 3) { // Nouvelle page (le reset de pageLevels se fera lors du chargement, en fonction du type de page
         loadPage(action.nextpage);
-        exit;
+        return;
       }
       if (action.type == 4) { // Jouer un son
         action.id = idLink+'a'+i;
@@ -227,7 +243,7 @@ function runLink(idLink) {
     }
   }
   if (link.type == 4) {  // Lettres de la roue alphabétique
-    
+
   }
   if (link.type == 6) {  // Bouton de la colonne de gauche
     if (link.nextpage == -51) link.nextpage = -1; // Bouton retour qui ne fonctionne pas encore (implémenter l'historique)
@@ -238,17 +254,17 @@ function runLink(idLink) {
     runAnim(link);
   }
   if (link.type == 8) {  // Bouton d'annulation, utilisé dans la page d'options
-    
+
   }
   if (link.type == 9) {  // Longue image scrollable utilisée dans l'aide
-    
+
   }
 }
 
-function loadPage(pageId) {
+function loadPage(idPage) {
   nextPage = -1;
-  if (!(pageId in pages)) {
-    alert('Page '+(pageId.toString())+' indisponible.');
+  if (!(idPage in pages)) {
+    alert('Page '+(idPage.toString())+' indisponible.');
   } else {
     // Affichage de l'animation de chargement
     var onscreen = jQuery('#onscreen');
@@ -257,12 +273,12 @@ function loadPage(pageId) {
     tmp.html('<img />').children().attr('src','ajax-loader.gif').css({'margin':'196px 0px 0px 286px'})
     // On précharge les données qui seront affichées lors de la fin du chargement
 
-    if (pages[pageId].type != 2) { // S'il ne s'agit pas d'une pleine page (donc une popup à priori) et que le niveau est = 0 ou identique au précédent, alors on avance d'un niveau.
-      if ((pageLevels.length == 1) && (pageLevels[pageLevels.length-1] != pageId)) pageLevels.push(-1); // On ne considère ici pas le predPageLevel, à voir...
+    if (pages[idPage].type != 2) { // S'il ne s'agit pas d'une pleine page (donc une popup à priori) et que le niveau est = 0 ou identique au précédent, alors on avance d'un niveau.
+      if ((pageLevels.length == 1) && (pageLevels[pageLevels.length-1] != idPage)) pageLevels.push(-1); // On ne considère ici pas le predPageLevel, à voir...
     } else pageLevels = new Array(1); // Sinon, il s'agit d'une pleine page, on revient au début.
 
-    pageLevels[pageLevels.length-1] = pageId;
-    preloadRes(pageId);
+    pageLevels[pageLevels.length-1] = idPage;
+    preloadRes(idPage);
   }
 }
 
@@ -339,6 +355,7 @@ function displayPage(idPage) {
 
 jQuery(document).ready(function() {
     jQuery('#foreground').html('');
+    preload = jQuery('#preload');
     loadPage(1581);
     //loadPage(978);
 });
