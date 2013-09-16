@@ -336,7 +336,7 @@ begin
         links[numlinks].actions[1]:=actions[1];
         if (exportjs) then begin
           actiondata:='';
-          for i:=0 to numactions do begin
+          for i:=0 to numactions-1 do begin
             if (actions[i].typeaction = 1) then begin
               // Popup : aller au niveau suivant, et indiquer l'ID de la popup à afficher.
               if (actiondata <> '') then actiondata:=actiondata+', ';
@@ -366,6 +366,7 @@ begin
             end;
             if (actions[i].typeaction = 11) then begin
               // Commandes spéciales (copier dans le presse papiers, imprimer, configurer impression)
+              actiondata:=actiondata+'{type:11}';
             end;
             if (actions[i].typeaction = 12) then begin
               // Fermer la popup.
@@ -395,7 +396,7 @@ begin
         //TWTW.Memo1.lines.add('(Theorically) Link '+inttostr(item_id)+' to '+inttostr(page_skip));
         // The order in the file is wrong!!
         links[numlinks].anim_skip:=fixedNavBar(item_id, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page);
-        if (exportjs) then linkdata:=linkdata+', src:''res'+revertandaddslashes(replaceExt(filename,'gif'),true)+''', audio:''res'+revertandaddslashes(replaceExt(filename,''),true)+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', time:'+inttostr(CCMAniLength(filename))+', nextpage:'+inttostr(links[numlinks].anim_skip);
+        if (exportjs) then linkdata:=linkdata+', src:''res'+revertandaddslashes(replaceExt(filename,'gif'),true)+''', audio:''res'+revertandaddslashes(replaceExt(filename,''),true)+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', time:'+inttostr(CCMAniLength(filename))+', nextpage:'+inttostr(fixedNavBar(item_id, -40, -41, -42, -43));
         inc(numlinks);
       end;
       if (itemtype = 607) then begin
@@ -513,7 +514,7 @@ begin
 
   // Lecture des informations sur la page.
   page:=ReadPagePNG(idpage);
-  if page.typepage=0 then exit; // On n'est pas sur une vraie page, on ignore. 
+  if page.typepage=0 then exit; // On n'est pas sur une vraie page, on ignore.
 
   if (page.typepage <> 102) then // S'il ne s'agit pas d'une pleine page (donc une popup à priori) et que le niveau est = 0 ou identique au précédent, alors on avance d'un niveau.
    if (actualPageLevel = 0) and (actualPages[actualPageLevel].actualPage <> idpage) and (actualPageLevel = predPageLevel) then
@@ -546,7 +547,7 @@ begin
       xoff:=actualPages[0].xoff;
       yoff:=actualPages[0].yoff;
     end;
-    jsexport:='page.type='+inttostr(typepage-100)+';'#13#10;
+    if (exportjs) then jsexport:='page.type='+inttostr(typepage-100)+';'#13#10;
     if (typepage=101) then begin  // Popup
       BufferImage.Canvas.CopyRect(actualPages[pred(actualPageLevel)].PageImage.Canvas.ClipRect,actualPages[pred(actualPageLevel)].PageImage.Canvas,BufferImage.Canvas.ClipRect);
     end;
@@ -569,6 +570,12 @@ begin
         actualinventors_page:=inventors_page;
         actualtimeline_page:=timeline_page;
       end;
+      if (exportjs) then jsexport:=jsexport+'page.menupages=['
+                     +inttostr(fixedNavBar(47, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page))+','
+                     +inttostr(fixedNavBar(48, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page))+','
+                     +inttostr(fixedNavBar(49, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page))+','
+                     +inttostr(fixedNavBar(50, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page))
+                     +'];'#13#10;
     end;
     if (typepage = 103) then begin  // Popup également ?
       BufferImage.Canvas.CopyRect(actualPages[pred(actualPageLevel)].PageImage.Canvas.ClipRect,actualPages[pred(actualPageLevel)].PageImage.Canvas,BufferImage.Canvas.ClipRect);
@@ -776,6 +783,7 @@ begin
               // Popup : aller au niveau suivant, et indiquer l'ID de la popup à afficher.
               inc(nextlevel);
               nextpage:=popup_id;
+              break;
             end;
             if (typeaction = 2) then begin
               // Raccourci (lien secondaire) vers un item présent sur la page
@@ -794,6 +802,7 @@ begin
             if (typeaction = 3) then begin
               // Nouvelle page
               nextpage:=linkto;
+              break;
             end;
             if (typeaction = 4) then begin
               // Jouer un son
@@ -1006,7 +1015,7 @@ begin
     end else begin
       nextitem:=i;
       CCMBufferImage.Canvas.CopyRect(actualPages[actualPageLevel].PageImage.Canvas.ClipRect,actualPages[actualPageLevel].PageImage.Canvas,CCMBufferImage.Canvas.ClipRect);
-      TWTW.pbxMouseDown(nil, mbLeft, [], actualPages[actualPageLevel].links[nextitem].x1, actualPages[actualPageLevel].links[nextitem].y1);
+      TWTW.pbxMouseDown(nil, mbLeft, [], round((actualPages[actualPageLevel].links[nextitem].x1+actualPages[actualPageLevel].links[nextitem].x2)/2), round((actualPages[actualPageLevel].links[nextitem].y1+actualPages[actualPageLevel].links[nextitem].y2)/2));
       exportstatus[nextpage].itemexported[nextitem]:=true;
     end;
   end else begin

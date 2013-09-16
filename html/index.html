@@ -167,6 +167,13 @@ function stopAnim() {
     var audiofile = jQuery('#'+runningAudioID).get(0);
     audiofile.pause();
     runningAudioID = 0;
+    if (nextPage < -1) {
+      if (nextPage == -40) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[0]; // Bouton Machines
+      if (nextPage == -41) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[1]; // Bouton Grands Principes
+      if (nextPage == -42) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[2]; // Bouton Histoire
+      if (nextPage == -43) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[3]; // Bouton Inventeurs
+      if (nextPage == -51) nextPage = -1; // Bouton retour qui ne fonctionne pas encore (implémenter l'historique)
+    }
     if (nextPage > -1) loadPage(nextPage);
   }
 }
@@ -219,6 +226,7 @@ function runLink(idLink) {
         return;
       }
       if (action.type == 2) { // Raccourci (lien secondaire) vers un item présent sur la page
+        //TODO
       }
       if (action.type == 3) { // Nouvelle page (le reset de pageLevels se fera lors du chargement, en fonction du type de page
         loadPage(action.nextpage);
@@ -246,7 +254,6 @@ function runLink(idLink) {
 
   }
   if (link.type == 6) {  // Bouton de la colonne de gauche
-    if (link.nextpage == -51) link.nextpage = -1; // Bouton retour qui ne fonctionne pas encore (implémenter l'historique)
     runAnim(link);
   }
   if (link.type == 7) {  // Animation simple
@@ -254,7 +261,7 @@ function runLink(idLink) {
     runAnim(link);
   }
   if (link.type == 8) {  // Bouton d'annulation, utilisé dans la page d'options
-
+    closePopup();
   }
   if (link.type == 9) {  // Longue image scrollable utilisée dans l'aide
 

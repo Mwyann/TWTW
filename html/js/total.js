@@ -1,10 +1,10 @@
 page = {frames:new Array(), links:new Array(), type:0};
 page.links[0] = {type:1, src:'res/nav/nav.gif', left:0, top:0};
 page.links[1] = {x1:4, y1:3, x2:89, y2:75, type:6, src:'res/nav/navb0m0a.gif', audio:'res/nav/navb0m0a', left:0, top:0, time:1400, nextpage:978};
-page.links[2] = {x1:4, y1:77, x2:90, y2:146, type:6, src:'res/nav/navb0m1a.gif', audio:'res/nav/navb0m1a', left:0, top:0, time:1000, nextpage:121};
-page.links[3] = {x1:5, y1:149, x2:90, y2:231, type:6, src:'res/nav/navb0m2a.gif', audio:'res/nav/navb0m2a', left:0, top:0, time:1200, nextpage:11};
-page.links[4] = {x1:5, y1:235, x2:90, y2:299, type:6, src:'res/nav/navb0m3a.gif', audio:'res/nav/navb0m3a', left:0, top:0, time:1600, nextpage:463};
-page.links[5] = {x1:5, y1:302, x2:89, y2:370, type:6, src:'res/nav/navb0m4a.gif', audio:'res/nav/navb0m4a', left:0, top:0, time:1000, nextpage:802};
+page.links[2] = {x1:4, y1:77, x2:90, y2:146, type:6, src:'res/nav/navb0m1a.gif', audio:'res/nav/navb0m1a', left:0, top:0, time:1000, nextpage:-40};
+page.links[3] = {x1:5, y1:149, x2:90, y2:231, type:6, src:'res/nav/navb0m2a.gif', audio:'res/nav/navb0m2a', left:0, top:0, time:1200, nextpage:-41};
+page.links[4] = {x1:5, y1:235, x2:90, y2:299, type:6, src:'res/nav/navb0m3a.gif', audio:'res/nav/navb0m3a', left:0, top:0, time:1600, nextpage:-42};
+page.links[5] = {x1:5, y1:302, x2:89, y2:370, type:6, src:'res/nav/navb0m4a.gif', audio:'res/nav/navb0m4a', left:0, top:0, time:1000, nextpage:-43};
 page.links[6] = {x1:5, y1:376, x2:90, y2:395, type:6, src:'res/nav/navb0m5a.gif', audio:'res/nav/navb0m5a', left:0, top:0, time:1000, nextpage:-51};
 page.links[7] = {x1:5, y1:398, x2:90, y2:417, type:6, src:'res/nav/navb0m6a.gif', audio:'res/nav/navb0m6a', left:0, top:0, time:1200, nextpage:808};
 page.links[8] = {x1:5, y1:417, x2:90, y2:435, type:6, src:'res/nav/navb0m7a.gif', audio:'res/nav/navb0m7a', left:0, top:0, time:1200, nextpage:981};
@@ -21,6 +21,7 @@ page.links[0] = {type:1, src:'res/nav/framebot.gif', left:94, top:454};
 pages[554] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,11,463,802];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -40,6 +41,7 @@ page.links[11] = {x1:176, y1:290, x2:219, y2:374, type:3, actions:[{type:7,src:'
 pages[0] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,461,463,462];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -120,6 +122,7 @@ page.links[4] = {x1:376, y1:250, x2:446, y2:275, type:3, actions:[{type:3,nextpa
 pages[11] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -177,6 +180,7 @@ page.links[49] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[12] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -210,6 +214,7 @@ page.links[25] = {x1:210, y1:379, x2:282, y2:399, type:3, actions:[{type:3,nextp
 pages[13] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -239,6 +244,7 @@ page.links[21] = {x1:99, y1:209, x2:135, y2:234, type:3, actions:[{type:3,nextpa
 pages[14] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[12,11,14,13];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -268,6 +274,7 @@ page.links[3] = {x1:286, y1:273, x2:318, y2:299, type:3, actions:[{type:3,nextpa
 pages[17] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[51,50,53,52];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -287,6 +294,7 @@ page.links[11] = {x1:558, y1:379, x2:631, y2:450, type:3, actions:[{type:1,nextp
 pages[18] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,97,100,99];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -305,6 +313,7 @@ page.links[10] = {x1:423, y1:402, x2:534, y2:450, type:3, actions:[{type:1,nextp
 pages[19] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[33,252,254,253];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -329,6 +338,7 @@ page.links[16] = {x1:343, y1:180, x2:420, y2:203, type:3, actions:[{type:1,nextp
 pages[20] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[115,655,330,656];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -353,6 +363,7 @@ page.links[16] = {x1:104, y1:100, x2:187, y2:136, type:3, actions:[{type:1,nextp
 pages[21] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[33,655,811,822];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -370,6 +381,7 @@ page.links[9] = {x1:117, y1:371, x2:219, y2:453, type:3, actions:[{type:7,src:'r
 pages[22] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,655,53,780];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -463,6 +475,7 @@ page.links[6] = {x1:407, y1:268, x2:477, y2:293, type:3, actions:[{type:3,nextpa
 pages[32] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -514,6 +527,7 @@ page.links[43] = {x1:608, y1:401, x2:631, y2:426, type:3, actions:[{type:3,nextp
 pages[33] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -545,6 +559,7 @@ page.links[23] = {x1:221, y1:378, x2:272, y2:399, type:3, actions:[{type:3,nextp
 pages[34] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[33,32,14,34];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -572,6 +587,7 @@ page.links[19] = {x1:211, y1:179, x2:269, y2:202, type:3, actions:[{type:1,nextp
 pages[35] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -595,6 +611,7 @@ page.links[15] = {x1:113, y1:401, x2:219, y2:425, type:3, actions:[{type:1,nextp
 pages[36] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -609,14 +626,15 @@ page.links[6] = {x1:331, y1:388, x2:376, y2:409, type:3, actions:[{type:1,nextpa
 page.links[7] = {x1:171, y1:323, x2:230, y2:344, type:3, actions:[{type:1,nextpage:1127}]};
 page.links[8] = {x1:462, y1:113, x2:537, y2:134, type:3, actions:[{type:1,nextpage:1128}]};
 page.links[9] = {x1:132, y1:205, x2:207, y2:226, type:3, actions:[{type:1,nextpage:1128}, {type:1,nextpage:1128}]};
-page.links[10] = {x1:543, y1:140, x2:610, y2:183, type:3, actions:[{type:1,nextpage:1129}, {type:1,nextpage:1128}]};
-page.links[11] = {x1:538, y1:86, x2:615, y2:146, type:3, actions:[{type:1,nextpage:1129}, {type:1,nextpage:1128}]};
-page.links[12] = {x1:522, y1:420, x2:616, y2:437, type:3, actions:[{type:1,nextpage:1130}, {type:1,nextpage:1128}]};
-page.links[13] = {x1:528, y1:364, x2:605, y2:420, type:3, actions:[{type:1,nextpage:1130}, {type:1,nextpage:1128}]};
-page.links[14] = {x1:246, y1:198, x2:410, y2:349, type:3, actions:[{type:4,audio:'res/PRINCIPL/QFLY/QFLY0m0s'}, {type:1,nextpage:1128}]};
+page.links[10] = {x1:543, y1:140, x2:610, y2:183, type:3, actions:[{type:1,nextpage:1129}]};
+page.links[11] = {x1:538, y1:86, x2:615, y2:146, type:3, actions:[{type:1,nextpage:1129}]};
+page.links[12] = {x1:522, y1:420, x2:616, y2:437, type:3, actions:[{type:1,nextpage:1130}]};
+page.links[13] = {x1:528, y1:364, x2:605, y2:420, type:3, actions:[{type:1,nextpage:1130}]};
+page.links[14] = {x1:246, y1:198, x2:410, y2:349, type:3, actions:[{type:4,audio:'res/PRINCIPL/QFLY/QFLY0m0s'}]};
 pages[37] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -719,6 +737,7 @@ page.links[4] = {x1:285, y1:288, x2:338, y2:314, type:3, actions:[{type:3,nextpa
 pages[50] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -768,6 +787,7 @@ page.links[41] = {x1:100, y1:404, x2:124, y2:424, type:3, actions:[{type:3,nextp
 pages[51] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -801,6 +821,7 @@ page.links[25] = {x1:214, y1:379, x2:278, y2:395, type:3, actions:[{type:3,nextp
 pages[52] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -831,6 +852,7 @@ page.links[22] = {x1:526, y1:73, x2:575, y2:150, type:3, actions:[{type:3,nextpa
 pages[53] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -866,6 +888,7 @@ page.links[3] = {x1:234, y1:243, x2:280, y2:268, type:3, actions:[{type:3,nextpa
 pages[56] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[115,625,330,626];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -886,6 +909,7 @@ page.links[12] = {x1:536, y1:181, x2:609, y2:206, type:3, actions:[{type:1,nextp
 pages[57] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[117,393,395,394];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -907,6 +931,7 @@ page.links[13] = {x1:553, y1:375, x2:631, y2:450, type:3, actions:[{type:1,nextp
 pages[58] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[123,1381,463,788];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -914,18 +939,19 @@ page.frames.push(554);
 page.links[0] = {type:1, src:'res/ARTICLE3/RECR/RECR0m.gif', left:94, top:4};
 page.links[1] = {x1:104, y1:165, x2:184, y2:208, type:3, actions:[{type:1,nextpage:1374}]};
 page.links[2] = {x1:406, y1:419, x2:458, y2:443, type:3, actions:[{type:1,nextpage:1375}, {type:1,nextpage:1375}]};
-page.links[3] = {x1:454, y1:351, x2:561, y2:375, type:3, actions:[{type:1,nextpage:1376}, {type:1,nextpage:1375}]};
-page.links[4] = {x1:203, y1:418, x2:309, y2:454, type:3, actions:[{type:1,nextpage:1377}, {type:1,nextpage:1375}]};
-page.links[5] = {x1:418, y1:379, x2:484, y2:416, type:3, actions:[{type:1,nextpage:1378}, {type:1,nextpage:1375}]};
-page.links[6] = {x1:359, y1:151, x2:469, y2:175, type:3, actions:[{type:1,nextpage:1379}, {type:1,nextpage:1375}]};
-page.links[7] = {x1:417, y1:45, x2:527, y2:87, type:3, actions:[{type:1,nextpage:1380}, {type:1,nextpage:1375}]};
-page.links[8] = {x1:184, y1:96, x2:219, y2:115, type:3, actions:[{type:1,nextpage:558}, {type:1,nextpage:1375}]};
-page.links[9] = {x1:312, y1:113, x2:359, y2:132, type:3, actions:[{type:1,nextpage:66}, {type:1,nextpage:1375}]};
-page.links[10] = {x1:563, y1:385, x2:633, y2:453, type:3, actions:[{type:1,nextpage:1373}, {type:1,nextpage:1375}]};
-page.links[11] = {x1:326, y1:181, x2:626, y2:343, type:3, actions:[{type:4,audio:'res/ARTICLE3/RECR/RECR0m0s'}, {type:1,nextpage:1375}]};
+page.links[3] = {x1:454, y1:351, x2:561, y2:375, type:3, actions:[{type:1,nextpage:1376}]};
+page.links[4] = {x1:203, y1:418, x2:309, y2:454, type:3, actions:[{type:1,nextpage:1377}]};
+page.links[5] = {x1:418, y1:379, x2:484, y2:416, type:3, actions:[{type:1,nextpage:1378}]};
+page.links[6] = {x1:359, y1:151, x2:469, y2:175, type:3, actions:[{type:1,nextpage:1379}]};
+page.links[7] = {x1:417, y1:45, x2:527, y2:87, type:3, actions:[{type:1,nextpage:1380}]};
+page.links[8] = {x1:184, y1:96, x2:219, y2:115, type:3, actions:[{type:1,nextpage:558}]};
+page.links[9] = {x1:312, y1:113, x2:359, y2:132, type:3, actions:[{type:1,nextpage:66}]};
+page.links[10] = {x1:563, y1:385, x2:633, y2:453, type:3, actions:[{type:1,nextpage:1373}]};
+page.links[11] = {x1:326, y1:181, x2:626, y2:343, type:3, actions:[{type:4,audio:'res/ARTICLE3/RECR/RECR0m0s'}]};
 pages[59] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[118,1555,577,812];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -945,6 +971,7 @@ page.links[11] = {x1:108, y1:360, x2:182, y2:431, type:3, actions:[{type:1,nextp
 pages[60] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[115,625,359,775];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -956,6 +983,7 @@ page.links[3] = {x1:208, y1:147, x2:255, y2:166, type:3, actions:[{type:1,nextpa
 pages[61] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[118,625,359,775];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1048,6 +1076,7 @@ page.links[4] = {x1:376, y1:256, x2:442, y2:281, type:3, actions:[{type:3,nextpa
 pages[72] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1102,6 +1131,7 @@ page.links[46] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[73] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1133,6 +1163,7 @@ page.links[23] = {x1:449, y1:379, x2:521, y2:393, type:3, actions:[{type:3,nextp
 pages[74] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1163,6 +1194,7 @@ page.links[22] = {x1:112, y1:379, x2:203, y2:443, type:7, src:'res/TIMELINE/TT16
 pages[75] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,72,75,74];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1182,6 +1214,7 @@ page.links[11] = {x1:559, y1:373, x2:633, y2:453, type:3, actions:[{type:1,nextp
 pages[76] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1207,6 +1240,7 @@ page.links[17] = {x1:445, y1:312, x2:486, y2:342, type:3, actions:[{type:4,audio
 pages[77] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1247,6 +1281,7 @@ page.links[4] = {x1:245, y1:279, x2:298, y2:304, type:3, actions:[{type:3,nextpa
 pages[80] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,1013,387,790];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1268,6 +1303,7 @@ page.links[13] = {x1:280, y1:327, x2:306, y2:354, type:3, actions:[{type:7,src:'
 pages[81] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[123,500,281,501];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1283,6 +1319,7 @@ page.links[7] = {x1:557, y1:376, x2:633, y2:453, type:3, actions:[{type:1,nextpa
 pages[82] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[118,385,359,508];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1321,6 +1358,7 @@ page.links[2] = {x1:341, y1:275, x2:384, y2:301, type:3, actions:[{type:3,nextpa
 pages[86] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1374,6 +1412,7 @@ page.links[45] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[87] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1405,6 +1444,7 @@ page.links[23] = {x1:445, y1:379, x2:524, y2:396, type:3, actions:[{type:3,nextp
 pages[88] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1432,6 +1472,7 @@ page.links[19] = {x1:224, y1:90, x2:312, y2:125, type:3, actions:[{type:3,nextpa
 pages[89] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,86,89,88];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1446,6 +1487,7 @@ page.links[6] = {x1:329, y1:152, x2:361, y2:175, type:3, actions:[{type:7,src:'r
 pages[90] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1500,6 +1542,7 @@ page.links[4] = {x1:260, y1:294, x2:371, y2:320, type:3, actions:[{type:3,nextpa
 pages[97] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1555,6 +1598,7 @@ page.links[47] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[98] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1588,6 +1632,7 @@ page.links[25] = {x1:197, y1:378, x2:294, y2:399, type:3, actions:[{type:3,nextp
 pages[99] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1618,6 +1663,7 @@ page.links[22] = {x1:99, y1:209, x2:135, y2:234, type:3, actions:[{type:3,nextpa
 pages[100] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[118,343,811,797];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1632,6 +1678,7 @@ page.links[6] = {x1:387, y1:416, x2:527, y2:445, type:3, actions:[{type:1,nextpa
 pages[101] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1662,6 +1709,7 @@ page.links[4] = {x1:418, y1:245, x2:486, y2:295, type:3, actions:[{type:7,src:'r
 pages[104] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[33,261,263,262];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1681,6 +1729,7 @@ page.links[11] = {x1:432, y1:164, x2:469, y2:198, type:3, actions:[{type:7,src:'
 pages[105] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,337,53,338];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1694,6 +1743,7 @@ page.links[5] = {x1:545, y1:373, x2:632, y2:453, type:3, actions:[{type:1,nextpa
 pages[106] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,328,330,329];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1717,6 +1767,7 @@ page.links[15] = {x1:100, y1:266, x2:187, y2:308, type:3, actions:[{type:1,nextp
 pages[107] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,473,53,807];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1740,6 +1791,7 @@ page.links[15] = {x1:509, y1:182, x2:537, y2:239, type:3, actions:[{type:4,audio
 pages[108] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,385,749,748];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1754,6 +1806,7 @@ page.links[6] = {x1:518, y1:309, x2:630, y2:345, type:3, actions:[{type:1,nextpa
 pages[109] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,854,463,821];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1766,6 +1819,7 @@ page.links[4] = {x1:191, y1:116, x2:211, y2:135, type:3, actions:[{type:1,nextpa
 pages[110] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,1518,450,826];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1781,6 +1835,7 @@ page.links[7] = {x1:433, y1:48, x2:517, y2:79, type:3, actions:[{type:7,src:'res
 pages[111] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,854,811,338];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1800,6 +1855,7 @@ page.links[11] = {x1:544, y1:232, x2:626, y2:261, type:3, actions:[{type:1,nextp
 pages[112] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[73,1519,463,329];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1810,6 +1866,7 @@ page.links[2] = {x1:123, y1:303, x2:625, y2:444, type:3, actions:[{type:4,audio:
 pages[113] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1863,6 +1920,7 @@ page.links[45] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[114] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1913,6 +1971,7 @@ page.links[42] = {x1:608, y1:401, x2:631, y2:426, type:3, actions:[{type:3,nextp
 pages[115] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -1959,6 +2018,7 @@ page.links[38] = {x1:608, y1:401, x2:631, y2:426, type:3, actions:[{type:3,nextp
 pages[116] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2003,6 +2063,7 @@ page.links[36] = {x1:608, y1:401, x2:631, y2:426, type:3, actions:[{type:3,nextp
 pages[117] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2058,6 +2119,7 @@ page.links[47] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[118] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2105,6 +2167,7 @@ page.links[39] = {x1:100, y1:404, x2:124, y2:424, type:3, actions:[{type:3,nextp
 pages[119] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2153,6 +2216,7 @@ page.links[40] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[120] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2206,6 +2270,7 @@ page.links[45] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[121] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2261,6 +2326,7 @@ page.links[47] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[122] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2308,6 +2374,7 @@ page.links[39] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[123] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2346,6 +2413,7 @@ page.links[30] = {x1:608, y1:397, x2:631, y2:422, type:3, actions:[{type:3,nextp
 pages[124] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2378,6 +2446,7 @@ page.links[24] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[125] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2435,6 +2504,7 @@ page.links[49] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[126] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[33,842,89,826];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2457,6 +2527,7 @@ page.links[14] = {x1:566, y1:395, x2:629, y2:447, type:3, actions:[{type:1,nextp
 pages[127] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[33,842,315,787];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2472,6 +2543,7 @@ page.links[7] = {x1:599, y1:424, x2:633, y2:450, type:3, actions:[{type:1,nextpa
 pages[128] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[33,385,100,817];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2490,6 +2562,7 @@ page.links[10] = {x1:563, y1:355, x2:632, y2:423, type:3, actions:[{type:1,nextp
 pages[129] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[33,854,75,344];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2508,6 +2581,7 @@ page.links[10] = {x1:104, y1:259, x2:180, y2:328, type:3, actions:[{type:1,nextp
 pages[130] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[33,385,14,778];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2524,6 +2598,7 @@ page.links[8] = {x1:146, y1:322, x2:198, y2:372, type:3, actions:[{type:7,src:'r
 pages[131] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,343,345,344];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2539,6 +2614,7 @@ page.links[7] = {x1:377, y1:48, x2:458, y2:99, type:3, actions:[{type:1,nextpage
 pages[132] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,365,315,295];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2555,6 +2631,7 @@ page.links[8] = {x1:571, y1:388, x2:632, y2:452, type:3, actions:[{type:1,nextpa
 pages[133] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,854,395,508];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2569,6 +2646,7 @@ page.links[6] = {x1:507, y1:359, x2:577, y2:384, type:3, actions:[{type:1,nextpa
 pages[134] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,385,387,386];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2590,6 +2668,7 @@ page.links[13] = {x1:561, y1:381, x2:633, y2:443, type:3, actions:[{type:1,nextp
 pages[135] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,411,359,524];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2606,6 +2685,7 @@ page.links[8] = {x1:559, y1:256, x2:580, y2:276, type:3, actions:[{type:7,src:'r
 pages[136] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,643,100,800];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2621,6 +2701,7 @@ page.links[7] = {x1:104, y1:316, x2:226, y2:447, type:3, actions:[{type:7,src:'r
 pages[137] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,411,577,576];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2638,6 +2719,7 @@ page.links[9] = {x1:99, y1:7, x2:155, y2:46, type:3, actions:[{type:7,src:'res/A
 pages[138] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,357,450,792];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2653,6 +2735,7 @@ page.links[7] = {x1:537, y1:215, x2:576, y2:237, type:3, actions:[{type:1,nextpa
 pages[139] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,343,811,773];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2665,6 +2748,7 @@ page.links[4] = {x1:538, y1:164, x2:602, y2:205, type:3, actions:[{type:1,nextpa
 pages[140] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[114,461,387,785];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2678,6 +2762,7 @@ page.links[5] = {x1:119, y1:115, x2:164, y2:134, type:3, actions:[{type:1,nextpa
 pages[141] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[12,313,315,314];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2696,6 +2781,7 @@ page.links[10] = {x1:558, y1:380, x2:630, y2:447, type:3, actions:[{type:1,nextp
 pages[142] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[12,638,14,802];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2711,6 +2797,7 @@ page.links[7] = {x1:174, y1:375, x2:238, y2:450, type:3, actions:[{type:7,src:'r
 pages[143] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[12,832,89,290];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2732,6 +2819,7 @@ page.links[13] = {x1:116, y1:267, x2:158, y2:286, type:3, actions:[{type:1,nextp
 pages[144] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[12,279,254,280];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2763,6 +2851,7 @@ page.links[23] = {x1:115, y1:419, x2:173, y2:445, type:3, actions:[{type:1,nextp
 pages[145] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[12,655,89,483];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2779,6 +2868,7 @@ page.links[8] = {x1:199, y1:224, x2:303, y2:259, type:3, actions:[{type:1,nextpa
 pages[146] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[120,357,450,792];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2794,6 +2884,7 @@ page.links[7] = {x1:550, y1:371, x2:632, y2:452, type:3, actions:[{type:1,nextpa
 pages[147] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[12,1052,315,314];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2813,6 +2904,7 @@ page.links[11] = {x1:468, y1:366, x2:505, y2:394, type:3, actions:[{type:7,src:'
 pages[148] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[126,1060,450,790];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2831,6 +2923,7 @@ page.links[10] = {x1:200, y1:419, x2:371, y2:443, type:3, actions:[{type:1,nextp
 pages[149] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[12,365,254,820];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2849,6 +2942,7 @@ page.links[10] = {x1:275, y1:377, x2:326, y2:399, type:3, actions:[{type:1,nextp
 pages[150] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[12,385,402,401];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2866,6 +2960,7 @@ page.links[9] = {x1:554, y1:371, x2:632, y2:451, type:3, actions:[{type:1,nextpa
 pages[151] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[51,1524,281,800];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2882,6 +2977,7 @@ page.links[8] = {x1:370, y1:340, x2:417, y2:387, type:3, actions:[{type:4,audio:
 pages[152] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[51,482,450,597];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2899,6 +2995,7 @@ page.links[9] = {x1:243, y1:166, x2:295, y2:185, type:3, actions:[{type:1,nextpa
 pages[153] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[51,482,89,483];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2914,6 +3011,7 @@ page.links[7] = {x1:100, y1:259, x2:175, y2:293, type:3, actions:[{type:1,nextpa
 pages[154] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[51,935,330,753];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2932,6 +3030,7 @@ page.links[10] = {x1:164, y1:207, x2:262, y2:250, type:3, actions:[{type:2,linkI
 pages[155] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[51,328,75,496];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2951,6 +3050,7 @@ page.links[11] = {x1:549, y1:369, x2:632, y2:453, type:3, actions:[{type:1,nextp
 pages[156] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,279,281,280];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2981,6 +3081,7 @@ page.links[22] = {x1:197, y1:414, x2:269, y2:443, type:3, actions:[{type:1,nextp
 pages[157] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[126,432,254,433];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -2995,6 +3096,7 @@ page.links[6] = {x1:104, y1:202, x2:178, y2:269, type:3, actions:[{type:1,nextpa
 pages[158] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[115,289,263,604];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3012,6 +3114,7 @@ page.links[9] = {x1:488, y1:265, x2:590, y2:305, type:3, actions:[{type:7,src:'r
 pages[159] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,1466,100,819];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3029,6 +3132,7 @@ page.links[9] = {x1:126, y1:356, x2:218, y2:426, type:3, actions:[{type:7,src:'r
 pages[160] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,289,263,290];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3052,6 +3156,7 @@ page.links[15] = {x1:260, y1:264, x2:284, y2:285, type:3, actions:[{type:7,src:'
 pages[161] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[126,294,53,52];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3067,6 +3172,7 @@ page.links[7] = {x1:505, y1:18, x2:625, y2:104, type:3, actions:[{type:7,src:'re
 pages[162] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[126,385,281,779];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3088,6 +3194,7 @@ page.links[13] = {x1:193, y1:98, x2:227, y2:124, type:3, actions:[{type:7,src:'r
 pages[163] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[120,1361,577,804];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3104,6 +3211,7 @@ page.links[8] = {x1:118, y1:89, x2:170, y2:144, type:3, actions:[{type:7,src:'re
 pages[164] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,303,14,304];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3123,6 +3231,7 @@ page.links[11] = {x1:331, y1:81, x2:382, y2:100, type:3, actions:[{type:1,nextpa
 pages[165] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,545,387,433];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3138,6 +3247,7 @@ page.links[7] = {x1:452, y1:147, x2:521, y2:170, type:3, actions:[{type:1,nextpa
 pages[166] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,552,281,553];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3162,6 +3272,7 @@ page.links[16] = {x1:342, y1:197, x2:416, y2:231, type:3, actions:[{type:1,nextp
 pages[167] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,965,75,99];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3183,6 +3294,7 @@ page.links[13] = {x1:100, y1:157, x2:192, y2:184, type:3, actions:[{type:1,nextp
 pages[168] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,11,100,795];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3205,6 +3317,7 @@ page.links[14] = {x1:565, y1:404, x2:632, y2:452, type:3, actions:[{type:1,nextp
 pages[169] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,482,811,639];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3223,6 +3336,7 @@ page.links[10] = {x1:302, y1:229, x2:330, y2:253, type:3, actions:[{type:7,src:'
 pages[170] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,1603,387,488];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3239,6 +3353,7 @@ page.links[8] = {x1:546, y1:369, x2:631, y2:450, type:3, actions:[{type:1,nextpa
 pages[171] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,1644,14,828];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3253,6 +3368,7 @@ page.links[6] = {x1:398, y1:316, x2:436, y2:341, type:3, actions:[{type:7,src:'r
 pages[172] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[87,1052,387,798];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3264,6 +3380,7 @@ page.links[3] = {x1:223, y1:419, x2:344, y2:444, type:3, actions:[{type:1,nextpa
 pages[173] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[115,638,53,639];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3280,6 +3397,7 @@ page.links[8] = {x1:267, y1:116, x2:323, y2:135, type:3, actions:[{type:1,nextpa
 pages[174] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[115,655,577,753];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3294,6 +3412,7 @@ page.links[6] = {x1:562, y1:379, x2:633, y2:453, type:3, actions:[{type:1,nextpa
 pages[175] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[115,411,345,412];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3313,6 +3432,7 @@ page.links[11] = {x1:160, y1:101, x2:256, y2:126, type:3, actions:[{type:1,nextp
 pages[176] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[115,473,14,474];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3329,6 +3449,7 @@ page.links[8] = {x1:514, y1:317, x2:600, y2:355, type:3, actions:[{type:1,nextpa
 pages[177] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[116,294,53,295];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3346,6 +3467,7 @@ page.links[9] = {x1:546, y1:334, x2:603, y2:364, type:3, actions:[{type:1,nextpa
 pages[178] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[116,441,75,496];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3360,6 +3482,7 @@ page.links[6] = {x1:282, y1:385, x2:413, y2:420, type:3, actions:[{type:1,nextpa
 pages[179] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[116,279,811,806];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3371,6 +3494,7 @@ page.links[3] = {x1:300, y1:232, x2:370, y2:267, type:3, actions:[{type:1,nextpa
 pages[180] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[116,1017,315,787];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3385,6 +3509,7 @@ page.links[6] = {x1:336, y1:116, x2:401, y2:135, type:3, actions:[{type:1,nextpa
 pages[181] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[116,862,395,815];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3403,6 +3528,7 @@ page.links[10] = {x1:426, y1:78, x2:477, y2:111, type:3, actions:[{type:7,src:'r
 pages[182] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[116,1017,89,787];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3419,6 +3545,7 @@ page.links[8] = {x1:418, y1:131, x2:457, y2:163, type:3, actions:[{type:7,src:'r
 pages[183] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[116,1017,315,314];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3442,6 +3569,7 @@ page.links[15] = {x1:147, y1:122, x2:187, y2:152, type:3, actions:[{type:7,src:'
 pages[184] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[117,385,450,488];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3457,6 +3585,7 @@ page.links[7] = {x1:536, y1:357, x2:618, y2:392, type:3, actions:[{type:1,nextpa
 pages[185] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[117,441,75,442];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3481,6 +3610,7 @@ page.links[16] = {x1:569, y1:386, x2:634, y2:453, type:3, actions:[{type:1,nextp
 pages[186] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[117,854,14,782];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3499,6 +3629,7 @@ page.links[10] = {x1:240, y1:208, x2:286, y2:265, type:3, actions:[{type:4,audio
 pages[187] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[117,854,749,553];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3522,6 +3653,7 @@ page.links[15] = {x1:271, y1:367, x2:328, y2:411, type:3, actions:[{type:2,linkI
 pages[188] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[118,1071,263,778];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3539,6 +3671,7 @@ page.links[9] = {x1:537, y1:285, x2:577, y2:313, type:3, actions:[{type:1,nextpa
 pages[189] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[118,294,402,798];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3556,6 +3689,7 @@ page.links[9] = {x1:575, y1:381, x2:633, y2:453, type:3, actions:[{type:1,nextpa
 pages[190] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[118,1632,749,394];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3572,6 +3706,7 @@ page.links[8] = {x1:542, y1:69, x2:622, y2:136, type:3, actions:[{type:1,nextpag
 pages[191] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[118,1518,330,797];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3587,6 +3722,7 @@ page.links[7] = {x1:411, y1:223, x2:487, y2:257, type:3, actions:[{type:7,src:'r
 pages[192] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[119,371,359,372];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3603,6 +3739,7 @@ page.links[8] = {x1:208, y1:199, x2:238, y2:218, type:3, actions:[{type:1,nextpa
 pages[193] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[119,419,402,401];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3617,6 +3754,7 @@ page.links[6] = {x1:555, y1:379, x2:631, y2:451, type:3, actions:[{type:1,nextpa
 pages[194] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[119,289,281,290];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3635,6 +3773,7 @@ page.links[10] = {x1:95, y1:333, x2:196, y2:357, type:3, actions:[{type:1,nextpa
 pages[195] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[119,539,463,540];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3651,6 +3790,7 @@ page.links[8] = {x1:253, y1:248, x2:307, y2:270, type:3, actions:[{type:1,nextpa
 pages[196] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[119,655,330,822];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3667,6 +3807,7 @@ page.links[8] = {x1:573, y1:409, x2:587, y2:429, type:3, actions:[{type:1,nextpa
 pages[197] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[119,343,395,626];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3689,6 +3830,7 @@ page.links[14] = {x1:150, y1:278, x2:235, y2:301, type:3, actions:[{type:1,nextp
 pages[198] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[119,426,100,386];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3705,6 +3847,7 @@ page.links[8] = {x1:565, y1:393, x2:631, y2:447, type:3, actions:[{type:1,nextpa
 pages[199] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,1445,577,820];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3721,6 +3864,7 @@ page.links[8] = {x1:574, y1:386, x2:631, y2:447, type:3, actions:[{type:1,nextpa
 pages[200] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,1047,254,783];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3739,6 +3883,7 @@ page.links[10] = {x1:214, y1:241, x2:297, y2:276, type:3, actions:[{type:1,nextp
 pages[201] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,279,254,793];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3755,6 +3900,7 @@ page.links[8] = {x1:546, y1:97, x2:631, y2:144, type:3, actions:[{type:4,audio:'
 pages[202] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,357,450,789];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3769,6 +3915,7 @@ page.links[6] = {x1:120, y1:343, x2:243, y2:445, type:3, actions:[{type:7,src:'r
 pages[203] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,294,387,815];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3780,6 +3927,7 @@ page.links[3] = {x1:487, y1:41, x2:545, y2:67, type:3, actions:[{type:1,nextpage
 pages[204] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,854,75,13];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3800,6 +3948,7 @@ page.links[12] = {x1:295, y1:337, x2:341, y2:382, type:3, actions:[{type:7,src:'
 pages[205] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,1473,315,830];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3818,6 +3967,7 @@ page.links[10] = {x1:257, y1:143, x2:331, y2:212, type:3, actions:[{type:7,src:'
 pages[206] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[98,633,402,483];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3841,6 +3991,7 @@ page.links[15] = {x1:399, y1:266, x2:457, y2:304, type:3, actions:[{type:7,src:'
 pages[207] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[120,385,89,783];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3859,6 +4010,7 @@ page.links[10] = {x1:163, y1:53, x2:194, y2:72, type:3, actions:[{type:7,src:'re
 pages[208] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[120,1344,330,823];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3879,6 +4031,7 @@ page.links[12] = {x1:560, y1:371, x2:633, y2:452, type:3, actions:[{type:1,nextp
 pages[209] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[120,385,53,827];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3900,6 +4053,7 @@ page.links[13] = {x1:181, y1:334, x2:219, y2:352, type:3, actions:[{type:7,src:'
 pages[210] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[120,343,749,799];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3912,6 +4066,7 @@ page.links[4] = {x1:486, y1:300, x2:572, y2:336, type:3, actions:[{type:1,nextpa
 pages[211] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,1559,281,501];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3933,6 +4088,7 @@ page.links[13] = {x1:349, y1:307, x2:383, y2:383, type:3, actions:[{type:4,audio
 pages[212] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,1361,330,576];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3945,6 +4101,7 @@ page.links[4] = {x1:125, y1:228, x2:159, y2:290, type:3, actions:[{type:4,audio:
 pages[213] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,1351,577,804];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3961,6 +4118,7 @@ page.links[8] = {x1:250, y1:393, x2:278, y2:424, type:3, actions:[{type:7,src:'r
 pages[214] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,343,749,785];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3979,6 +4137,7 @@ page.links[10] = {x1:564, y1:385, x2:632, y2:453, type:3, actions:[{type:1,nextp
 pages[215] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,1040,749,799];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -3998,6 +4157,7 @@ page.links[11] = {x1:195, y1:51, x2:271, y2:110, type:3, actions:[{type:1,nextpa
 pages[216] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,357,359,358];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4017,6 +4177,7 @@ page.links[11] = {x1:547, y1:372, x2:631, y2:452, type:3, actions:[{type:1,nextp
 pages[217] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,1502,749,524];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4033,6 +4194,7 @@ page.links[8] = {x1:447, y1:113, x2:593, y2:210, type:3, actions:[{type:7,src:'r
 pages[218] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[121,328,577,816];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4062,6 +4224,7 @@ page.links[21] = {x1:532, y1:366, x2:573, y2:409, type:3, actions:[{type:4,audio
 pages[219] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4119,6 +4282,7 @@ page.links[49] = {x1:143, y1:402, x2:159, y2:425, type:3, actions:[{type:3,nextp
 pages[220] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,385,395,806];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4137,6 +4301,7 @@ page.links[10] = {x1:396, y1:349, x2:457, y2:428, type:3, actions:[{type:4,audio
 pages[221] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,904,254,779];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4151,6 +4316,7 @@ page.links[6] = {x1:567, y1:384, x2:633, y2:448, type:3, actions:[{type:1,nextpa
 pages[222] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,643,387,468];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4166,6 +4332,7 @@ page.links[7] = {x1:280, y1:404, x2:313, y2:450, type:3, actions:[{type:7,src:'r
 pages[223] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,911,254,776];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4183,6 +4350,7 @@ page.links[9] = {x1:102, y1:79, x2:158, y2:114, type:3, actions:[{type:1,nextpag
 pages[224] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,343,811,789];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4196,6 +4364,7 @@ page.links[5] = {x1:217, y1:420, x2:343, y2:443, type:3, actions:[{type:1,nextpa
 pages[225] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,385,75,784];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4213,6 +4382,7 @@ page.links[9] = {x1:555, y1:162, x2:635, y2:242, type:3, actions:[{type:4,audio:
 pages[226] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,1502,100,304];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4229,6 +4399,7 @@ page.links[8] = {x1:495, y1:6, x2:632, y2:95, type:3, actions:[{type:4,audio:'re
 pages[227] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,1541,395,828];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4242,6 +4413,7 @@ page.links[5] = {x1:394, y1:419, x2:475, y2:441, type:3, actions:[{type:1,nextpa
 pages[228] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[220,1473,345,786];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4262,6 +4434,7 @@ page.links[12] = {x1:414, y1:44, x2:505, y2:69, type:3, actions:[{type:1,nextpag
 pages[229] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,1445,463,462];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4277,6 +4450,7 @@ page.links[7] = {x1:244, y1:115, x2:296, y2:134, type:3, actions:[{type:1,nextpa
 pages[230] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,448,450,449];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4291,6 +4465,7 @@ page.links[6] = {x1:528, y1:61, x2:618, y2:126, type:3, actions:[{type:7,src:'re
 pages[231] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,328,749,824];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4313,6 +4488,7 @@ page.links[14] = {x1:492, y1:266, x2:623, y2:292, type:3, actions:[{type:1,nextp
 pages[232] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,1507,577,813];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4326,6 +4502,7 @@ page.links[5] = {x1:529, y1:288, x2:626, y2:309, type:3, actions:[{type:1,nextpa
 pages[233] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,1040,359,775];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4356,6 +4533,7 @@ page.links[22] = {x1:97, y1:79, x2:168, y2:106, type:3, actions:[{type:1,nextpag
 pages[234] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,294,345,803];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4370,6 +4548,7 @@ page.links[6] = {x1:560, y1:378, x2:633, y2:453, type:3, actions:[{type:1,nextpa
 pages[235] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,1613,100,825];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4386,6 +4565,7 @@ page.links[8] = {x1:110, y1:52, x2:191, y2:130, type:3, actions:[{type:7,src:'re
 pages[236] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,461,402,794];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4405,6 +4585,7 @@ page.links[11] = {x1:104, y1:12, x2:223, y2:87, type:3, actions:[{type:7,src:'re
 pages[237] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,461,263,262];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4423,6 +4604,7 @@ page.links[10] = {x1:166, y1:150, x2:205, y2:191, type:3, actions:[{type:7,src:'
 pages[238] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[122,638,281,776];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4437,6 +4619,7 @@ page.links[6] = {x1:569, y1:223, x2:607, y2:256, type:3, actions:[{type:7,src:'r
 pages[239] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[123,744,359,358];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4454,6 +4637,7 @@ page.links[9] = {x1:192, y1:274, x2:213, y2:295, type:3, actions:[{type:7,src:'r
 pages[240] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[123,467,345,468];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4470,6 +4654,7 @@ page.links[8] = {x1:367, y1:211, x2:395, y2:232, type:3, actions:[{type:7,src:'r
 pages[241] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[123,1596,463,773];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4487,6 +4672,7 @@ page.links[9] = {x1:107, y1:350, x2:181, y2:408, type:3, actions:[{type:1,nextpa
 pages[242] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[123,411,263,449];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4500,6 +4686,7 @@ page.links[5] = {x1:562, y1:372, x2:633, y2:453, type:3, actions:[{type:1,nextpa
 pages[243] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[123,289,263,604];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4514,6 +4701,7 @@ page.links[6] = {x1:279, y1:289, x2:405, y2:326, type:3, actions:[{type:1,nextpa
 pages[244] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[124,50,315,787];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4534,6 +4722,7 @@ page.links[12] = {x1:563, y1:6, x2:624, y2:47, type:3, actions:[{type:7,src:'res
 pages[245] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4643,6 +4832,7 @@ page.links[6] = {x1:234, y1:284, x2:306, y2:308, type:3, actions:[{type:3,nextpa
 pages[252] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4674,6 +4864,7 @@ page.links[23] = {x1:440, y1:378, x2:532, y2:398, type:3, actions:[{type:3,nextp
 pages[253] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4704,6 +4895,7 @@ page.links[22] = {x1:136, y1:117, x2:206, y2:201, type:3, actions:[{type:3,nextp
 pages[254] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4766,6 +4958,7 @@ page.links[6] = {x1:247, y1:274, x2:295, y2:300, type:3, actions:[{type:3,nextpa
 pages[261] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4799,6 +4992,7 @@ page.links[25] = {x1:204, y1:378, x2:288, y2:399, type:3, actions:[{type:3,nextp
 pages[262] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4827,6 +5021,7 @@ page.links[20] = {x1:242, y1:129, x2:338, y2:175, type:3, actions:[{type:3,nextp
 pages[263] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4941,6 +5136,7 @@ page.links[2] = {x1:330, y1:252, x2:396, y2:277, type:3, actions:[{type:3,nextpa
 pages[279] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -4974,6 +5170,7 @@ page.links[25] = {x1:416, y1:378, x2:467, y2:409, type:3, actions:[{type:3,nextp
 pages[280] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5052,6 +5249,7 @@ page.links[4] = {x1:260, y1:294, x2:371, y2:320, type:3, actions:[{type:3,nextpa
 pages[289] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5107,6 +5305,7 @@ page.links[2] = {x1:308, y1:292, x2:419, y2:318, type:3, actions:[{type:3,nextpa
 pages[294] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5140,6 +5339,7 @@ page.links[25] = {x1:108, y1:383, x2:126, y2:425, type:3, actions:[{type:3,nextp
 pages[295] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5205,6 +5405,7 @@ page.links[4] = {x1:274, y1:263, x2:344, y2:288, type:3, actions:[{type:3,nextpa
 pages[303] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5238,6 +5439,7 @@ page.links[25] = {x1:220, y1:378, x2:269, y2:395, type:3, actions:[{type:3,nextp
 pages[304] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5327,6 +5529,7 @@ page.links[4] = {x1:383, y1:256, x2:437, y2:282, type:3, actions:[{type:3,nextpa
 pages[313] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5362,6 +5565,7 @@ page.links[27] = {x1:178, y1:377, x2:224, y2:396, type:3, actions:[{type:3,nextp
 pages[314] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5489,6 +5693,7 @@ page.links[4] = {x1:378, y1:264, x2:444, y2:289, type:3, actions:[{type:3,nextpa
 pages[328] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5522,6 +5727,7 @@ page.links[25] = {x1:219, y1:379, x2:274, y2:395, type:3, actions:[{type:3,nextp
 pages[329] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5552,6 +5758,7 @@ page.links[22] = {x1:212, y1:377, x2:306, y2:442, type:7, src:'res/TIMELINE/TT07
 pages[330] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5612,6 +5819,7 @@ page.links[6] = {x1:346, y1:284, x2:417, y2:320, type:3, actions:[{type:3,nextpa
 pages[337] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5678,6 +5886,7 @@ page.links[2] = {x1:331, y1:265, x2:405, y2:290, type:3, actions:[{type:3,nextpa
 pages[343] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5711,6 +5920,7 @@ page.links[25] = {x1:211, y1:379, x2:277, y2:396, type:3, actions:[{type:3,nextp
 pages[344] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5735,6 +5945,7 @@ page.links[16] = {x1:157, y1:141, x2:244, y2:173, type:3, actions:[{type:3,nextp
 pages[345] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5818,6 +6029,7 @@ page.links[4] = {x1:260, y1:295, x2:371, y2:321, type:3, actions:[{type:3,nextpa
 pages[357] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5851,6 +6063,7 @@ page.links[25] = {x1:207, y1:378, x2:285, y2:399, type:3, actions:[{type:3,nextp
 pages[358] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5949,6 +6162,7 @@ page.links[6] = {x1:336, y1:274, x2:388, y2:297, type:3, actions:[{type:3,nextpa
 pages[371] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5980,6 +6194,7 @@ page.links[23] = {x1:208, y1:377, x2:285, y2:398, type:3, actions:[{type:3,nextp
 pages[372] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -5991,19 +6206,20 @@ page.links[3] = {x1:308, y1:98, x2:319, y2:117, type:3, actions:[{type:1,nextpag
 page.links[4] = {x1:323, y1:98, x2:354, y2:117, type:3, actions:[{type:1,nextpage:56}]};
 page.links[5] = {x1:179, y1:149, x2:209, y2:168, type:3, actions:[{type:1,nextpage:41}]};
 page.links[6] = {x1:501, y1:274, x2:568, y2:308, type:3, actions:[{type:1,nextpage:1170}, {type:1,nextpage:1170}]};
-page.links[7] = {x1:239, y1:262, x2:296, y2:292, type:3, actions:[{type:1,nextpage:1171}, {type:1,nextpage:1170}]};
-page.links[8] = {x1:367, y1:242, x2:422, y2:265, type:3, actions:[{type:1,nextpage:1172}, {type:1,nextpage:1170}]};
-page.links[9] = {x1:132, y1:261, x2:201, y2:299, type:3, actions:[{type:1,nextpage:1173}, {type:1,nextpage:1170}]};
-page.links[10] = {x1:537, y1:139, x2:602, y2:166, type:3, actions:[{type:1,nextpage:1174}, {type:1,nextpage:1170}]};
-page.links[11] = {x1:455, y1:139, x2:519, y2:176, type:3, actions:[{type:1,nextpage:1175}, {type:1,nextpage:1170}]};
-page.links[12] = {x1:451, y1:88, x2:524, y2:148, type:3, actions:[{type:1,nextpage:1175}, {type:1,nextpage:1170}]};
-page.links[13] = {x1:533, y1:86, x2:607, y2:152, type:3, actions:[{type:1,nextpage:1174}, {type:1,nextpage:1170}]};
-page.links[14] = {x1:519, y1:408, x2:618, y2:432, type:3, actions:[{type:1,nextpage:1176}, {type:1,nextpage:1170}]};
-page.links[15] = {x1:534, y1:362, x2:604, y2:417, type:3, actions:[{type:1,nextpage:1176}, {type:1,nextpage:1170}]};
-page.links[16] = {x1:481, y1:332, x2:524, y2:403, type:3, actions:[{type:4,audio:'res/PRINCIPL/QINC/QINC0m0s'}, {type:1,nextpage:1170}]};
+page.links[7] = {x1:239, y1:262, x2:296, y2:292, type:3, actions:[{type:1,nextpage:1171}]};
+page.links[8] = {x1:367, y1:242, x2:422, y2:265, type:3, actions:[{type:1,nextpage:1172}]};
+page.links[9] = {x1:132, y1:261, x2:201, y2:299, type:3, actions:[{type:1,nextpage:1173}]};
+page.links[10] = {x1:537, y1:139, x2:602, y2:166, type:3, actions:[{type:1,nextpage:1174}]};
+page.links[11] = {x1:455, y1:139, x2:519, y2:176, type:3, actions:[{type:1,nextpage:1175}]};
+page.links[12] = {x1:451, y1:88, x2:524, y2:148, type:3, actions:[{type:1,nextpage:1175}]};
+page.links[13] = {x1:533, y1:86, x2:607, y2:152, type:3, actions:[{type:1,nextpage:1174}]};
+page.links[14] = {x1:519, y1:408, x2:618, y2:432, type:3, actions:[{type:1,nextpage:1176}]};
+page.links[15] = {x1:534, y1:362, x2:604, y2:417, type:3, actions:[{type:1,nextpage:1176}]};
+page.links[16] = {x1:481, y1:332, x2:524, y2:403, type:3, actions:[{type:4,audio:'res/PRINCIPL/QINC/QINC0m0s'}]};
 pages[373] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6079,6 +6295,7 @@ page.links[2] = {x1:319, y1:256, x2:410, y2:282, type:3, actions:[{type:3,nextpa
 pages[385] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6112,6 +6329,7 @@ page.links[25] = {x1:203, y1:377, x2:287, y2:396, type:3, actions:[{type:3,nextp
 pages[386] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6181,6 +6399,7 @@ page.links[4] = {x1:260, y1:290, x2:371, y2:316, type:3, actions:[{type:3,nextpa
 pages[393] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6214,6 +6433,7 @@ page.links[25] = {x1:197, y1:378, x2:294, y2:407, type:3, actions:[{type:3,nextp
 pages[394] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6270,6 +6490,7 @@ page.links[0] = {type:1, src:'res/ARTICLE1/CIST/CIST0n.gif', left:116, top:72};
 pages[400] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6303,6 +6524,7 @@ page.links[25] = {x1:209, y1:379, x2:282, y2:396, type:3, actions:[{type:3,nextp
 pages[401] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6377,6 +6599,7 @@ page.links[2] = {x1:293, y1:271, x2:433, y2:297, type:3, actions:[{type:3,nextpa
 pages[411] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6530,6 +6753,7 @@ page.links[4] = {x1:374, y1:264, x2:444, y2:289, type:3, actions:[{type:3,nextpa
 pages[432] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6609,6 +6833,7 @@ page.links[4] = {x1:270, y1:169, x2:354, y2:301, type:3, actions:[{type:3,nextpa
 pages[441] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6678,6 +6903,7 @@ page.links[6] = {x1:230, y1:276, x2:302, y2:300, type:3, actions:[{type:3,nextpa
 pages[448] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6711,6 +6937,7 @@ page.links[25] = {x1:199, y1:379, x2:295, y2:406, type:3, actions:[{type:3,nextp
 pages[449] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6748,6 +6975,7 @@ page.links[3] = {x1:263, y1:269, x2:314, y2:294, type:3, actions:[{type:3,nextpa
 pages[451] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6822,6 +7050,7 @@ page.links[2] = {x1:337, y1:251, x2:390, y2:274, type:3, actions:[{type:3,nextpa
 pages[461] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6855,6 +7084,7 @@ page.links[25] = {x1:403, y1:365, x2:482, y2:393, type:3, actions:[{type:3,nextp
 pages[462] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6910,6 +7140,7 @@ page.links[6] = {x1:241, y1:278, x2:291, y2:304, type:3, actions:[{type:3,nextpa
 pages[467] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -6982,6 +7213,7 @@ page.links[2] = {x1:324, y1:280, x2:401, y2:306, type:3, actions:[{type:3,nextpa
 pages[473] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7074,6 +7306,7 @@ page.links[4] = {x1:270, y1:271, x2:322, y2:296, type:3, actions:[{type:3,nextpa
 pages[482] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7129,6 +7362,7 @@ page.links[2] = {x1:502, y1:361, x2:539, y2:400, type:3, actions:[{type:3,nextpa
 pages[487] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7205,6 +7439,7 @@ page.links[2] = {x1:276, y1:377, x2:367, y2:398, type:3, actions:[{type:3,nextpa
 pages[495] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7264,6 +7499,7 @@ page.links[4] = {x1:382, y1:259, x2:435, y2:283, type:3, actions:[{type:3,nextpa
 pages[500] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7297,6 +7533,7 @@ page.links[25] = {x1:209, y1:379, x2:282, y2:395, type:3, actions:[{type:3,nextp
 pages[501] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7347,6 +7584,7 @@ page.links[1] = {x1:308, y1:189, x2:354, y2:207, type:3, actions:[{type:1,nextpa
 pages[507] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7492,6 +7730,7 @@ page.links[0] = {type:1, src:'res/ARTICLE1/EGGW/EGGW0n.gif', left:409, top:301};
 pages[523] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7613,6 +7852,7 @@ page.links[6] = {x1:239, y1:265, x2:294, y2:288, type:3, actions:[{type:3,nextpa
 pages[539] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7644,6 +7884,7 @@ page.links[23] = {x1:184, y1:378, x2:306, y2:396, type:3, actions:[{type:3,nextp
 pages[540] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7685,6 +7926,7 @@ page.links[4] = {x1:272, y1:272, x2:349, y2:298, type:3, actions:[{type:3,nextpa
 pages[545] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7744,6 +7986,7 @@ page.links[4] = {x1:377, y1:268, x2:443, y2:292, type:3, actions:[{type:3,nextpa
 pages[552] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7817,6 +8060,7 @@ page.links[1] = {x1:314, y1:267, x2:415, y2:292, type:3, actions:[{type:3,nextpa
 pages[562] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7909,6 +8153,7 @@ page.links[0] = {type:1, src:'res/ARTICLE1/GBOX/GBOX1n.gif', left:103, top:328};
 pages[575] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -7942,6 +8187,7 @@ page.links[25] = {x1:200, y1:379, x2:293, y2:399, type:3, actions:[{type:3,nextp
 pages[576] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8097,6 +8343,7 @@ page.links[1] = {x1:330, y1:259, x2:376, y2:278, type:3, actions:[{type:1,nextpa
 pages[596] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8164,6 +8411,7 @@ page.links[0] = {type:1, src:'res/ARTICLE1/GENE/GENE0n.gif', left:179, top:319};
 pages[603] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8221,6 +8469,7 @@ page.links[0] = {type:1, src:'res/GLOS/GLOS1/Gion000g.gif', left:251, top:125};
 pages[609] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8313,6 +8562,7 @@ page.links[6] = {x1:302, y1:293, x2:413, y2:319, type:3, actions:[{type:3,nextpa
 pages[625] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8415,6 +8665,7 @@ page.links[2] = {x1:337, y1:260, x2:393, y2:286, type:3, actions:[{type:3,nextpa
 pages[638] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8548,6 +8799,7 @@ page.links[4] = {x1:365, y1:271, x2:435, y2:296, type:3, actions:[{type:3,nextpa
 pages[655] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8583,6 +8835,7 @@ page.links[0] = {type:1, src:'res/ARTICLE2/HELI/HELI0x.gif', left:339, top:265};
 pages[657] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8614,6 +8867,7 @@ page.links[23] = {x1:454, y1:379, x2:519, y2:395, type:3, actions:[{type:3,nextp
 pages[748] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8664,6 +8918,7 @@ page.links[0] = {type:1, src:'res/ARTICLE2/HYDR/HYDR0z.gif', left:176, top:69};
 pages[752] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8697,6 +8952,7 @@ page.links[25] = {x1:191, y1:378, x2:299, y2:395, type:3, actions:[{type:3,nextp
 pages[753] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8725,6 +8981,7 @@ page.links[20] = {x1:578, y1:397, x2:597, y2:423, type:3, actions:[{type:3,nextp
 pages[754] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8763,6 +9020,7 @@ page.links[30] = {x1:106, y1:349, x2:125, y2:381, type:3, actions:[{type:3,nextp
 pages[755] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8795,6 +9053,7 @@ page.links[24] = {x1:157, y1:327, x2:331, y2:365, type:3, actions:[{type:3,nextp
 pages[756] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8833,6 +9092,7 @@ page.links[30] = {x1:390, y1:338, x2:568, y2:405, type:3, actions:[{type:3,nextp
 pages[757] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8869,6 +9129,7 @@ page.links[28] = {x1:181, y1:284, x2:306, y2:322, type:3, actions:[{type:3,nextp
 pages[758] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8907,6 +9168,7 @@ page.links[30] = {x1:481, y1:163, x2:569, y2:212, type:3, actions:[{type:3,nextp
 pages[759] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8945,6 +9207,7 @@ page.links[30] = {x1:182, y1:234, x2:306, y2:274, type:3, actions:[{type:3,nextp
 pages[760] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -8985,6 +9248,7 @@ page.links[32] = {x1:384, y1:58, x2:585, y2:96, type:3, actions:[{type:3,nextpag
 pages[761] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9023,6 +9287,7 @@ page.links[30] = {x1:149, y1:252, x2:223, y2:296, type:3, actions:[{type:3,nextp
 pages[762] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9059,6 +9324,7 @@ page.links[28] = {x1:238, y1:152, x2:347, y2:200, type:3, actions:[{type:3,nextp
 pages[763] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9093,6 +9359,7 @@ page.links[26] = {x1:143, y1:334, x2:342, y2:372, type:3, actions:[{type:3,nextp
 pages[764] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9133,6 +9400,7 @@ page.links[32] = {x1:385, y1:363, x2:543, y2:402, type:3, actions:[{type:3,nextp
 pages[765] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9171,6 +9439,7 @@ page.links[30] = {x1:161, y1:154, x2:266, y2:202, type:3, actions:[{type:3,nextp
 pages[766] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9211,6 +9480,7 @@ page.links[32] = {x1:385, y1:222, x2:477, y2:270, type:3, actions:[{type:3,nextp
 pages[767] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9249,6 +9519,7 @@ page.links[30] = {x1:240, y1:330, x2:345, y2:378, type:3, actions:[{type:3,nextp
 pages[768] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9285,6 +9556,7 @@ page.links[28] = {x1:387, y1:284, x2:496, y2:333, type:3, actions:[{type:3,nextp
 pages[769] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9323,6 +9595,7 @@ page.links[30] = {x1:249, y1:163, x2:347, y2:209, type:3, actions:[{type:3,nextp
 pages[770] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9363,6 +9636,7 @@ page.links[32] = {x1:139, y1:287, x2:235, y2:334, type:3, actions:[{type:3,nextp
 pages[771] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9399,6 +9673,7 @@ page.links[28] = {x1:390, y1:181, x2:481, y2:230, type:3, actions:[{type:3,nextp
 pages[772] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9432,6 +9707,7 @@ page.links[25] = {x1:211, y1:379, x2:277, y2:395, type:3, actions:[{type:3,nextp
 pages[773] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9468,6 +9744,7 @@ page.links[28] = {x1:148, y1:268, x2:338, y2:307, type:3, actions:[{type:3,nextp
 pages[774] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9503,6 +9780,7 @@ page.links[27] = {x1:159, y1:378, x2:241, y2:393, type:3, actions:[{type:3,nextp
 pages[775] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9536,6 +9814,7 @@ page.links[25] = {x1:214, y1:379, x2:275, y2:395, type:3, actions:[{type:3,nextp
 pages[776] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9577,6 +9856,7 @@ page.links[33] = {x1:143, y1:353, x2:235, y2:401, type:3, actions:[{type:3,nextp
 pages[777] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9610,6 +9890,7 @@ page.links[25] = {x1:209, y1:378, x2:276, y2:394, type:3, actions:[{type:3,nextp
 pages[778] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9643,6 +9924,7 @@ page.links[25] = {x1:576, y1:399, x2:598, y2:427, type:3, actions:[{type:3,nextp
 pages[779] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9674,6 +9956,7 @@ page.links[23] = {x1:215, y1:379, x2:281, y2:406, type:3, actions:[{type:3,nextp
 pages[780] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9716,6 +9999,7 @@ page.links[34] = {x1:469, y1:135, x2:587, y2:191, type:3, actions:[{type:3,nextp
 pages[781] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9747,6 +10031,7 @@ page.links[23] = {x1:194, y1:378, x2:295, y2:394, type:3, actions:[{type:3,nextp
 pages[782] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9780,6 +10065,7 @@ page.links[25] = {x1:203, y1:379, x2:281, y2:396, type:3, actions:[{type:3,nextp
 pages[783] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9811,6 +10097,7 @@ page.links[23] = {x1:215, y1:379, x2:276, y2:406, type:3, actions:[{type:3,nextp
 pages[784] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9844,6 +10131,7 @@ page.links[25] = {x1:223, y1:378, x2:267, y2:395, type:3, actions:[{type:3,nextp
 pages[785] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9875,6 +10163,7 @@ page.links[23] = {x1:212, y1:379, x2:275, y2:396, type:3, actions:[{type:3,nextp
 pages[786] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9912,6 +10201,7 @@ page.links[29] = {x1:160, y1:379, x2:239, y2:407, type:3, actions:[{type:3,nextp
 pages[787] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9943,6 +10233,7 @@ page.links[23] = {x1:443, y1:379, x2:527, y2:395, type:3, actions:[{type:3,nextp
 pages[788] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -9976,6 +10267,7 @@ page.links[25] = {x1:224, y1:379, x2:267, y2:395, type:3, actions:[{type:3,nextp
 pages[789] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10009,6 +10301,7 @@ page.links[25] = {x1:195, y1:379, x2:296, y2:395, type:3, actions:[{type:3,nextp
 pages[790] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10048,6 +10341,7 @@ page.links[31] = {x1:241, y1:310, x2:344, y2:357, type:3, actions:[{type:3,nextp
 pages[791] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10081,6 +10375,7 @@ page.links[25] = {x1:405, y1:378, x2:480, y2:408, type:3, actions:[{type:3,nextp
 pages[792] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10112,6 +10407,7 @@ page.links[23] = {x1:203, y1:379, x2:287, y2:397, type:3, actions:[{type:3,nextp
 pages[793] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10143,6 +10439,7 @@ page.links[23] = {x1:450, y1:379, x2:520, y2:395, type:3, actions:[{type:3,nextp
 pages[794] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10174,6 +10471,7 @@ page.links[23] = {x1:221, y1:379, x2:268, y2:394, type:3, actions:[{type:3,nextp
 pages[795] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10215,6 +10513,7 @@ page.links[33] = {x1:138, y1:182, x2:255, y2:231, type:3, actions:[{type:3,nextp
 pages[796] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10248,6 +10547,7 @@ page.links[25] = {x1:198, y1:378, x2:293, y2:395, type:3, actions:[{type:3,nextp
 pages[797] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10281,6 +10581,7 @@ page.links[25] = {x1:458, y1:378, x2:514, y2:410, type:3, actions:[{type:3,nextp
 pages[798] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10314,6 +10615,7 @@ page.links[25] = {x1:464, y1:378, x2:509, y2:394, type:3, actions:[{type:3,nextp
 pages[799] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10347,6 +10649,7 @@ page.links[25] = {x1:213, y1:378, x2:278, y2:411, type:3, actions:[{type:3,nextp
 pages[800] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10384,6 +10687,7 @@ page.links[29] = {x1:406, y1:338, x2:564, y2:390, type:3, actions:[{type:3,nextp
 pages[801] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10417,6 +10721,7 @@ page.links[25] = {x1:452, y1:378, x2:519, y2:397, type:3, actions:[{type:3,nextp
 pages[802] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10448,6 +10753,7 @@ page.links[23] = {x1:460, y1:378, x2:512, y2:395, type:3, actions:[{type:3,nextp
 pages[803] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10481,6 +10787,7 @@ page.links[25] = {x1:159, y1:378, x2:241, y2:396, type:3, actions:[{type:3,nextp
 pages[804] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10518,6 +10825,7 @@ page.links[29] = {x1:144, y1:107, x2:252, y2:154, type:3, actions:[{type:3,nextp
 pages[805] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10551,6 +10859,7 @@ page.links[25] = {x1:191, y1:379, x2:298, y2:397, type:3, actions:[{type:3,nextp
 pages[806] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10596,6 +10905,7 @@ page.links[0] = {type:1, src:'res/ARTICLE2/IONZ/IONZ0n.gif', left:242, top:231};
 pages[810] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10624,6 +10934,7 @@ page.links[20] = {x1:104, y1:210, x2:135, y2:233, type:3, actions:[{type:3,nextp
 pages[811] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10655,6 +10966,7 @@ page.links[23] = {x1:205, y1:377, x2:287, y2:395, type:3, actions:[{type:3,nextp
 pages[812] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10686,6 +10998,7 @@ page.links[23] = {x1:212, y1:378, x2:278, y2:396, type:3, actions:[{type:3,nextp
 pages[813] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10726,6 +11039,7 @@ page.links[32] = {x1:401, y1:347, x2:569, y2:385, type:3, actions:[{type:3,nextp
 pages[814] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10759,6 +11073,7 @@ page.links[25] = {x1:214, y1:379, x2:273, y2:399, type:3, actions:[{type:3,nextp
 pages[815] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10790,6 +11105,7 @@ page.links[23] = {x1:457, y1:380, x2:514, y2:399, type:3, actions:[{type:3,nextp
 pages[816] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10821,6 +11137,7 @@ page.links[23] = {x1:214, y1:380, x2:279, y2:399, type:3, actions:[{type:3,nextp
 pages[817] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10866,6 +11183,7 @@ page.links[37] = {x1:142, y1:369, x2:329, y2:408, type:3, actions:[{type:3,nextp
 pages[818] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10897,6 +11215,7 @@ page.links[23] = {x1:199, y1:378, x2:293, y2:399, type:3, actions:[{type:3,nextp
 pages[819] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10930,6 +11249,7 @@ page.links[25] = {x1:211, y1:378, x2:284, y2:399, type:3, actions:[{type:3,nextp
 pages[820] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10961,6 +11281,7 @@ page.links[23] = {x1:198, y1:378, x2:293, y2:399, type:3, actions:[{type:3,nextp
 pages[821] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -10995,6 +11316,7 @@ page.links[26] = {x1:202, y1:378, x2:291, y2:399, type:3, actions:[{type:3,nextp
 pages[822] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -11026,6 +11348,7 @@ page.links[23] = {x1:222, y1:378, x2:268, y2:399, type:3, actions:[{type:3,nextp
 pages[823] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -11057,6 +11380,7 @@ page.links[23] = {x1:205, y1:380, x2:289, y2:399, type:3, actions:[{type:3,nextp
 pages[824] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -11088,6 +11412,7 @@ page.links[23] = {x1:457, y1:380, x2:515, y2:399, type:3, actions:[{type:3,nextp
 pages[825] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -11121,6 +11446,7 @@ page.links[25] = {x1:109, y1:383, x2:127, y2:425, type:3, actions:[{type:3,nextp
 pages[826] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -11152,6 +11478,7 @@ page.links[23] = {x1:109, y1:383, x2:127, y2:425, type:3, actions:[{type:3,nextp
 pages[827] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -11184,6 +11511,7 @@ page.links[24] = {x1:108, y1:383, x2:126, y2:425, type:3, actions:[{type:3,nextp
 pages[828] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -11223,6 +11551,7 @@ page.links[31] = {x1:158, y1:176, x2:328, y2:215, type:3, actions:[{type:3,nextp
 pages[829] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12136,6 +12465,7 @@ page.links[1] = {x1:289, y1:143, x2:361, y2:181, type:3, actions:[{type:1,nextpa
 pages[971] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12188,6 +12518,7 @@ page.links[3] = {x1:208, y1:258, x2:255, y2:277, type:3, actions:[{type:1,nextpa
 pages[977] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12241,6 +12572,7 @@ page.links[45] = {x1:107, y1:346, x2:130, y2:364, type:3, actions:[{type:4,audio
 pages[978] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12280,6 +12612,7 @@ page.links[31] = {x1:106, y1:21, x2:187, y2:188, type:7, src:'res/PRINCIPL/QQQQ0
 pages[979] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12294,9 +12627,9 @@ page.type=1;
 page.links[0] = {type:1, src:'res/OPTIONS/OPTI00.gif', left:246, top:109};
 page.links[1] = {x1:333, y1:297, x2:397, y2:321, type:8};
 page.links[2] = {x1:292, y1:271, x2:441, y2:285, type:3, actions:[{type:12}, {type:1,nextpage:982}]};
-page.links[3] = {x1:298, y1:228, x2:429, y2:258, type:3, actions:[{type:1,nextpage:982}]};
-page.links[4] = {x1:266, y1:200, x2:466, y2:214, type:3, actions:[{type:1,nextpage:982}]};
-page.links[5] = {x1:276, y1:172, x2:456, y2:187, type:3, actions:[{type:1,nextpage:982}]};
+page.links[3] = {x1:298, y1:228, x2:429, y2:258, type:3, actions:[{type:11}]};
+page.links[4] = {x1:266, y1:200, x2:466, y2:214, type:3, actions:[{type:11}]};
+page.links[5] = {x1:276, y1:172, x2:456, y2:187, type:3, actions:[{type:11}]};
 pages[981] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
@@ -12385,6 +12718,7 @@ page.links[81] = {x1:492, y1:398, x2:543, y2:415, type:3, actions:[{type:3,nextp
 pages[982] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12399,6 +12733,7 @@ page.links[6] = {x1:198, y1:41, x2:532, y2:337, type:3, actions:[{type:3,nextpag
 pages[984] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12413,6 +12748,7 @@ page.links[6] = {x1:593, y1:19, x2:601, y2:24, type:7, src:'res/PRINCIPL/QSPR/QS
 pages[985] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12427,6 +12763,7 @@ page.links[6] = {x1:197, y1:43, x2:532, y2:335, type:3, actions:[{type:3,nextpag
 pages[986] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12441,6 +12778,7 @@ page.links[6] = {x1:196, y1:41, x2:534, y2:339, type:3, actions:[{type:3,nextpag
 pages[987] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12455,6 +12793,7 @@ page.links[6] = {x1:197, y1:40, x2:535, y2:337, type:3, actions:[{type:3,nextpag
 pages[988] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12469,6 +12808,7 @@ page.links[6] = {x1:94, y1:4, x2:200, y2:347, type:3, actions:[{type:3,nextpage:
 pages[989] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12483,6 +12823,7 @@ page.links[6] = {x1:613, y1:12, x2:617, y2:15, type:7, src:'res/PRINCIPL/QWHE/QW
 pages[990] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12497,6 +12838,7 @@ page.links[6] = {x1:195, y1:39, x2:530, y2:339, type:3, actions:[{type:3,nextpag
 pages[991] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12511,6 +12853,7 @@ page.links[6] = {x1:197, y1:38, x2:534, y2:338, type:3, actions:[{type:3,nextpag
 pages[992] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12525,6 +12868,7 @@ page.links[6] = {x1:197, y1:40, x2:535, y2:337, type:3, actions:[{type:3,nextpag
 pages[993] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12539,6 +12883,7 @@ page.links[6] = {x1:94, y1:4, x2:199, y2:453, type:3, actions:[{type:3,nextpage:
 pages[994] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12553,6 +12898,7 @@ page.links[6] = {x1:195, y1:39, x2:534, y2:337, type:3, actions:[{type:3,nextpag
 pages[995] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12567,6 +12913,7 @@ page.links[6] = {x1:94, y1:4, x2:201, y2:370, type:3, actions:[{type:3,nextpage:
 pages[996] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12581,6 +12928,7 @@ page.links[6] = {x1:613, y1:11, x2:616, y2:16, type:7, src:'res/PRINCIPL/QPUL/QP
 pages[997] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12595,6 +12943,7 @@ page.links[6] = {x1:614, y1:11, x2:618, y2:16, type:7, src:'res/PRINCIPL/QSND/qs
 pages[998] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12608,6 +12957,7 @@ page.links[5] = {x1:196, y1:39, x2:533, y2:337, type:3, actions:[{type:3,nextpag
 pages[999] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12622,6 +12972,7 @@ page.links[6] = {x1:203, y1:45, x2:528, y2:334, type:3, actions:[{type:3,nextpag
 pages[1000] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12636,6 +12987,7 @@ page.links[6] = {x1:196, y1:40, x2:533, y2:337, type:3, actions:[{type:3,nextpag
 pages[1001] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12650,6 +13002,7 @@ page.links[6] = {x1:592, y1:25, x2:595, y2:27, type:7, src:'res/PRINCIPL/QTEL/QT
 pages[1002] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12664,6 +13017,7 @@ page.links[6] = {x1:607, y1:14, x2:610, y2:17, type:7, src:'res/PRINCIPL/QSCR/QS
 pages[1003] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -12678,6 +13032,7 @@ page.links[6] = {x1:198, y1:40, x2:534, y2:336, type:3, actions:[{type:3,nextpag
 pages[1004] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -13157,6 +13512,7 @@ page.links[1] = {x1:453, y1:252, x2:498, y2:295, type:3, actions:[{type:7,src:'r
 pages[1082] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -13232,6 +13588,7 @@ page.links[0] = {type:1, src:'res/PRINCIPL/QCOM/QCOM0x.gif', left:176, top:53};
 pages[1091] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -13393,6 +13750,7 @@ page.links[4] = {x1:310, y1:375, x2:346, y2:394, type:3, actions:[{type:1,nextpa
 pages[1105] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -13490,6 +13848,7 @@ page.links[5] = {x1:400, y1:340, x2:456, y2:359, type:3, actions:[{type:1,nextpa
 pages[1113] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -13570,6 +13929,7 @@ page.links[1] = {x1:345, y1:321, x2:375, y2:339, type:3, actions:[{type:1,nextpa
 pages[1123] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -13662,6 +14022,7 @@ page.links[1] = {x1:205, y1:125, x2:303, y2:183, type:3, actions:[{type:4,audio:
 pages[1134] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -13715,6 +14076,7 @@ page.links[0] = {type:1, src:'res/PRINCIPL/QFRI/QFRI0x.gif', left:238, top:283};
 pages[1141] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -13833,6 +14195,7 @@ page.links[1] = {x1:417, y1:156, x2:454, y2:216, type:3, actions:[{type:7,src:'r
 pages[1152] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -13975,6 +14338,7 @@ page.links[9] = {x1:405, y1:229, x2:494, y2:266, type:3, actions:[{type:7,src:'r
 pages[1165] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -14086,6 +14450,7 @@ page.links[1] = {x1:383, y1:158, x2:410, y2:176, type:3, actions:[{type:1,nextpa
 pages[1177] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -14208,6 +14573,7 @@ page.links[5] = {x1:290, y1:306, x2:326, y2:342, type:3, actions:[{type:7,src:'r
 pages[1187] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -14319,7 +14685,7 @@ page.links[3] = {x1:142, y1:149, x2:193, y2:170, type:3, actions:[{type:4,audio:
 page.links[4] = {x1:148, y1:113, x2:187, y2:160, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITCX0S'}, {type:3,nextpage:1209}]};
 page.links[5] = {x1:149, y1:172, x2:186, y2:213, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx1s'}, {type:3,nextpage:1197}]};
 page.links[6] = {x1:149, y1:228, x2:186, y2:270, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITCX0S'}, {type:3,nextpage:1210}]};
-page.links[7] = {x1:469, y1:134, x2:582, y2:274, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}, {type:3,nextpage:1210}]};
+page.links[7] = {x1:469, y1:134, x2:582, y2:274, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}]};
 pages[1201] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
@@ -14330,7 +14696,7 @@ page.links[3] = {x1:142, y1:149, x2:193, y2:170, type:3, actions:[{type:4,audio:
 page.links[4] = {x1:149, y1:114, x2:187, y2:162, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx1s'}, {type:3,nextpage:1197}]};
 page.links[5] = {x1:149, y1:173, x2:186, y2:211, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITCX0S'}, {type:3,nextpage:1209}]};
 page.links[6] = {x1:149, y1:228, x2:186, y2:272, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITCX0S'}, {type:3,nextpage:1208}]};
-page.links[7] = {x1:471, y1:134, x2:577, y2:271, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}, {type:3,nextpage:1208}]};
+page.links[7] = {x1:471, y1:134, x2:577, y2:271, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}]};
 pages[1202] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
@@ -14341,7 +14707,7 @@ page.links[3] = {x1:142, y1:149, x2:193, y2:170, type:3, actions:[{type:4,audio:
 page.links[4] = {x1:149, y1:113, x2:186, y2:155, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITCX0S'}, {type:3,nextpage:1208}]};
 page.links[5] = {x1:149, y1:172, x2:186, y2:214, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITCX0S'}, {type:3,nextpage:1210}]};
 page.links[6] = {x1:149, y1:228, x2:186, y2:273, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx1s'}, {type:3,nextpage:1197}]};
-page.links[7] = {x1:466, y1:136, x2:579, y2:266, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}, {type:3,nextpage:1197}]};
+page.links[7] = {x1:466, y1:136, x2:579, y2:266, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}]};
 pages[1203] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
@@ -14396,7 +14762,7 @@ page.links[3] = {x1:142, y1:149, x2:193, y2:170, type:3, actions:[{type:4,audio:
 page.links[4] = {x1:149, y1:114, x2:186, y2:155, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx1s'}, {type:3,nextpage:1203}]};
 page.links[5] = {x1:149, y1:173, x2:185, y2:215, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITCX0S'}, {type:3,nextpage:1211}]};
 page.links[6] = {x1:150, y1:229, x2:186, y2:269, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx1s'}, {type:3,nextpage:1202}]};
-page.links[7] = {x1:468, y1:138, x2:577, y2:269, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}, {type:3,nextpage:1202}]};
+page.links[7] = {x1:468, y1:138, x2:577, y2:269, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}]};
 pages[1208] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
@@ -14407,7 +14773,7 @@ page.links[3] = {x1:142, y1:149, x2:193, y2:170, type:3, actions:[{type:4,audio:
 page.links[4] = {x1:148, y1:113, x2:187, y2:154, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx1s'}, {type:3,nextpage:1201}]};
 page.links[5] = {x1:148, y1:173, x2:187, y2:211, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx1s'}, {type:3,nextpage:1202}]};
 page.links[6] = {x1:149, y1:229, x2:184, y2:269, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITCX0S'}, {type:3,nextpage:1211}]};
-page.links[7] = {x1:467, y1:135, x2:579, y2:268, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}, {type:3,nextpage:1211}]};
+page.links[7] = {x1:467, y1:135, x2:579, y2:268, type:3, actions:[{type:4,audio:'res/PRINCIPL/QLIT/QLITcx2s'}]};
 pages[1209] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
@@ -14550,6 +14916,7 @@ page.links[10] = {x1:349, y1:320, x2:380, y2:339, type:3, actions:[{type:1,nextp
 pages[1222] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -14719,6 +15086,7 @@ page.links[0] = {type:1, src:'res/PRINCIPL/QMAG/QMAG1x.gif', left:150, top:66};
 pages[1244] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -14806,6 +15174,7 @@ page.links[3] = {x1:476, y1:249, x2:569, y2:278, type:3, actions:[{type:1,nextpa
 pages[1256] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -14982,6 +15351,7 @@ page.links[6] = {x1:351, y1:86, x2:400, y2:201, type:3, actions:[{type:4,audio:'
 pages[1274] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -15051,6 +15421,7 @@ page.links[9] = {x1:403, y1:230, x2:458, y2:247, type:3, actions:[{type:3,nextpa
 pages[1282] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -15067,6 +15438,7 @@ page.links[8] = {x1:395, y1:310, x2:532, y2:331, type:3, actions:[{type:2,linkId
 pages[1283] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -15124,6 +15496,7 @@ page.links[8] = {x1:365, y1:276, x2:419, y2:293, type:3, actions:[{type:3,nextpa
 pages[1289] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -15256,6 +15629,7 @@ page.links[10] = {x1:166, y1:90, x2:238, y2:152, type:7, src:'res/PRINCIPL/QSND/
 pages[1300] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -15379,6 +15753,7 @@ page.links[3] = {x1:218, y1:256, x2:248, y2:275, type:3, actions:[{type:1,nextpa
 pages[1314] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -15450,6 +15825,7 @@ page.links[3] = {x1:146, y1:363, x2:193, y2:382, type:3, actions:[{type:1,nextpa
 pages[1322] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -15519,6 +15895,7 @@ page.links[21] = {x1:448, y1:303, x2:477, y2:320, type:3, actions:[{type:3,nextp
 pages[1329] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -15599,6 +15976,7 @@ page.links[1] = {x1:217, y1:281, x2:270, y2:300, type:3, actions:[{type:1,nextpa
 pages[1336] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -16106,6 +16484,7 @@ page.links[0] = {type:1, src:'res/ARTICLE3/ROTP/ROTP1z.gif', left:118, top:31};
 pages[1419] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -16114,6 +16493,7 @@ page.links[0] = {type:1, src:'res/RELA/RPRI0m.gif', left:94, top:4};
 pages[1420] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -16122,6 +16502,7 @@ page.links[0] = {type:1, src:'res/RELA/RPRj0m.gif', left:94, top:4};
 pages[1421] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -16130,6 +16511,7 @@ page.links[0] = {type:1, src:'res/RELA/RPRk0m.gif', left:94, top:4};
 pages[1422] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -16921,7 +17303,7 @@ page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
 page.links[0] = {type:1, src:'res/ARTICLE3/TELE/TELE0z.gif', left:200, top:30};
 page.links[1] = {x1:323, y1:195, x2:388, y2:229, type:3, actions:[{type:7,src:'res/ARTICLE3/TELE/TELE0z0a.gif', audio:'res/ARTICLE3/TELE/TELE0z0a', left:200, top:30, time:3000}, {type:3,nextpage:1566}]};
-page.links[2] = {x1:269, y1:131, x2:311, y2:163, type:3, actions:[{type:7,src:'res/ARTICLE3/TELE/TELE1x1a.gif', audio:'res/ARTICLE3/TELE/TELE1x1a', left:200, top:30, time:2000}, {type:3,nextpage:1566}]};
+page.links[2] = {x1:269, y1:131, x2:311, y2:163, type:3, actions:[{type:7,src:'res/ARTICLE3/TELE/TELE1x1a.gif', audio:'res/ARTICLE3/TELE/TELE1x1a', left:200, top:30, time:2000}]};
 pages[1561] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
@@ -16945,7 +17327,7 @@ page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
 page.links[0] = {type:1, src:'res/ARTICLE3/TELE/TELE1x.gif', left:200, top:30};
 page.links[1] = {x1:259, y1:192, x2:338, y2:232, type:3, actions:[{type:7,src:'res/ARTICLE3/TELE/TELE1x0a.gif', audio:'res/ARTICLE3/TELE/TELE1x0a', left:200, top:30, time:1200}, {type:3,nextpage:1561}]};
-page.links[2] = {x1:347, y1:134, x2:386, y2:164, type:3, actions:[{type:7,src:'res/ARTICLE3/TELE/TELE0z1a.gif', audio:'res/ARTICLE3/TELE/TELE0z1a', left:200, top:30, time:2000}, {type:3,nextpage:1561}]};
+page.links[2] = {x1:347, y1:134, x2:386, y2:164, type:3, actions:[{type:7,src:'res/ARTICLE3/TELE/TELE0z1a.gif', audio:'res/ARTICLE3/TELE/TELE0z1a', left:200, top:30, time:2000}]};
 pages[1566] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=1;
@@ -17021,17 +17403,20 @@ page.links[0] = {type:1, src:'res/ARTICLE3/THET/THET0x.gif', left:404, top:237};
 pages[1579] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.links[0] = {type:1, src:'res/TITLE/TITL1m.gif', left:0, top:0};
 page.links[1] = {x1:0, y1:0, x2:638, y2:459, type:3, actions:[{type:3,nextpage:1582}]};
 pages[1580] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.links[0] = {type:1, src:'res/TITLE/TITL0m.gif', left:0, top:0};
 page.links[1] = {x1:0, y1:0, x2:0, y2:0, type:7, src:'res/TITLE/TITL0m0a.gif', audio:'res/TITLE/TITL0m0a', left:0, top:0, time:12000, autostart:true, nextpage:1580};
 page.links[2] = {x1:0, y1:0, x2:638, y2:459, type:3, actions:[{type:3,nextpage:1580}]};
 pages[1581] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.links[0] = {type:1, src:'res/TITLE/TITL1m.gif', left:0, top:0};
 page.links[1] = {x1:0, y1:0, x2:638, y2:459, type:7, src:'res/TITLE/TITL2m0a.gif', audio:'res/TITLE/TITL2m0a', left:0, top:0, time:35800, autostart:true, nextpage:978};
 page.links[2] = {x1:0, y1:0, x2:638, y2:459, type:3, actions:[{type:3,nextpage:978}]};
@@ -17058,6 +17443,7 @@ page.links[3] = {x1:451, y1:376, x2:496, y2:395, type:3, actions:[{type:1,nextpa
 pages[1585] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -17069,6 +17455,7 @@ page.links[3] = {x1:396, y1:365, x2:457, y2:438, type:7, src:'res/TIMELINE/TTtt3
 pages[1586] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -17080,6 +17467,7 @@ page.links[3] = {x1:505, y1:299, x2:562, y2:340, type:7, src:'res/TIMELINE/TTtt1
 pages[1587] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
@@ -17090,6 +17478,7 @@ page.links[2] = {x1:395, y1:365, x2:456, y2:438, type:7, src:'res/TIMELINE/TTtt2
 pages[1588] = page;
 page = {frames:new Array(), links:new Array(), type:0};
 page.type=2;
+page.menupages=[246,979,980,754];
 page.frames.push(983);
 page.frames.push(556);
 page.frames.push(555);
