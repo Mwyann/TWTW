@@ -311,6 +311,7 @@ function displayPage(idPage) {
       currentLinks.push(link);
 
       // Précharger ici les images + sons des pages suivantes (pas uniquement image de fond + animations autostart, à tester)
+      /*
       if (('nextpage' in link) && (link.nextpage in pages) && (!(link.nextpage in preloaded))) {
         var nextlinks = pages[link.nextpage].links;
         for(var j=0; j < nextlinks.length; j++)
@@ -327,6 +328,7 @@ function displayPage(idPage) {
           }
         }
       }
+      */
     }
   }
 
