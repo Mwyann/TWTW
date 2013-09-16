@@ -100,7 +100,7 @@ var nextpage_ani:IDPOINTER;
     history:array[0..1000] of IDPOINTER; // Historique
     numhistory:smallint;
     debug,exportres,exportjs:boolean;
-    nextexportpage:word;
+    nextexportpage,nextexportitem:word;
     exportstatus:array[0..2000] of TEXPORT;
     jsexport,jstotal:string;
 
@@ -744,7 +744,7 @@ end;
 
 procedure TTWTW.pbxMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var i,j,k:smallint;
+var i,j,k:word;
     filename:string;
     nextpage:IDPOINTER;
     nextlevel:smallint;
@@ -766,6 +766,7 @@ begin
     end else
     for i:=1 to numlinks do if not actionTaken then with links[i-1] do begin
       if (x >= x1) and (y >= y1) and (x <= x2) and (y <= y2) then begin
+        if (exportres) and (i-1 <> nextexportitem) then continue;
         if (debug) then twtw.memo1.lines.add(inttostr(linktype));
         // Item 601 ignoré, car c'est l'image de fond.
         if (linktype = 602) then begin
@@ -979,7 +980,7 @@ end;
 
 procedure TTWTW.ExportTimerTimer(Sender: TObject);
 var i,adv:word;
-    nextpage,nextitem:word;
+    nextpage:word;
 begin
   ExportTimer.Enabled:=False;
   i:=nextexportpage;
@@ -998,25 +999,27 @@ begin
   end;
   TWTW.Caption := 'CCM Exporting '+inttostr(nextpage)+' ('+inttostr(round(100*adv/pointers.nbpointers))+'%)';
   if (exportstatus[nextpage].pageexported) then begin
-    i:=0;
-    while (i < actualPages[actualPageLevel].actualNumitems) and (exportstatus[nextpage].itemexported[i]) do inc(i);
-    if (i >= actualPages[actualPageLevel].actualNumitems) then begin
+    if (exportjs) then begin
+      // Tous ces espaces vides empêchent le programme de planter pendant de l'export... Faudrait trouver une meilleure solution...
+      jsexport:='page = {frames:new Array(), links:new Array(), type:0};'#13#10+jsexport+'pages['+inttostr(nextpage)+'] = page;'#13#10;
+      jstotal:=jstotal+jsexport;
+      appendfile('total.js',jstotal);
+      jstotal:='';
       exportstatus[nextpage].fullexported := true;
-      nextexportpage:=0;
-      if (exportjs) then begin
-        // Tous ces espaces vides empêchent le programme de planter pendant de l'export... Faudrait trouver une meilleure solution... 
-        jsexport:='page = {frames:new Array(), links:new Array(), type:0};'#13#10+jsexport+'pages['+inttostr(nextpage)+'] = page;'#13#10;
-        jstotal:=jstotal+jsexport;
-        appendfile('total.js',jstotal);
-        jstotal:='';
+    end else begin
+      i:=0;
+      while (i < actualPages[actualPageLevel].actualNumitems) and (exportstatus[nextpage].itemexported[i]) do inc(i);
+      if (i >= actualPages[actualPageLevel].actualNumitems) then exportstatus[nextpage].fullexported := true else begin
+        nextexportitem:=i;
+        CCMBufferImage.Canvas.CopyRect(actualPages[actualPageLevel].PageImage.Canvas.ClipRect,actualPages[actualPageLevel].PageImage.Canvas,CCMBufferImage.Canvas.ClipRect);
+        TWTW.pbxMouseDown(nil, mbLeft, [], actualPages[actualPageLevel].links[nextexportitem].x1, actualPages[actualPageLevel].links[nextexportitem].y1);
+        exportstatus[nextpage].itemexported[nextexportitem]:=true;
       end;
+    end;
+    if (exportstatus[nextpage].fullexported) then begin
+      nextexportpage:=0;
       ExportTimer.Enabled:=True; // Next page please!
       exit;
-    end else begin
-      nextitem:=i;
-      CCMBufferImage.Canvas.CopyRect(actualPages[actualPageLevel].PageImage.Canvas.ClipRect,actualPages[actualPageLevel].PageImage.Canvas,CCMBufferImage.Canvas.ClipRect);
-      TWTW.pbxMouseDown(nil, mbLeft, [], round((actualPages[actualPageLevel].links[nextitem].x1+actualPages[actualPageLevel].links[nextitem].x2)/2), round((actualPages[actualPageLevel].links[nextitem].y1+actualPages[actualPageLevel].links[nextitem].y2)/2));
-      exportstatus[nextpage].itemexported[nextitem]:=true;
     end;
   end else begin
     actualPageLevel:=1;
