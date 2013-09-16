@@ -65,7 +65,7 @@ var pageLevels = new Array(1);
 
 var totalAudio = 0;
 function waitForAudio(callback) {
-  var elems = jQuery("#audiores audio");
+  var elems = jQuery("#preload audio");
   totalAudio = elems.length;
   elems.each(function(){if (this.duration) totalAudio--;});
   if (totalAudio) window.setTimeout(function(){waitForAudio(callback)},50); else callback.call();
@@ -73,11 +73,10 @@ function waitForAudio(callback) {
 
 function preloadLink(idPage,link,linkId) {
   var preload = jQuery('#preload');
-  var audiores = jQuery('#audiores');
   var action;
   if ("src" in link) preload.append('<img />').children().last().attr('src',link.src);
   if ("audio" in link) {
-    var t = audiores.append('<audio />').children().last().attr('id','audio'+idPage+'l'+linkId);
+    var t = preload.append('<audio />').children().last().attr('id','audio'+idPage+'l'+linkId);
     t.append('<source />').children().last().attr('type','audio/ogg').attr('src',link.audio+'.ogg');
     t.append('<source />').children().last().attr('type','audio/mpeg').attr('src',link.audio+'.mp3');
   }
@@ -86,7 +85,7 @@ function preloadLink(idPage,link,linkId) {
       action = link.actions[j];
       if ("src" in action) preload.append('<img />').children().last().attr('src',action.src);
       if ("audio" in action) {
-        var t = audiores.append('<audio />').children().last().attr('id','audio'+idPage+'l'+linkId+'a'+j);
+        var t = preload.append('<audio />').children().last().attr('id','audio'+idPage+'l'+linkId+'a'+j);
         t.append('<source />').children().last().attr('type','audio/ogg').attr('src',action.audio+'.ogg');
         t.append('<source />').children().last().attr('type','audio/mpeg').attr('src',action.audio+'.mp3');
       }
@@ -97,13 +96,11 @@ function preloadLink(idPage,link,linkId) {
 function preloadRes(idPage) {
   // Initialisation du preload
   var preload = jQuery('#preload');
-  var audiores = jQuery('#audiores');
   if (!(idPage in pages)) alert('Impossible de précharger la page n°'+idPage);
   var page = pages[idPage];
   if (pageLevels[pageLevels.length-1] == idPage) {
     preloaded = new Array();
     preload.html(''); // On va charger les infos des frames donc on vide pour initialiser la zone de chargement.
-    audiores.html('');
 
     if (pageLevels.length > 1) {
       // Chargement des pages précédentes (if any)
@@ -346,20 +343,6 @@ jQuery(document).ready(function() {
     //loadPage(978);
 });
 
-/*
-jQuery(document).focus(function() {
-    windowFocus = true;
-    if (runningAnimID) {
-        jQuery('#audiores').children().last().get(0).play();
-    }
-}).blur(function() {
-    windowFocus = false;
-    if (runningAnimID) {
-        jQuery('#audiores').children().last().get(0).pause();
-    }
-});
-*/
-
 </script>
 <script src="js/total.min.js" type="text/javascript"></script>
 </head>
@@ -369,7 +352,6 @@ jQuery(document).focus(function() {
 <div style="text-align:center;font-size:smaller;color:#DDD;margin:15px">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley</div>
 
 <div style="display:none" id="preload"></div>
-<div style="display:none" id="audiores"></div>
 
 </body>
 </html>
