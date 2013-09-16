@@ -112,15 +112,14 @@ function preloadLink(idPage,link,linkId) {
 
 function preloadRes(idPage) {
   // Initialisation du preload
-  if (!(idPage in pages)) alert('Impossible de précharger la page n°'+idPage);
+  if (!(idPage in pages)) alert('Impossible de prÃ©charger la page nÂ°'+idPage);
   var page = pages[idPage];
   if (pageLevels[pageLevels.length-1] == idPage) {
     preloaded = new Array();
-    //preload.html(''); // On va charger les infos des frames donc on vide pour initialiser la zone de chargement.
     jQuery('#preload img, #preload audio').addClass('alreadyLoaded forRemoval');
 
     if (pageLevels.length > 1) {
-      // Chargement des pages précédentes (if any)
+      // Chargement des pages prÃ©cÃ©dentes (if any)
       for (var i=0; i<pageLevels.length-1; i++)
         preloadRes(pageLevels[i]);
     }
@@ -140,7 +139,7 @@ function preloadRes(idPage) {
 
   preloaded[idPage] = true;
 
-  // Si on est dans le chargement de la page en question (pas une frame), on demande l'affichage de la page dès les images chargées
+  // Si on est dans le chargement de la page en question (pas une frame), on demande l'affichage de la page dÃ¨s les images et les sons chargÃ©s
   if (pageLevels[pageLevels.length-1] == idPage) {
     jQuery('#preload img.forRemoval, #preload audio.forRemoval').remove();
     jQuery('#preload img').imagesLoaded(function (e) {
@@ -162,18 +161,18 @@ function countingFrames() {
 function stopAnim() {
   if (runningAnimTimeoutID) {
     window.clearTimeout(runningAnimTimeoutID);runningAnimTimeoutID = 0;animTimeLeft = 0;animTimePlaying = 0;
-    if (nextPage == -1) jQuery('#foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />');
-    jQuery('#mask').css("cursor", "pointer").click(function(){}).html('<img src="transparent.gif" style="width:0;height:0" />').css({width:'0',height:'0'});
-    var audiofile = jQuery('#'+runningAudioID).get(0);
-    audiofile.pause();
-    runningAudioID = 0;
     if (nextPage < -1) {
       if (nextPage == -40) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[0]; // Bouton Machines
       if (nextPage == -41) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[1]; // Bouton Grands Principes
       if (nextPage == -42) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[2]; // Bouton Histoire
       if (nextPage == -43) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[3]; // Bouton Inventeurs
-      if (nextPage == -51) nextPage = -1; // Bouton retour qui ne fonctionne pas encore (implémenter l'historique)
+      if (nextPage == -51) {nextPage = -1;alert('L\'historique n\'est pas encore implÃ©mentÃ©.');} // Bouton retour qui ne fonctionne pas encore (implÃ©menter l'historique)
     }
+    if (nextPage == -1) jQuery('#foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />');
+    jQuery('#mask').css("cursor", "pointer").click(function(){}).html('<img src="transparent.gif" style="width:0;height:0" />').css({width:'0',height:'0'});
+    var audiofile = jQuery('#'+runningAudioID).get(0);
+    audiofile.pause();
+    runningAudioID = 0;
     if (nextPage > -1) loadPage(nextPage);
   }
 }
@@ -213,10 +212,10 @@ function closePopup() {
 function runLink(idLink) {
   var link = currentLinks[idLink];
   link.id = idLink;
-  if (link.type == 2) {  // Animation avec barre de défilement (défilement intégré au gif)
+  if (link.type == 2) {  // Animation avec barre de dÃ©filement (dÃ©filement intÃ©grÃ© au gif)
     runAnim(link);
   }
-  if ((link.type == 3) && ("actions" in link)) {  // Objets cliquables avec différentes actions
+  if ((link.type == 3) && ("actions" in link)) {  // Objets cliquables avec diffÃ©rentes actions
     var action;
     for(var i = 0; i < link.actions.length; i++) {
       action = link.actions[i];
@@ -225,10 +224,10 @@ function runLink(idLink) {
         loadPage(action.nextpage);
         return;
       }
-      if (action.type == 2) { // Raccourci (lien secondaire) vers un item présent sur la page
+      if (action.type == 2) { // Raccourci (lien secondaire) vers un item prÃ©sent sur la page
         //TODO
       }
-      if (action.type == 3) { // Nouvelle page (le reset de pageLevels se fera lors du chargement, en fonction du type de page
+      if (action.type == 3) { // Nouvelle page (le reset de pageLevels se fera lors du chargement, en fonction du type de page)
         loadPage(action.nextpage);
         return;
       }
@@ -242,7 +241,7 @@ function runLink(idLink) {
         action.audioid = link.audioid+'a'+i;
         runAnim(action);
       }
-      if (action.type == 11) { // Commandes spéciales (copier dans le presse papiers, imprimer, configurer impression)
+      if (action.type == 11) { // Commandes spÃ©ciales (copier dans le presse papiers, imprimer, configurer impression)
         alert('Indisponible');
       }
       if (action.type == 12) { // Fermer la popup.
@@ -250,7 +249,7 @@ function runLink(idLink) {
       }
     }
   }
-  if (link.type == 4) {  // Lettres de la roue alphabétique
+  if (link.type == 4) {  // Lettres de la roue alphabÃ©tique
 
   }
   if (link.type == 6) {  // Bouton de la colonne de gauche
@@ -260,29 +259,32 @@ function runLink(idLink) {
     if ('nextpage' in link) nextPage = link.nextpage;
     runAnim(link);
   }
-  if (link.type == 8) {  // Bouton d'annulation, utilisé dans la page d'options
+  if (link.type == 8) {  // Bouton d'annulation, utilisÃ© dans la page d'options
     closePopup();
   }
-  if (link.type == 9) {  // Longue image scrollable utilisée dans l'aide
+  if (link.type == 9) {  // Longue image scrollable utilisÃ©e dans l'aide
 
   }
 }
 
 function loadPage(idPage) {
   nextPage = -1;
+  if (idPage == 670) {jQuery('#foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />'); alert('L\'aide ne fonctionne pas encore.'); return;}
+  if (idPage == 808) {jQuery('#foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />'); alert('L\'index ne fonctionne pas encore.'); return;}
+  if (idPage == 246) idPage = 73;
   if (!(idPage in pages)) {
     alert('Page '+(idPage.toString())+' indisponible.');
   } else {
     // Affichage de l'animation de chargement
     var onscreen = jQuery('#onscreen');
     var tmp = onscreen.append('<div />').children().last().css({width:'638px', height:'458px', 'background-color':'black', cursor:'wait'});
-    tmp.fadeTo(0,0).delay(1500).fadeTo(2000,0.4); // Animation uniquement après 1 seconde de chargement max
+    tmp.fadeTo(0,0).delay(1500).fadeTo(2000,0.4); // Animation uniquement aprÃ¨s 1 seconde de chargement max
     tmp.html('<img />').children().attr('src','ajax-loader.gif').css({'margin':'196px 0px 0px 286px'})
-    // On précharge les données qui seront affichées lors de la fin du chargement
+    // On prÃ©charge les donnÃ©es qui seront affichÃ©es lors de la fin du chargement
 
-    if (pages[idPage].type != 2) { // S'il ne s'agit pas d'une pleine page (donc une popup à priori) et que le niveau est = 0 ou identique au précédent, alors on avance d'un niveau.
-      if ((pageLevels.length == 1) && (pageLevels[pageLevels.length-1] != idPage)) pageLevels.push(-1); // On ne considère ici pas le predPageLevel, à voir...
-    } else pageLevels = new Array(1); // Sinon, il s'agit d'une pleine page, on revient au début.
+    if (pages[idPage].type != 2) { // S'il ne s'agit pas d'une pleine page (donc une popup Ã  priori) et que le niveau est = 0 ou identique au prÃ©cÃ©dent, alors on avance d'un niveau.
+      if ((pageLevels.length == 1) && (pageLevels[pageLevels.length-1] != idPage)) pageLevels.push(-1); // On ne considÃ¨re ici pas le predPageLevel, Ã  voir...
+    } else pageLevels = new Array(1); // Sinon, il s'agit d'une pleine page, on revient au dÃ©but.
 
     pageLevels[pageLevels.length-1] = idPage;
     preloadRes(idPage);
@@ -298,7 +300,7 @@ function displayPage(idPage) {
     currentLinks = new Array();
 
     if (pageLevels.length > 1) {
-      // Affichage des pages précédentes (if any)
+      // Affichage des pages prÃ©cÃ©dentes (if any)
       for (var i=0; i<=pageLevels.length-2; i++)
         displayPage(pageLevels[i]);
 
@@ -330,7 +332,7 @@ function displayPage(idPage) {
         onscreen.append('<div style="position:absolute;left:'+(link.cbx.toString())+'px;top:'+(link.cby.toString())+'px;width:74px;height:22px;cursor:pointer" id="link'+(currentLinks.length.toString())+'" onclick="runLink('+(currentLinks.length.toString())+');return false"><img src="controlbar.gif" style="width:74px;height:22px" /></div>');
       currentLinks.push(link);
 
-      // Précharger ici les images + sons des pages suivantes (pas uniquement image de fond + animations autostart, à tester)
+      // PrÃ©charger ici les images + sons des pages suivantes (pas uniquement image de fond + animations autostart, Ã  tester)
       /*
       if (('nextpage' in link) && (link.nextpage in pages) && (!(link.nextpage in preloaded))) {
         var nextlinks = pages[link.nextpage].links;
@@ -364,7 +366,6 @@ jQuery(document).ready(function() {
     jQuery('#foreground').html('');
     preload = jQuery('#preload');
     loadPage(1581);
-    //loadPage(978);
 });
 
 </script>
