@@ -203,11 +203,13 @@ function runLink(idLink) {
       if (action.type == 1) { // Popup : aller au niveau suivant, et indiquer l'ID de la popup à afficher.
         pageLevels.push(-1);
         loadPage(action.nextpage);
+        exit;
       }
       if (action.type == 2) { // Raccourci (lien secondaire) vers un item présent sur la page
       }
       if (action.type == 3) { // Nouvelle page (le reset de pageLevels se fera lors du chargement, en fonction du type de page
         loadPage(action.nextpage);
+        exit;
       }
       if (action.type == 4) { // Jouer un son
         action.id = idLink+'a'+i;
@@ -315,14 +317,14 @@ function displayPage(idPage) {
           preloadLink(link.nextpage,nextlinks[j],j);
       }
 
-      if ((link.type == 3) && ("actions" in link)) {
+      if ((link.type == 3) && ('actions' in link)) {
         for(var j=0; j < link.actions.length; j++) {
           action = link.actions[j];
-        }
-        if (('nextpage' in action) && (action.nextpage in pages) && (!(action.nextpage in preloaded))) {
-          var nextlinks = pages[action.nextpage].links;
-          for(var j=0; j < nextlinks.length; j++)
-            preloadLink(action.nextpage,nextlinks[j],j);
+          if (('nextpage' in action) && (action.nextpage in pages) && (!(action.nextpage in preloaded))) {
+            var nextlinks = pages[action.nextpage].links;
+            for(var j=0; j < nextlinks.length; j++)
+              preloadLink(action.nextpage,nextlinks[j],j);
+          }
         }
       }
     }
