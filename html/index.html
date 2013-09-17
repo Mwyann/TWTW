@@ -8,16 +8,18 @@
 body {
     /*background-color: #ECE3D1;*/
     background-color: #000000;
+}
+
+#main {
+    background-color: #000000;
     background-image: url(fond.png);
-    background-position: center 10px;
+    background-position: center top;
     background-repeat: no-repeat;
-    margin: 0;
-    padding: 0;
-    border: 0;
+    padding: 20px;
 }
 
 #onscreen {
-    margin: 30px auto 5px auto;
+    margin: 0 auto 0 auto;
     padding: 0;
     width: 638px;
     height: 458px;
@@ -373,9 +375,10 @@ jQuery(document).ready(function() {
 </head>
 <body>
 
-<div style="position:relative" id="onscreen"><img src="chargement.gif" style="position:absolute;left:0;top:0" /><div id="foreground" style="position:absolute;left:0;top:0;width:638px;height:458px;cursor:wait"><img src="ajax-loader.gif" style="margin: 196px 0px 0px 286px" /></div></div>
-<div style="text-align:center;font-size:smaller;color:#DDD;margin:15px">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley</div>
-
+<div id="main">
+  <div style="position:relative" id="onscreen"><img src="chargement.gif" style="position:absolute;left:0;top:0" /><div id="foreground" style="position:absolute;left:0;top:0;width:638px;height:458px;cursor:wait"><img src="ajax-loader.gif" style="margin: 196px 0px 0px 286px" /></div></div>
+  <div style="text-align:center;font-size:smaller;color:#DDD;margin:15px">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley</div>
+</div>
 <div style="display:none" id="preload"></div>
 
 </body>
