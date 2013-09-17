@@ -15,9 +15,6 @@ const CCMWorkshop:IDPOINTER=438408;
       
 implementation
 
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-
 { BigEndian reading functions }
 
 function typeReadCardinalBE:cardinal;
@@ -51,21 +48,24 @@ begin
   header.idstrings_size:=typeReadCardinalBE;
 end;
 
-procedure readStrings;
+function readStrings:boolean;
 var i,j,l:word;
     s:string;
     buf:array[0..127] of char;
 begin
+  readStrings:=false;
   strings.nbstrings:=typeReadWordBE;
-  strings.strings[strings.nbstrings]:=''; // Test de débordement
+  strings.strings[strings.nbstrings]:='';
   for i:=1 to strings.nbstrings do begin
     l:=typeReadWordBE;
-    buf[l]:=' '; // Test de débordement
+    if (l > 127) then exit;
+    buf[l]:=' ';
     PNG.Read(buf,l);
     s:='';
     for j:=1 to l do s:=s+buf[pred(j)];
     strings.strings[i]:=s;
   end;
+  readStrings:=true;
 end;
 
 procedure readFrame2(framenum:word;infonum:word);
@@ -409,18 +409,16 @@ end;
 
 function OpenPNG(filename:string):boolean;
 begin
+  OpenPNG:=false;
   PNG:=OpenFile(filename);
-  if PNG = nil then OpenPNG:=false else begin
-    try
-      readHeader;
-      readStrings;
-      readInfo;
-      readIndex;
-      while (PNG.Position <> PNG.Size) do readPage(-1);
-      OpenPNG:=true;
-    except
-      OpenPNG:=false;
-    end;
+  if PNG <> nil then begin
+    readHeader;
+    if (not readStrings) then exit;
+    readInfo;
+    readIndex;
+    // La version EN n'a pas de pointeurs, les n° de page est en fait la position dans le fichier PNG, d'où les grands nombres.
+    while (PNG.Position <> PNG.Size) do readPage(-1);
+    OpenPNG:=true;
   end;
 end;
 

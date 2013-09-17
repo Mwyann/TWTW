@@ -200,6 +200,7 @@ end;
 procedure simulateMouseMove;
 var pt : TPoint;
 begin
+  if (exportres or exportjs) then exit;
   GetCursorPos(pt);
   SetCursorPos(pt.x+1, pt.y+1);
   Application.ProcessMessages;
@@ -688,7 +689,7 @@ begin
       exportstatus[i].fullexported:=false;
       for j:=0 to 100 do exportstatus[i].itemexported[j]:=false;
     end;
-    for i:=658 to 747 do exportstatus[i].fullexported:=true; // On passe les pages d'aide qui posent problème pour le moment
+    for i:=658 to 740 do exportstatus[i].fullexported:=true; // On passe les pages d'aide qui posent problème pour le moment
     nextexportpage:=0;
     jstotal:='';
     ExportTimer.Enabled:=True;
@@ -770,6 +771,7 @@ begin
               // Popup : aller au niveau suivant, et indiquer l'ID de la popup à afficher.
               inc(nextlevel);
               nextpage:=popup_id;
+              actionTaken:=true;
               break;
             end;
             if (typeaction = 2) then begin
@@ -789,6 +791,7 @@ begin
             if (typeaction = 3) then begin
               // Nouvelle page
               nextpage:=linkto;
+              actionTaken:=true;
               break;
             end;
             if (typeaction = 4) then begin
