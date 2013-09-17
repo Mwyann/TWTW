@@ -489,7 +489,7 @@ begin
     DiffPicture := TPicture.Create; // On crée la première image, qui sera la page de "fond".
     DiffPicture.Bitmap.Width:=638;
     DiffPicture.Bitmap.Height:=458;
-    if (AniSavePrefix = 'res?') then skipFirstFrame:=true // Inutile de sauver la première frame (l'image de fond de départ) dans le cas d'un export
+    if (AniSavePrefix = 'res?disabled') then skipFirstFrame:=true // Inutile de sauver la première frame (l'image de fond de départ) dans le cas d'un export SAUF dans le cas du zoom dans le navigateur, où on voit les bords de la transparence, d'où le disabled.
       else DiffPicture.Bitmap.Canvas.CopyRect(DiffPicture.Bitmap.Canvas.ClipRect,CCMBufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
     GIFPicture := TPicture.Create; // Ceci sera l'image qui contiendra l'animation uniquement
     GIFPicture.Bitmap.Width:=ThisAniSaveRect.Right-ThisAniSaveRect.Left;

@@ -58,10 +58,10 @@ jQuery.fn.imagesLoaded = function(callback, fireOne) {
 var preloaded = new Array();
 var pages = new Array();
 var currentLinks = new Array();
-var runningAudioID = 0;
+var runningAnim = 0;
 var runningAnimTimeoutID = 0;
 var nextPage = -1;
-var animTimeLeft = 0; animTimePlaying = 0; // UtilisÈ pour dÈtecter la fin d'une animation
+var animTimeLeft = 0; animTimePlaying = 0; // Utilis√© pour d√©tecter la fin d'une animation
 var windowFocus = true;
 var pageLevels = new Array(1);
 var preload = 0; // Deviendra jQuery('#preload') plus tard
@@ -126,7 +126,7 @@ function preloadRes(idPage) {
         preloadRes(pageLevels[i]);
     }
   }
-  if (idPage in preloaded) exit; // DÈj‡ chargÈe ?
+  if (idPage in preloaded) exit; // D√©j√† charg√©?
 
   // Chargement des frames
   var frames = page.frames;
@@ -154,7 +154,7 @@ function countingFrames() {
     if (windowFocus) {animTimeLeft-=200; animTimePlaying+=200;}
     if (animTimeLeft > 0) {
         runningAnimTimeoutID = window.setTimeout(countingFrames,200);
-        // synchro du son : si le son joue avec plus de x ms de dÈcalage, on recale
+        // synchro du son : si le son joue avec plus de x ms de d√©calage, on recale
         var audiofile = jQuery('#'+currentLinks[runningAnimID].audioid).get(0);
         if ((audiofile.currentTime < 3) && (audiofile.currentTime < audiofile.duration-1) && (Math.abs(audiofile.currentTime*1000-animTimePlaying) > 400)) audiofile.currentTime = animTimePlaying/1000;
     } else stopAnim();
@@ -170,11 +170,11 @@ function stopAnim() {
       if (nextPage == -43) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[3]; // Bouton Inventeurs
       if (nextPage == -51) {nextPage = -1;alert('L\'historique n\'est pas encore impl√©ment√©.');} // Bouton retour qui ne fonctionne pas encore (impl√©menter l'historique)
     }
-    if (nextPage == -1) jQuery('#foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />');
+    if (nextPage == -1) jQuery('#foreground'+runningAnim.pageid).css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />');
     jQuery('#mask').css("cursor", "pointer").click(function(){}).html('<img src="transparent.gif" style="width:0;height:0" />').css({width:'0',height:'0'});
-    var audiofile = jQuery('#'+runningAudioID).get(0);
+    var audiofile = jQuery('#'+runningAnim.audioid).get(0);
     audiofile.pause();
-    runningAudioID = 0;
+    runningAnim = 0;
     if (nextPage > -1) loadPage(nextPage);
   }
 }
@@ -182,11 +182,11 @@ function stopAnim() {
 function runAnim(anim) {
   if (runningAnimTimeoutID) return stopAnim();
   jQuery('#mask').css("cursor", "wait").click(function(){stopAnim();return false}).html('<img src="transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
-  jQuery('#foreground').html('<img />').children().attr('src',anim.src).css({position:'relative', left:anim.left.toString()+'px', top:anim.top.toString()+'px'});
+  jQuery('#foreground'+anim.pageid).html('<img />').children().attr('src',anim.src).css({position:'relative', left:anim.left.toString()+'px', top:anim.top.toString()+'px'});
   animTimeLeft = anim.time+500;
   animTimePlaying = 0;
   if ("nextpage" in anim) nextPage = anim.nextpage;
-  runningAudioID = anim.audioid;
+  runningAnim = anim;
   runningAnimTimeoutID = window.setTimeout(countingFrames,200);
   var audiofile = jQuery('#'+anim.audioid).get(0);
   audiofile.currentTime = 0;
@@ -200,7 +200,7 @@ function runSound(sound) {
   animTimeLeft = audiofile.duration*1000+500;
   animTimePlaying = 0;
   if ("nextpage" in sound) nextPage = sound.nextpage;
-  runningAudioID = sound.audioid;
+  runningAnim = sound;
   runningAnimTimeoutID = window.setTimeout(countingFrames,200);
   audiofile.currentTime = 0;
   audiofile.play();
@@ -221,7 +221,7 @@ function runLink(idLink) {
     var action;
     for(var i = 0; i < link.actions.length; i++) {
       action = link.actions[i];
-      if (action.type == 1) { // Popup : aller au niveau suivant, et indiquer l'ID de la popup ‡ afficher.
+      if (action.type == 1) { // Popup : aller au niveau suivant, et indiquer l'ID de la popup ÔøΩfficher.
         pageLevels.push(-1);
         loadPage(action.nextpage);
         return;
@@ -271,8 +271,8 @@ function runLink(idLink) {
 
 function loadPage(idPage) {
   nextPage = -1;
-  if (idPage == 670) {jQuery('#foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />'); alert('L\'aide ne fonctionne pas encore.'); return;}
-  if (idPage == 808) {jQuery('#foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />'); alert('L\'index ne fonctionne pas encore.'); return;}
+  if (idPage == 670) {jQuery('.foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />'); alert('L\'aide ne fonctionne pas encore.'); return;}
+  if (idPage == 808) {jQuery('.foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />'); alert('L\'index ne fonctionne pas encore.'); return;}
   if (idPage == 246) idPage = 73;
   if (!(idPage in pages)) {
     alert('Page '+(idPage.toString())+' indisponible.');
@@ -306,7 +306,7 @@ function displayPage(idPage) {
       for (var i=0; i<=pageLevels.length-2; i++)
         displayPage(pageLevels[i]);
 
-      // On ajoute un "cover" pour Èviter de cliquer sur les anciens liens
+      // On ajoute un "cover" pour √©viter de cliquer sur les anciens liens
       onscreen.append('<div style="position:absolute;left:0;top:0;width:638px;height:458px;background-color:#000" onclick="closePopup();return false"><img src="transparent.gif" style="width:638px;height:458px" /></div>').children().last().fadeTo(0,0.4);
     }
   }
@@ -323,6 +323,7 @@ function displayPage(idPage) {
   var autolink = -1;
   for(var i=0; i < links.length; i++) {
     link = links[i];
+    link.pageid = idPage;
     link.audioid = 'audio'+idPage+'l'+i;
     if (link.type == 1) {  // Image de fond
       onscreen.append('<img />').children().last().attr('src',link.src).click(function(){return false})
@@ -356,16 +357,17 @@ function displayPage(idPage) {
     }
   }
 
+  onscreen.append('<div style="position:absolute;left:0;top:0;width:0;height:0" id="foreground'+idPage+'" class="foreground"><img src="transparent.gif" style="width:0;height:0" /></div>');
   if (pageLevels[pageLevels.length-1] == idPage) {
     // On ajoute un div "foreground" pour les animations, et un "mask" pour masquer lors de la lecture des animations
-    onscreen.append('<div style="position:absolute;left:0;top:0;width:0;height:0" id="foreground"><img src="transparent.gif" style="width:0;height:0" /></div>');
+    //onscreen.children().last().addClass('topmost');
     onscreen.append('<div style="position:absolute;left:0;top:0;width:0;height:0" id="mask"><img src="transparent.gif" style="width:0;height:0" /></div>');
   }
   if (autolink > -1) runLink(autolink);
 }
 
 jQuery(document).ready(function() {
-    jQuery('#foreground').html('');
+    jQuery('.foreground').html('');
     preload = jQuery('#preload');
     loadPage(1581);
 });
@@ -376,7 +378,7 @@ jQuery(document).ready(function() {
 <body>
 
 <div id="main">
-  <div style="position:relative" id="onscreen"><img src="chargement.gif" style="position:absolute;left:0;top:0" /><div id="foreground" style="position:absolute;left:0;top:0;width:638px;height:458px;cursor:wait"><img src="ajax-loader.gif" style="margin: 196px 0px 0px 286px" /></div></div>
+  <div style="position:relative" id="onscreen"><img src="chargement.gif" style="position:absolute;left:0;top:0" /><div class="foreground" style="position:absolute;left:0;top:0;width:638px;height:458px;cursor:wait"><img src="ajax-loader.gif" style="margin: 196px 0px 0px 286px" /></div></div>
   <div style="text-align:center;font-size:smaller;color:#DDD;margin:15px">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley</div>
 </div>
 <div style="display:none" id="preload"></div>
