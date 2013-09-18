@@ -235,11 +235,13 @@ function runLink(idLink) {
       }
       if (action.type == 4) { // Jouer un son
         action.id = idLink+'a'+i;
+        action.pageid = link.pageid;
         action.audioid = link.audioid+'a'+i;
         runSound(action);
       }
       if (action.type == 7) { // Animation simple
         action.id = idLink+'a'+i;
+        action.pageid = link.pageid;
         action.audioid = link.audioid+'a'+i;
         runAnim(action);
       }
