@@ -152,7 +152,7 @@ begin
   if (exportjs) then fullname:=GetCurrentDir()+'\js\'+filename;
   ForceDirectories(SafeFileName(ExtractFileDir(fullname)));
   assignfile(f,fullname);
-  append(f);
+  rewrite(f);
   write(f,contenu);
   closefile(f);
 end;
@@ -224,15 +224,33 @@ function displayPicture(filename:string;xoffset,yoffset:smallint):string;
 var bmp:TBitmap;
     bmpto:TRect;
     bmpstream:TStream;
+    openbmp:smallint;
 begin
   bmpstream:=OpenFile(filename);
   if (bmpstream = nil) then begin
     raise Exception.Create('bmpstream for '+filename+' is nil');
     exit;
   end;
+  openbmp:=10;
   bmp:=TBitmap.Create();
-  bmp.LoadFromStream(bmpstream);
+  while openbmp>0 do begin
+    try
+      bmp.LoadFromStream(bmpstream);
+      openbmp:=-1;
+    except
+      on EInvalidGraphic do begin
+        bmp.Free;
+        bmp:=TBitmap.Create();
+        dec(openbmp);
+      end;
+    end;
+  end;
   bmpstream.free;
+  if openbmp = 0 then begin
+    bmp.free;
+    raise Exception.Create('bmpstream for '+filename+' cannot be opened');
+    exit;
+  end;
   bmpto:=Rect(xoffset,yoffset,xoffset+bmp.Canvas.ClipRect.Right,yoffset+bmp.Canvas.ClipRect.Bottom);
   with actualPages[actualPageLevel] do begin
     x1:=xoffset;
@@ -339,7 +357,7 @@ begin
             if (actions[i].typeaction = 1) then begin
               // Popup : aller au niveau suivant, et indiquer l'ID de la popup à afficher.
               if (actiondata <> '') then actiondata:=actiondata+', ';
-              actiondata:=actiondata+'{type:1,nextpage:'+inttostr(actions[i].popup_id)+'}';
+              actiondata:=actiondata+'{type:1,nextpage:'+inttostr(getIDPointer(actions[i].popup_id))+'}';
             end;
             if (actions[i].typeaction = 2) then begin
               // Raccourci (lien secondaire) vers un item présent sur la page
@@ -349,7 +367,7 @@ begin
             if (actions[i].typeaction = 3) then begin
               // Nouvelle page
               if (actiondata <> '') then actiondata:=actiondata+', ';
-              actiondata:=actiondata+'{type:3,nextpage:'+inttostr(actions[i].linkto)+'}';
+              actiondata:=actiondata+'{type:3,nextpage:'+inttostr(getIDPointer(actions[i].linkto))+'}';
             end;
             if (actions[i].typeaction = 4) then begin
               // Jouer un son
@@ -395,7 +413,7 @@ begin
         //TWTW.Memo1.lines.add('(Theorically) Link '+inttostr(item_id)+' to '+inttostr(page_skip));
         // The order in the file is wrong!!
         links[numlinks].anim_skip:=fixedNavBar(item_id, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page);
-        if (exportjs) then linkdata:=linkdata+', src:''res'+revertandaddslashes(replaceExt(filename,'gif'),true)+''', audio:''res'+revertandaddslashes(replaceExt(filename,''),true)+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', time:'+inttostr(CCMAniLength(filename))+', nextpage:'+inttostr(fixedNavBar(item_id, -40, -41, -42, -43));
+        if (exportjs) then linkdata:=linkdata+', src:''res'+revertandaddslashes(replaceExt(filename,'gif'),true)+''', audio:''res'+revertandaddslashes(replaceExt(filename,''),true)+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', time:'+inttostr(CCMAniLength(filename))+', nextpage:'+inttostr(getIDPointer(fixedNavBar(item_id, -40, -41, -42, -43)));
         inc(numlinks);
       end;
       if (itemtype = 607) then begin
@@ -406,7 +424,7 @@ begin
         //setCursor(cursor);
         if (item_props = 32) then begin
           nextpage_ani:=nextpage;
-          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,false) else linkdata:=linkdata+', autostart:true, nextpage:'+inttostr(nextpage);
+          if (not exportjs) then CCMPlayAni(filename,xoff_,yoff_,false) else linkdata:=linkdata+', autostart:true, nextpage:'+inttostr(getIDPointer(nextpage));
           setCursor(-2);
           dec(numhistory); // Doesn't count in the history
         end;
@@ -414,7 +432,7 @@ begin
           links[numlinks].anim:=filename;
           if (page_skip = 1) then begin
             links[numlinks].anim_skip:=nextpage;
-            if (exportjs) then linkdata:=linkdata+', nextpage:'+inttostr(nextpage);
+            if (exportjs) then linkdata:=linkdata+', nextpage:'+inttostr(getIDPointer(nextpage));
           end else begin
             links[numlinks].anim_skip:=-1;
           end;
@@ -572,10 +590,10 @@ begin
         actualtimeline_page:=timeline_page;
       end;
       if (exportjs) then jsexport:=jsexport+'page.menupages=['
-                     +inttostr(fixedNavBar(47, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page))+','
-                     +inttostr(fixedNavBar(48, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page))+','
-                     +inttostr(fixedNavBar(49, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page))+','
-                     +inttostr(fixedNavBar(50, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page))
+                     +inttostr(getIDPointer(fixedNavBar(-47, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page)))+','
+                     +inttostr(getIDPointer(fixedNavBar(-48, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page)))+','
+                     +inttostr(getIDPointer(fixedNavBar(-49, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page)))+','
+                     +inttostr(getIDPointer(fixedNavBar(-50, actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page)))
                      +'];'#13#10;
     end;
     if (typepage = 103) then begin  // Popup également ?
@@ -702,8 +720,8 @@ begin
       exportstatus[i].fullexported:=false;
       for j:=0 to 100 do exportstatus[i].itemexported[j]:=false;
     end;
-    if (exportres) then for i:=658 to 658 do exportstatus[i].fullexported:=true; // On passe la page d'aide 658 qui pose problème (help\help.dib)
-    if (exportjs) then for i:=658 to 740 do exportstatus[i].fullexported:=true; // On passe les pages d'aide qui posent problème pour le moment
+    //if (exportres) then for i:=658 to 658 do exportstatus[i].fullexported:=true; // On passe la page d'aide 658 qui pose problème (help\help.dib)
+    //if (exportjs) then for i:=658 to 740 do exportstatus[i].fullexported:=true; // On passe les pages d'aide qui posent problème pour le moment
     nextexportpage:=0;
     jstotal:='';
     ExportTimer.Enabled:=True;

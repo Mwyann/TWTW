@@ -456,10 +456,10 @@ begin
   fixedNavBar:=0;
   case item_id of
 	  850: fixedNavBar:=438408; // Atelier
-	  851: if actualmachines_page = -1 then fixedNavBar:=57508 else fixedNavBar:=actualmachines_page; // Machines
-	  852: if actualrelated_principles_popup = -1 then fixedNavBar:=350946 else fixedNavBar:=actualrelated_principles_popup; // Grands Principes
-	  853: if actualtimeline_page = -1 then fixedNavBar:=426052 else fixedNavBar:=actualtimeline_page; // Histoire
-	  854: if actualinventors_page = -1 then fixedNavBar:=196062 else fixedNavBar:=actualinventors_page; // Inventeurs
+	  -47,851: if actualmachines_page = -1 then fixedNavBar:=57508 else fixedNavBar:=actualmachines_page; // Machines
+	  -48,852: if actualrelated_principles_popup = -1 then fixedNavBar:=350946 else fixedNavBar:=actualrelated_principles_popup; // Grands Principes
+	  -49,853: if actualtimeline_page = -1 then fixedNavBar:=426052 else fixedNavBar:=actualtimeline_page; // Histoire
+	  -50,854: if actualinventors_page = -1 then fixedNavBar:=196062 else fixedNavBar:=actualinventors_page; // Inventeurs
 	  855: fixedNavBar:=-51;  // Retour, géré plus bas
 	  856: fixedNavBar:=211350; // Index
 	  857: fixedNavBar:=278816; // Options
