@@ -228,7 +228,7 @@ var bmp:TBitmap;
 begin
   bmpstream:=OpenFile(filename);
   if (bmpstream = nil) then begin
-    raise Exception.Create('bmpstream for '+filename+' is nil');
+    //raise Exception.Create('bmpstream for '+filename+' is nil');
     exit;
   end;
   openbmp:=10;
@@ -248,7 +248,7 @@ begin
   bmpstream.free;
   if openbmp = 0 then begin
     bmp.free;
-    raise Exception.Create('bmpstream for '+filename+' cannot be opened');
+    //raise Exception.Create('bmpstream for '+filename+' cannot be opened');
     exit;
   end;
   bmpto:=Rect(xoffset,yoffset,xoffset+bmp.Canvas.ClipRect.Right,yoffset+bmp.Canvas.ClipRect.Bottom);
