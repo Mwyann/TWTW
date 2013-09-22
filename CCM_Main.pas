@@ -132,6 +132,17 @@ begin
     else result:=copy(filename,1,i)+newext;
 end;
 
+function SafeFileName(filename:string):string;
+var i:word;
+begin
+  i:=length(filename)-1;
+  while (i>0) do begin
+    if (filename[i] = '\') and (filename[i+1] = '\') then delete(filename,i,1);
+    dec(i);
+  end;
+  result:=filename;
+end;
+
 procedure writefile(filename,contenu:string);
 var f:system.text;
     fullname:string;
@@ -139,7 +150,7 @@ begin
   fullname:=GetCurrentDir()+'\'+filename;
   if (exportres) then fullname:=GetCurrentDir()+'\res\'+filename;
   if (exportjs) then fullname:=GetCurrentDir()+'\js\'+filename;
-  ForceDirectories(ExtractFileDir(fullname));
+  ForceDirectories(SafeFileName(ExtractFileDir(fullname)));
   assignfile(f,fullname);
   append(f);
   write(f,contenu);
@@ -152,7 +163,7 @@ var fullname:string;
 begin
   fullname:=GetCurrentDir()+'\res\'+filename;
   fullname:=replaceExt(fullname,'gif');
-  ForceDirectories(ExtractFileDir(fullname));
+  ForceDirectories(SafeFileName(ExtractFileDir(fullname)));
   GIF := TGIFImage.Create;
   GIF.ColorReduction := rmNone;  // rmQuantize rmNone
   //  GIF.DitherMode := dmNearest;  // no dither, use nearest color in palette
@@ -449,6 +460,7 @@ end;
 procedure displayFrame(idframe,typepage:smallint);
 var i,j:smallint;
     frame:TPAGE;
+    idpointer_frame_pointer:longint;
 begin
   with actualPages[actualPageLevel] do
   for i:=0 to info.numframes-1 do with info.frames[i] do if (id_frame = idframe) then begin // On cherche la frame à afficher dans la liste des frames
@@ -459,21 +471,22 @@ begin
           yoff:=offset_y;
         end;
       end else begin
+        idpointer_frame_pointer:=getIDPointer(idpointer_frame);
         if (typeframe2 <> 202) then begin // On affiche le fond de la frame et ses items (exemple, les boutons de navigation).
-          if (exportres or exportjs) and (not exportstatus[idpointer_frame].pageexported) then begin
+          if (exportres or exportjs) and (not exportstatus[idpointer_frame_pointer].pageexported) then begin
             actualPages[actualPageLevel].numlinks:=0;
             actualPages[actualPageLevel].actualNumitems:=0;
             jsexport:='';
           end;
-          if (not (exportres or exportjs)) or (not exportstatus[idpointer_frame].pageexported) then begin
-            frame:=ReadPagePNG(idpointer_frame);
+          if (not (exportres or exportjs)) or (not exportstatus[idpointer_frame_pointer].pageexported) then begin
+            frame:=ReadPagePNG(idpointer_frame_pointer);
             addItems(frame,'',imageoffset_x,imageoffset_y);
           end else if (exportjs) then begin
-            jsexport:=jsexport+'page.frames.push('+inttostr(idpointer_frame)+');'#13#10;
+            jsexport:=jsexport+'page.frames.push('+inttostr(idpointer_frame_pointer)+');'#13#10;
           end;
-          if (exportres or exportjs) and (not exportstatus[idpointer_frame].pageexported) then begin
-            exportstatus[idpointer_frame].pageexported:=true;
-            nextexportpage:=idpointer_frame; // On prévoit d'exporter les liens, pour passer en fullexported
+          if (exportres or exportjs) and (not exportstatus[idpointer_frame_pointer].pageexported) then begin
+            exportstatus[idpointer_frame_pointer].pageexported:=true;
+            nextexportpage:=idpointer_frame_pointer; // On prévoit d'exporter les liens, pour passer en fullexported
             exit;
           end;
         end;
@@ -973,7 +986,7 @@ var i,adv:word;
     nextpage:word;
 begin
   ExportTimer.Enabled:=False;
-  i:=nextexportpage;
+  i:=getIDPointer(nextexportpage);
   adv:=0;
   while (i < pointers.nbpointers) and (exportstatus[i].fullexported) do begin; inc(i); inc(adv); end;
   if (i >= pointers.nbpointers) then begin

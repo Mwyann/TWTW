@@ -7,6 +7,7 @@ uses Classes, Windows, Forms, SysUtils, CCM_Png, CCM_Zip;
 function OpenPNG(filename:string):boolean;
 procedure ClosePNG;
 function ReadPagePNG(idpointer:longint):TPAGE;
+function getIDPointer(idpointer:longint):longint;
 function fixedNavBar(item_id:smallint; actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page:IDPOINTER):IDPOINTER;
 
 const CCMWorkshop:IDPOINTER=438408;
@@ -335,7 +336,11 @@ var page:TPAGE;
     nblinks,tmp:smallint;
     tmp2:cardinal;
 begin
-  if (idpage >= 0) then PNG.Seek(cardinal(idpage)+header.pages_start,soFromBeginning);
+  if (idpage >= longint(pointers.nbpointers)) then PNG.Seek(cardinal(idpage)+header.pages_start,soFromBeginning) else
+  if (idpage >= 0) then PNG.Seek(pointers.pointers[idpage]+header.pages_start,soFromBeginning) else begin
+    pointers.pointers[pointers.nbpointers]:=PNG.Position-header.pages_start; // Création d'une liste de pointeurs
+    inc(pointers.nbpointers);
+  end;
   with page do begin
     typepage:=typeReadWordBE;
     while (typepage=-1) do typepage:=typeReadWordBE; // Sert de NOP - N'EXISTE PAS DANS LE FICHIER ORIGINAl!
@@ -417,6 +422,7 @@ begin
     readInfo;
     readIndex;
     // La version EN n'a pas de pointeurs, les n° de page est en fait la position dans le fichier PNG, d'où les grands nombres.
+    pointers.nbpointers:=0; // Pour l'export on va donner des n° de page.
     while (PNG.Position <> PNG.Size) do readPage(-1);
     OpenPNG:=true;
   end;
@@ -438,6 +444,13 @@ begin
   end;
 end;
 
+function getIDPointer(idpointer:longint):longint;
+var i:longint;
+begin
+  getIDPointer:=idpointer;
+  for i:=0 to longint(pointers.nbpointers)-1 do if pointers.pointers[i] = cardinal(idpointer) then getIDPointer:=i;
+end;
+
 function fixedNavBar(item_id:smallint; actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page:IDPOINTER):IDPOINTER;
 begin
   fixedNavBar:=0;
@@ -453,6 +466,5 @@ begin
 	  858: fixedNavBar:=117408; // Aide
   end;
 end;
-    {$OVERFLOWCHECKS OFF}
-    {$RANGECHECKS OFF}
+
 end.

@@ -122,6 +122,7 @@ type TPOS=array[0..3] of integer;
 function OpenPNG(filename:string):boolean;
 procedure ClosePNG;
 function ReadPagePNG(idpointer:longint):TPAGE;
+function getIDPointer(idpointer:longint):longint;
 function fixedNavBar(item_id:smallint; actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page:IDPOINTER):IDPOINTER;
 
 var header:THEADER;
@@ -141,6 +142,7 @@ uses CCM_PngEN, CCM_PngFR;
 var realOpenPNG:function(filename:string):boolean;
     realClosePNG:procedure;
     realReadPagePNG:function(idpointer:longint):TPAGE;
+    realGetIDPointer:function(idpointer:longint):longint;
     realFixedNavBar:function(item_id:smallint; actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page:IDPOINTER):IDPOINTER;
     currentEngine:word; // Moteur de décodage, 1 = EN, 2 = FR
 
@@ -151,6 +153,7 @@ begin
     realOpenPNG:=@CCM_PngEN.OpenPNG;
     realClosePNG:=@CCM_PngEN.ClosePNG;
     realReadPagePNG:=@CCM_PngEN.ReadPagePNG;
+    realgetIDPointer:=@CCM_PngEN.getIDPointer;
     realFixedNavBar:=@CCM_PngEN.fixedNavBar;
     CCMWorkshop:=CCM_PngEN.CCMWorkshop;
     CCMindex:=CCM_PngEN.CCMindex;
@@ -160,6 +163,7 @@ begin
     realOpenPNG:=@CCM_PngFR.OpenPNG;
     realClosePNG:=@CCM_PngFR.ClosePNG;
     realReadPagePNG:=@CCM_PngFR.ReadPagePNG;
+    realgetIDPointer:=@CCM_PngFR.getIDPointer;
     realFixedNavBar:=@CCM_PngFR.fixedNavBar;
     CCMWorkshop:=CCM_PngFR.CCMWorkshop;
     CCMindex:=CCM_PngFR.CCMindex;
@@ -187,6 +191,11 @@ end;
 function ReadPagePNG(idpointer:longint):TPAGE;
 begin
   ReadPagePNG:=realReadPagePNG(idpointer);
+end;
+
+function getIDPointer(idpointer:longint):longint;
+begin
+  getIDPointer:=realGetIDPointer(idpointer);
 end;
 
 function fixedNavBar(item_id:smallint; actualmachines_page, actualrelated_principles_popup, actualtimeline_page, actualinventors_page:IDPOINTER):IDPOINTER;
