@@ -227,7 +227,7 @@ function runLink(idLink) {
         return;
       }
       if (action.type == 2) { // Raccourci (lien secondaire) vers un item présent sur la page
-        //TODO
+        for(var j = 0; j < currentLinks.length; j++) if (currentLinks[j].id == action.linkId) {runLink(j); return;}
       }
       if (action.type == 3) { // Nouvelle page (le reset de pageLevels se fera lors du chargement, en fonction du type de page)
         loadPage(action.nextpage);

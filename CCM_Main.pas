@@ -306,7 +306,7 @@ begin
       links[numlinks].cursor:=cursor;
       links[numlinks].linktype:=itemtype;
       if (exportjs) then begin
-        linkdata:='x1:'+inttostr(links[numlinks].x1)+', y1:'+inttostr(links[numlinks].y1)+', x2:'+inttostr(links[numlinks].x2)+', y2:'+inttostr(links[numlinks].y2)+', type:'+inttostr(links[numlinks].linktype-600);
+        linkdata:='x1:'+inttostr(links[numlinks].x1)+', y1:'+inttostr(links[numlinks].y1)+', x2:'+inttostr(links[numlinks].x2)+', y2:'+inttostr(links[numlinks].y2)+', type:'+inttostr(links[numlinks].linktype-600)+', id:'+inttostr(item_id);
       end;
       if (itemtype = 601) then begin
         // Image de fond. C'est le premier item dans la liste
