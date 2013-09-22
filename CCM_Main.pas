@@ -720,8 +720,6 @@ begin
       exportstatus[i].fullexported:=false;
       for j:=0 to 100 do exportstatus[i].itemexported[j]:=false;
     end;
-    //if (exportres) then for i:=658 to 658 do exportstatus[i].fullexported:=true; // On passe la page d'aide 658 qui pose problème (help\help.dib)
-    //if (exportjs) then for i:=658 to 740 do exportstatus[i].fullexported:=true; // On passe les pages d'aide qui posent problème pour le moment
     nextexportpage:=0;
     jstotal:='';
     ExportTimer.Enabled:=True;
