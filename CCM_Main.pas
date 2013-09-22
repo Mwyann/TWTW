@@ -402,6 +402,7 @@ begin
         links[numlinks].letter:=letter;
         links[numlinks].anim_skip:=page_skip;
         actualletter:=0;
+        if (exportjs) then linkdata:=linkdata+', src:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A.gif',true)+''', audio:''res'+revertandaddslashes(basedir+'AZAZ0MAA',true)+''', alt:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A.gif',true)+''', nextpage:'+inttostr(getIDPointer(page_skip));
         inc(numlinks);
       end;
       if (itemtype = 606) then begin

@@ -25,6 +25,11 @@ body {
     height: 458px;
 }
 
+a {
+  color: #99F;
+  text-decoration:none;
+}
+
 </style>
 <script src="jquery.min.js"></script>
 <script type="text/javascript">
@@ -55,16 +60,30 @@ jQuery.fn.imagesLoaded = function(callback, fireOne) {
     });
 }
 
-var preloaded = new Array();
-var pages = new Array();
-var currentLinks = new Array();
-var runningAnim = 0;
-var runningAnimTimeoutID = 0;
-var nextPage = -1;
-var animTimeLeft = 0; animTimePlaying = 0; // Utilisé pour détecter la fin d'une animation
-var windowFocus = true;
-var pageLevels = new Array(1);
+var preloaded;
+var pages;
+var currentLinks;
+var runningAnim;
+var runningAnimTimeoutID;
+var nextPage;
+var animTimeLeft; animTimePlaying = 0; // Utilisé pour détecter la fin d'une animation
+var pageLevels;
+var lang;
+var actualLetter; // Utilisé dans la roue alphabétique
 var preload = 0; // Deviendra jQuery('#preload') plus tard
+var version = 1;
+var aggressivePreload = 0; // Activation ou non du préchargement agressif
+
+function init() {
+  preloaded = new Array();
+  pages = new Array();
+  currentLinks = new Array();
+  runningAnim = 0;
+  runningAnimTimeoutID = 0;
+  nextPage = -1;
+  animTimeLeft = 0; animTimePlaying = 0; // Utilisé pour détecter la fin d'une animation
+  pageLevels = new Array(1);
+}
 
 var totalAudio = 0;
 function waitForAudio(callback) {
@@ -81,6 +100,11 @@ function preloadLink(idPage,link,linkId) {
     old = jQuery('#preload #img'+idPage+'l'+linkId);
     if (old.length) old.removeClass('forRemoval');
     else preload.append('<img />').children().last().attr('id','img'+idPage+'l'+linkId).attr('src',lang+"/"+link.src);
+  }
+  if ("alt" in link) {
+    old = jQuery('#preload #img'+idPage+'a'+linkId);
+    if (old.length) old.removeClass('forRemoval');
+    else preload.append('<img />').children().last().attr('id','img'+idPage+'a'+linkId).attr('src',lang+"/"+link.alt);
   }
   if ("audio" in link) {
     old = jQuery('#preload #audio'+idPage+'l'+linkId)
@@ -151,7 +175,7 @@ function preloadRes(idPage) {
 }
 
 function countingFrames() {
-    if (windowFocus) {animTimeLeft-=200; animTimePlaying+=200;}
+    animTimeLeft-=200; animTimePlaying+=200;
     if (animTimeLeft > 0) {
         runningAnimTimeoutID = window.setTimeout(countingFrames,200);
         // synchro du son : si le son joue avec plus de x ms de décalage, on recale
@@ -254,7 +278,10 @@ function runLink(idLink) {
     }
   }
   if (link.type == 4) {  // Lettres de la roue alphabétique
-
+    if ((link.letter >= 0) && (link.letter < 26)) actualLetter = link.letter
+    else if (link.letter == 26) { actualLetter--; if (actualLetter < 0) actualLetter = 25; }
+    else if (link.letter == 27) { actualLetter++; if (actualLetter > 25) actualLetter = 0; }
+    else if (link.letter == 28) { runAnim(link); }
   }
   if (link.type == 6) {  // Bouton de la colonne de gauche
     runAnim(link);
@@ -300,6 +327,7 @@ function displayPage(idPage) {
   var onscreen = jQuery('#onscreen');
   var page = pages[idPage];
   if (pageLevels[pageLevels.length-1] == idPage) {
+    actualLetter = 0;
     onscreen.html(''); // On va charger les infos des frames donc on vide pour initialiser la zone d'affichage de la page.
     currentLinks = new Array();
 
@@ -337,25 +365,25 @@ function displayPage(idPage) {
         onscreen.append('<div style="position:absolute;left:'+(link.cbx.toString())+'px;top:'+(link.cby.toString())+'px;width:74px;height:22px;cursor:pointer" id="link'+(currentLinks.length.toString())+'" onclick="runLink('+(currentLinks.length.toString())+');return false"><img src="controlbar.gif" style="width:74px;height:22px" /></div>');
       currentLinks.push(link);
 
-      // Précharger ici les images + sons des pages suivantes (pas uniquement image de fond + animations autostart, à tester)
-      /*
-      if (('nextpage' in link) && (link.nextpage in pages) && (!(link.nextpage in preloaded))) {
-        var nextlinks = pages[link.nextpage].links;
-        for(var j=0; j < nextlinks.length; j++)
-          preloadLink(link.nextpage,nextlinks[j],j);
-      }
+      if (aggressivePreload) {
+        // Précharger ici les images + sons des pages suivantes (pas uniquement image de fond + animations autostart, à tester)
+        if (('nextpage' in link) && (link.nextpage in pages) && (!(link.nextpage in preloaded))) {
+          var nextlinks = pages[link.nextpage].links;
+          for(var j=0; j < nextlinks.length; j++)
+            preloadLink(link.nextpage,nextlinks[j],j);
+        }
 
-      if ((link.type == 3) && ('actions' in link)) {
-        for(var j=0; j < link.actions.length; j++) {
-          action = link.actions[j];
-          if (('nextpage' in action) && (action.nextpage in pages) && (!(action.nextpage in preloaded))) {
-            var nextlinks = pages[action.nextpage].links;
-            for(var j=0; j < nextlinks.length; j++)
-              preloadLink(action.nextpage,nextlinks[j],j);
+        if ((link.type == 3) && ('actions' in link)) {
+          for(var j=0; j < link.actions.length; j++) {
+            action = link.actions[j];
+            if (('nextpage' in action) && (action.nextpage in pages) && (!(action.nextpage in preloaded))) {
+              var nextlinks = pages[action.nextpage].links;
+              for(var j=0; j < nextlinks.length; j++)
+                preloadLink(action.nextpage,nextlinks[j],j);
+            }
           }
         }
       }
-      */
     }
   }
 
@@ -368,8 +396,11 @@ function displayPage(idPage) {
   if (autolink > -1) runLink(autolink);
 }
 
-var lang="FR";
-var version=1;
+function loadLoader(langToLoad){
+  lang = langToLoad;
+  init();
+  jQuery.getScript(lang+"/load.js?ver="+version);
+}
 
 function loadPages(){
   jQuery("#loading").attr('src',lang+'/loading.gif');
@@ -381,18 +412,25 @@ function start(){
   loadPage(startPage);
 }
 
+function toggleAggressivePreload() {
+  aggressivePreload = !aggressivePreload;
+  if (aggressivePreload) jQuery('#toggleAggressivePreloadDiv').html('Préchargement agressif ON')
+    else jQuery('#toggleAggressivePreloadDiv').html('Préchargement agressif OFF');
+}
+
 jQuery(document).ready(function() {
   preload = jQuery('#preload');
-  jQuery.getScript(lang+"/load.js?ver="+version);
+  loadLoader('FR');
 });
 
 </script>
 </head>
 <body>
 
+<div style="text-align:center;font-size:smaller;color:#DDD"><a href="#" onclick="loadLoader('FR');return false;">Français</a> - <a href="#" onclick="loadLoader('EN');return false;">English</a> | <a href="#" onclick="toggleAggressivePreload(); return false;" id="toggleAggressivePreloadDiv" title="Charge les éléments des pages suivantes en tâche de fond. Gourmand en bande passante.">Préchargement agressif OFF</a></div>
 <div id="main">
   <div style="position:relative" id="onscreen"><img id="loading" src="transparent.gif" style="position:absolute;left:0;top:0" /><div class="foreground" style="position:absolute;left:0;top:0;width:638px;height:458px;cursor:wait"><img src="ajax-loader.gif" style="margin: 196px 0px 0px 286px" /></div></div>
-  <div style="text-align:center;font-size:smaller;color:#DDD;margin:15px">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley</div>
+  <div style="text-align:center;font-size:smaller;color:#DDD;margin:15px">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley<br />Retranscrit en HTML5/Javascript par <a href="http://www.mwyann.fr/">Mwyann</a></div>
 </div>
 <div style="display:none" id="preload"></div>
 
