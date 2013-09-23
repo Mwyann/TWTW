@@ -27,7 +27,11 @@ body {
 
 a {
   color: #99F;
-  text-decoration:none;
+  text-decoration: none;
+}
+
+img {
+  border: 0;
 }
 
 </style>
@@ -405,6 +409,7 @@ function loadLoader(langToLoad){
 
 function loadPages(){
   jQuery("#loading").attr('src',lang+'/loading.gif');
+  jQuery('.foreground').css({width:'638px', height:'458px', cursor:'wait'}).html('<img />').children().attr('src','common/ajax-loader.gif').css({'margin':'196px 0px 0px 286px'})
   jQuery.getScript(lang+"/pages.min.js?ver="+version);
 }
 
@@ -425,7 +430,7 @@ jQuery(document).ready(function() {
     var reg = new RegExp(";", "g");
     var hashelems = hash.split(reg);
     if ((hashelems[0] == '#EN') && (lang != 'EN')) loadLoader('EN');
-    else if (lang != 'FR') loadLoader('FR');
+    else if ((hashelems[0] == '#FR') && (lang != 'FR')) loadLoader('FR');
   })
   preload = jQuery('#preload');
   $(window).hashchange();
@@ -435,9 +440,15 @@ jQuery(document).ready(function() {
 </head>
 <body>
 
-<div style="text-align:center;font-size:smaller;color:#DDD"><a href="#FR">Français</a> - <a href="#EN">English</a> | <a href="#" onclick="toggleAggressivePreload(); return false;" id="toggleAggressivePreloadDiv" title="Charge les éléments des pages suivantes en tâche de fond. Gourmand en bande passante.">Préchargement agressif OFF</a></div>
+<div style="text-align:center;font-size:smaller;color:#DDD"><a href="#FR" onclick="loadLoader('FR');" title="Comment ça marche">Français</a> - <a href="#EN" onclick="loadLoader('EN');" title="The Way Things Works">English</a> | <a href="#" onclick="toggleAggressivePreload(); return false;" id="toggleAggressivePreloadDiv" title="Charge les éléments des pages suivantes en tâche de fond. Gourmand en bande passante.">Préchargement agressif OFF</a></div>
 <div id="main">
-  <div style="position:relative" id="onscreen"><img id="loading" src="common/transparent.gif" style="position:absolute;left:0;top:0" /><div class="foreground" style="position:absolute;left:0;top:0;width:638px;height:458px;cursor:wait"><img src="common/ajax-loader.gif" style="margin: 196px 0px 0px 286px" /></div></div>
+  <div style="position:relative" id="onscreen">
+    <div style="position:absolute;left:0;top:0;width:638px;height:458px"><img src="common/TITLempty.gif" /></div>
+    <div style="position:absolute;left:102px;top:169px"><a href="#FR" onclick="loadLoader('FR');" title="Comment ça marche"><img src="common/flagFR.gif" /></a></div>
+    <div style="position:absolute;left:333px;top:169px"><a href="#EN" onclick="loadLoader('EN');" title="The Way Things Works"><img src="common/flagEN.gif" /></a></div>
+    <img id="loading" src="common/transparent.gif" style="position:absolute;left:0;top:0" />
+    <div class="foreground" style="position:absolute;left:0;top:0;width:0;height:0"><img src="common/transparent.gif" /></div>
+  </div>
 </div>
 <div style="text-align:center;font-size:smaller;color:#DDD">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley<br />Retranscrit en HTML5/Javascript par <a href="http://www.mwyann.fr/">Mwyann</a></div>
 <div style="display:none" id="preload"></div>
