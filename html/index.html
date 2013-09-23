@@ -12,7 +12,7 @@ body {
 
 #main {
     background-color: #000000;
-    background-image: url(fond.png);
+    background-image: url(common/fond.png);
     background-position: center top;
     background-repeat: no-repeat;
     padding: 20px;
@@ -31,7 +31,8 @@ a {
 }
 
 </style>
-<script src="jquery.min.js"></script>
+<script src="common/jquery.min.js"></script>
+<script src="common/jquery.ba-hashchange.min.js"></script>
 <script type="text/javascript">
 
 // 'fireOne' argument is optional, if set, will invoke the callback once for every
@@ -194,8 +195,8 @@ function stopAnim() {
       if (nextPage == -43) nextPage = pages[pageLevels[pageLevels.length-1]].menupages[3]; // Bouton Inventeurs
       if (nextPage == -51) {nextPage = -1;alert('L\'historique n\'est pas encore implémenté.');} // Bouton retour qui ne fonctionne pas encore (implémenter l'historique)
     }
-    if (nextPage == -1) jQuery('#foreground'+runningAnim.pageid).css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />');
-    jQuery('#mask').css("cursor", "pointer").click(function(){}).html('<img src="transparent.gif" style="width:0;height:0" />').css({width:'0',height:'0'});
+    if (nextPage == -1) jQuery('#foreground'+runningAnim.pageid).css("cursor", "pointer").html('<img src="common/transparent.gif" style="width:0;height:0" />');
+    jQuery('#mask').css("cursor", "pointer").click(function(){}).html('<img src="common/transparent.gif" style="width:0;height:0" />').css({width:'0',height:'0'});
     var audiofile = jQuery('#'+runningAnim.audioid).get(0);
     audiofile.pause();
     runningAnim = 0;
@@ -205,7 +206,7 @@ function stopAnim() {
 
 function runAnim(anim) {
   if (runningAnimTimeoutID) return stopAnim();
-  jQuery('#mask').css("cursor", "wait").click(function(){stopAnim();return false}).html('<img src="transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
+  jQuery('#mask').css("cursor", "wait").click(function(){stopAnim();return false}).html('<img src="common/transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
   jQuery('#foreground'+anim.pageid).html('<img />').children().attr('src',lang+"/"+anim.src).css({position:'relative', left:anim.left.toString()+'px', top:anim.top.toString()+'px'});
   animTimeLeft = anim.time+500;
   animTimePlaying = 0;
@@ -219,7 +220,7 @@ function runAnim(anim) {
 
 function runSound(sound) {
   if (runningAnimTimeoutID) return stopAnim();
-  jQuery('#mask').css("cursor", "wait").click(function(){stopAnim();return false}).html('<img src="transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
+  jQuery('#mask').css("cursor", "wait").click(function(){stopAnim();return false}).html('<img src="common/transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
   var audiofile = jQuery('#'+sound.audioid).get(0);
   animTimeLeft = audiofile.duration*1000+500;
   animTimePlaying = 0;
@@ -300,8 +301,8 @@ function runLink(idLink) {
 
 function loadPage(idPage) {
   nextPage = -1;
-  if (idPage == helpPage) {jQuery('.foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />'); alert('L\'aide ne fonctionne pas encore.'); return;}
-  if (idPage == indexPage) {jQuery('.foreground').css("cursor", "pointer").html('<img src="transparent.gif" style="width:0;height:0" />'); alert('L\'index ne fonctionne pas encore.'); return;}
+  if (idPage == helpPage) {jQuery('.foreground').css("cursor", "pointer").html('<img src="common/transparent.gif" style="width:0;height:0" />'); alert('L\'aide ne fonctionne pas encore.'); return;}
+  if (idPage == indexPage) {jQuery('.foreground').css("cursor", "pointer").html('<img src="common/transparent.gif" style="width:0;height:0" />'); alert('L\'index ne fonctionne pas encore.'); return;}
   if (idPage == originalAZAZ) idPage = replacementAZAZ;
   if (!(idPage in pages)) {
     alert('Page '+(idPage.toString())+' indisponible.');
@@ -310,7 +311,7 @@ function loadPage(idPage) {
     var onscreen = jQuery('#onscreen');
     var tmp = onscreen.append('<div />').children().last().css({width:'638px', height:'458px', 'background-color':'black', cursor:'wait'});
     tmp.fadeTo(0,0).delay(1500).fadeTo(2000,0.4); // Animation uniquement après 1 seconde de chargement max
-    tmp.html('<img />').children().attr('src','ajax-loader.gif').css({'margin':'196px 0px 0px 286px'})
+    tmp.html('<img />').children().attr('src','common/ajax-loader.gif').css({'margin':'196px 0px 0px 286px'})
     // On précharge les données qui seront affichées lors de la fin du chargement
 
     if (pages[idPage].type != 2) { // S'il ne s'agit pas d'une pleine page (donc une popup à priori) et que le niveau est = 0 ou identique au précédent, alors on avance d'un niveau.
@@ -337,7 +338,7 @@ function displayPage(idPage) {
         displayPage(pageLevels[i]);
 
       // On ajoute un "cover" pour éviter de cliquer sur les anciens liens
-      onscreen.append('<div style="position:absolute;left:0;top:0;width:638px;height:458px;background-color:#000" onclick="closePopup();return false"><img src="transparent.gif" style="width:638px;height:458px" /></div>').children().last().fadeTo(0,0.4);
+      onscreen.append('<div style="position:absolute;left:0;top:0;width:638px;height:458px;background-color:#000" onclick="closePopup();return false"><img src="common/transparent.gif" style="width:638px;height:458px" /></div>').children().last().fadeTo(0,0.4);
     }
   }
 
@@ -359,10 +360,10 @@ function displayPage(idPage) {
       onscreen.append('<img />').children().last().attr('src',lang+"/"+link.src).click(function(){return false})
         .css({position:'absolute', left:link.left.toString()+'px', top:link.top.toString()+'px'});
     } else {
-      onscreen.append('<div style="position:absolute;left:'+(link.x1.toString())+'px;top:'+(link.y1.toString())+'px;width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px;cursor:pointer" id="link'+(currentLinks.length.toString())+'" onclick="runLink('+(currentLinks.length.toString())+');return false"><img src="transparent.gif" style="width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px" /></div>');
+      onscreen.append('<div style="position:absolute;left:'+(link.x1.toString())+'px;top:'+(link.y1.toString())+'px;width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px;cursor:pointer" id="link'+(currentLinks.length.toString())+'" onclick="runLink('+(currentLinks.length.toString())+');return false"><img src="common/transparent.gif" style="width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px" /></div>');
       if (("autostart" in link) && (link.autostart)) autolink = currentLinks.length;
       if (link.type == 2) // On ajoute la "controlbar"
-        onscreen.append('<div style="position:absolute;left:'+(link.cbx.toString())+'px;top:'+(link.cby.toString())+'px;width:74px;height:22px;cursor:pointer" id="link'+(currentLinks.length.toString())+'" onclick="runLink('+(currentLinks.length.toString())+');return false"><img src="controlbar.gif" style="width:74px;height:22px" /></div>');
+        onscreen.append('<div style="position:absolute;left:'+(link.cbx.toString())+'px;top:'+(link.cby.toString())+'px;width:74px;height:22px;cursor:pointer" id="link'+(currentLinks.length.toString())+'" onclick="runLink('+(currentLinks.length.toString())+');return false"><img src="common/controlbar.gif" style="width:74px;height:22px" /></div>');
       currentLinks.push(link);
 
       if (aggressivePreload) {
@@ -387,11 +388,11 @@ function displayPage(idPage) {
     }
   }
 
-  onscreen.append('<div style="position:absolute;left:0;top:0;width:0;height:0" id="foreground'+idPage+'" class="foreground"><img src="transparent.gif" style="width:0;height:0" /></div>');
+  onscreen.append('<div style="position:absolute;left:0;top:0;width:0;height:0" id="foreground'+idPage+'" class="foreground"><img src="common/transparent.gif" style="width:0;height:0" /></div>');
   if (pageLevels[pageLevels.length-1] == idPage) {
     // On ajoute un div "foreground" pour les animations, et un "mask" pour masquer lors de la lecture des animations
     //onscreen.children().last().addClass('topmost');
-    onscreen.append('<div style="position:absolute;left:0;top:0;width:0;height:0" id="mask"><img src="transparent.gif" style="width:0;height:0" /></div>');
+    onscreen.append('<div style="position:absolute;left:0;top:0;width:0;height:0" id="mask"><img src="common/transparent.gif" style="width:0;height:0" /></div>');
   }
   if (autolink > -1) runLink(autolink);
 }
@@ -419,19 +420,26 @@ function toggleAggressivePreload() {
 }
 
 jQuery(document).ready(function() {
+  $(window).hashchange(function(){
+    var hash = location.hash.toString();
+    var reg = new RegExp(";", "g");
+    var hashelems = hash.split(reg);
+    if ((hashelems[0] == '#EN') && (lang != 'EN')) loadLoader('EN');
+    else if (lang != 'FR') loadLoader('FR');
+  })
   preload = jQuery('#preload');
-  loadLoader('FR');
+  $(window).hashchange();
 });
 
 </script>
 </head>
 <body>
 
-<div style="text-align:center;font-size:smaller;color:#DDD"><a href="#" onclick="loadLoader('FR');return false;">Français</a> - <a href="#" onclick="loadLoader('EN');return false;">English</a> | <a href="#" onclick="toggleAggressivePreload(); return false;" id="toggleAggressivePreloadDiv" title="Charge les éléments des pages suivantes en tâche de fond. Gourmand en bande passante.">Préchargement agressif OFF</a></div>
+<div style="text-align:center;font-size:smaller;color:#DDD"><a href="#FR">Français</a> - <a href="#EN">English</a> | <a href="#" onclick="toggleAggressivePreload(); return false;" id="toggleAggressivePreloadDiv" title="Charge les éléments des pages suivantes en tâche de fond. Gourmand en bande passante.">Préchargement agressif OFF</a></div>
 <div id="main">
-  <div style="position:relative" id="onscreen"><img id="loading" src="transparent.gif" style="position:absolute;left:0;top:0" /><div class="foreground" style="position:absolute;left:0;top:0;width:638px;height:458px;cursor:wait"><img src="ajax-loader.gif" style="margin: 196px 0px 0px 286px" /></div></div>
-  <div style="text-align:center;font-size:smaller;color:#DDD;margin:15px">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley<br />Retranscrit en HTML5/Javascript par <a href="http://www.mwyann.fr/">Mwyann</a></div>
+  <div style="position:relative" id="onscreen"><img id="loading" src="common/transparent.gif" style="position:absolute;left:0;top:0" /><div class="foreground" style="position:absolute;left:0;top:0;width:638px;height:458px;cursor:wait"><img src="common/ajax-loader.gif" style="margin: 196px 0px 0px 286px" /></div></div>
 </div>
+<div style="text-align:center;font-size:smaller;color:#DDD">(c) 1994 Dorling Kindersley, Larousse, David Macaulay et Neil Ardley<br />Retranscrit en HTML5/Javascript par <a href="http://www.mwyann.fr/">Mwyann</a></div>
 <div style="display:none" id="preload"></div>
 
 </body>
