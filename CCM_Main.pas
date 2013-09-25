@@ -224,8 +224,22 @@ function displayPicture(filename:string;xoffset,yoffset:smallint):string;
 var bmp:TBitmap;
     bmpto:TRect;
     bmpstream:TStream;
-    openbmp:smallint;
+    openbmp,i:smallint;
+    savename:string;
+    d:boolean;
 begin
+  savename:=filename;
+  i:=1;d:=false;
+  while i <= length(filename) do begin
+    if filename[i] = '[' then begin
+      delete(filename,i,1);
+      d:=true;
+    end else if filename[i] = ']' then begin
+      delete(filename,i,1);
+      d:=false;
+    end else if (d) then delete(filename,i,1)
+    else inc(i);
+  end;
   bmpstream:=OpenFile(filename);
   if (bmpstream = nil) then begin
     //raise Exception.Create('bmpstream for '+filename+' is nil');
@@ -266,11 +280,16 @@ begin
   BufferImage.Canvas.CopyRect(bmpto,bmp.Canvas,bmp.Canvas.ClipRect);
   bmp.free;
   if (exportres) then begin
+    i:=1;
+    while i <= length(savename) do begin
+      if (savename[i] = '[') or (savename[i] = ']') then delete(savename,i,1)
+      else inc(i);
+    end;
     bmp:=TBitmap.Create();
     bmp.Width:=AniRect.Right-AniRect.Left;
     bmp.Height:=AniRect.Bottom-AniRect.Top;
     bmp.Canvas.CopyRect(bmp.Canvas.ClipRect,BufferImage.Canvas,AniRect);
-    writegif(filename,bmp);
+    writegif(savename,bmp);
     bmp.free;
   end;
   if (exportjs) then begin
@@ -402,7 +421,10 @@ begin
         links[numlinks].letter:=letter;
         links[numlinks].anim_skip:=page_skip;
         actualletter:=0;
-        if (exportjs) then linkdata:=linkdata+', src:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A.gif',true)+''', audio:''res'+revertandaddslashes(basedir+'AZAZ0MAA',true)+''', alt:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A.gif',true)+''', nextpage:'+inttostr(getIDPointer(page_skip));
+        if (exportjs) then begin
+          if (letter < 26) then linkdata:=linkdata+', src:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A.gif',true)+''', audio:''res'+revertandaddslashes(basedir+'AZAZ0MAA',true)+''', alt:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A-bg.gif',true)+''', letter:'+inttostr(letter)+', nextpage:'+inttostr(getIDPointer(page_skip))
+            else linkdata:=linkdata+', letter:'+inttostr(letter);
+        end;
         inc(numlinks);
       end;
       if (itemtype = 606) then begin
@@ -869,6 +891,15 @@ begin
           actionTaken:=true;
           if (letter >= 0) and (letter < 26) then begin
             actualletter:=letter;
+            if (exportres) then begin
+              // On affiche l'image à la fois pour la sauvegarder (d'où le [-bg]) et à la fois pour préparer l'enregistrement de l'animation.
+              displayPicture(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A[-bg].DIB',255,105);
+              CCMBufferImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
+              actualPages[actualPageLevel].PageImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,actualPages[actualPageLevel].PageImage.Canvas.ClipRect);
+              AniRect:=Rect(fx1,fy1,fx2,fy2);
+              CCMPlayAni(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A.ANI',xoff,yoff,false);
+              nextpage_ani:=-2; // On évite de jouer le son "DIAL.WAV" qui annule l'animation avant de l'avoir exportée. Le n° de page ne sera de toutes façons pas pris en compte.
+            end;
           end else begin
             if (letter = 26) then begin
               dec(actualletter);
@@ -882,14 +913,15 @@ begin
               if (debug) then twtw.memo1.lines.add('Other letter movement: OK');
               for j:=1 to numlinks do if (links[j-1].letter = actualletter) then nextpage_ani:=links[j-1].anim_skip;
               AniRect:=Rect(fx1,fy1,fx2,fy2);
-              if (not exportjs) then CCMPlayAni(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A.ANI',xoff,yoff,false);
+              if (not exportres) and (not exportjs) then CCMPlayAni(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A.ANI',xoff,yoff,false);
               setCursor(-2);
             end;
           end;
           if (nextpage_ani = -1) then begin
             if (debug) then twtw.memo1.lines.add('Current letter: '+chr(ord('A')+actualletter));
-            if (not (exportres or exportjs)) then PlaySound(TMemoryStream(OpenFile(actualBaseDir+'DIAL.WAV')).Memory,0,SND_ASYNC or SND_MEMORY);
-            displayPicture(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A.DIB',255,105);
+            nextpage_ani := -2;
+            CCMPlayWav(actualBaseDir+'DIAL.WAV');
+            displayPicture(actualBaseDir+'AZAZ0M'+chr(ord('A')+actualletter)+'A[-bg].DIB',255,105);
             CCMBufferImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,CCMBufferImage.Canvas.ClipRect);
             actualPages[actualPageLevel].PageImage.Canvas.CopyRect(BufferImage.Canvas.ClipRect,BufferImage.Canvas,actualPages[actualPageLevel].PageImage.Canvas.ClipRect);
             TWTW.pbx.Refresh;
