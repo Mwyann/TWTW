@@ -422,8 +422,8 @@ begin
         links[numlinks].anim_skip:=page_skip;
         actualletter:=0;
         if (exportjs) then begin
-          if (letter < 26) then linkdata:=linkdata+', src:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A.gif',true)+''', audio:''res'+revertandaddslashes(basedir+'AZAZ0MAA',true)+''', alt:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A-bg.gif',true)+''', letter:'+inttostr(letter)+', nextpage:'+inttostr(getIDPointer(page_skip))
-            else linkdata:=linkdata+', letter:'+inttostr(letter);
+          if (letter < 26) then linkdata:=linkdata+', src:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A.gif',true)+''', audio:''res'+revertandaddslashes(basedir+'AZAZ0MAA',true)+''', left:'+inttostr(xoff_)+', top:'+inttostr(yoff_)+', time:'+inttostr(CCMAniLength(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A.ANI'))+', alt:''res'+revertandaddslashes(basedir+'AZAZ0M'+chr(ord('A')+letter)+'A-bg.gif',true)+''', letter:'+inttostr(letter)+', nextpage:'+inttostr(getIDPointer(page_skip))
+            else linkdata:=linkdata+', audio:''res'+revertandaddslashes(basedir+'DIAL',true)+''', letter:'+inttostr(letter);
         end;
         inc(numlinks);
       end;

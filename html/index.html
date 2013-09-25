@@ -74,7 +74,7 @@ var nextPage;
 var animTimeLeft; animTimePlaying = 0; // Utilisé pour détecter la fin d'une animation
 var pageLevels;
 var lang;
-var actualLetter; // Utilisé dans la roue alphabétique
+var actualLetter = 0; // Utilisé dans la roue alphabétique
 var preload = 0; // Deviendra jQuery('#preload') plus tard
 var version = 1;
 var aggressivePreload = 0; // Activation ou non du préchargement agressif
@@ -222,9 +222,9 @@ function runAnim(anim) {
   audiofile.play();
 }
 
-function runSound(sound) {
+function runSound(sound, nowait=false) {
   if (runningAnimTimeoutID) return stopAnim();
-  jQuery('#mask').css("cursor", "wait").click(function(){stopAnim();return false}).html('<img src="common/transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
+  if (!nowait) jQuery('#mask').css("cursor", "wait").click(function(){stopAnim();return false}).html('<img src="common/transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
   var audiofile = jQuery('#'+sound.audioid).get(0);
   animTimeLeft = audiofile.duration*1000+500;
   animTimePlaying = 0;
@@ -283,10 +283,18 @@ function runLink(idLink) {
     }
   }
   if (link.type == 4) {  // Lettres de la roue alphabétique
+    var letterlink = link;
     if ((link.letter >= 0) && (link.letter < 26)) actualLetter = link.letter
-    else if (link.letter == 26) { actualLetter--; if (actualLetter < 0) actualLetter = 25; }
-    else if (link.letter == 27) { actualLetter++; if (actualLetter > 25) actualLetter = 0; }
-    else if (link.letter == 28) { runAnim(link); }
+    else {
+        if (link.letter == 26) { actualLetter--; if (actualLetter < 0) actualLetter = 25; }
+        else if (link.letter == 27) { actualLetter++; if (actualLetter > 25) actualLetter = 0; }
+        for(var j = 0; j < currentLinks.length; j++) if (('letter' in currentLinks[j]) && (currentLinks[j].letter == actualLetter)) letterlink = currentLinks[j];
+        if (link.letter == 28) { runAnim(letterlink); return;}
+    }
+    // Afficher le alt
+    jQuery('#bgMachines').css({position:'absolute', left:'255px', top:'105px'}).attr('src',lang+"/"+letterlink.alt);
+    for(var j = 0; j < currentLinks.length; j++) if (('letter' in currentLinks[j]) && (currentLinks[j].letter == 28)) letterlink = currentLinks[j];
+    runSound(letterlink, true); // Jouer le son DIAL.WAV
   }
   if (link.type == 6) {  // Bouton de la colonne de gauche
     runAnim(link);
@@ -307,7 +315,7 @@ function loadPage(idPage) {
   nextPage = -1;
   if (idPage == helpPage) {jQuery('.foreground').css("cursor", "pointer").html('<img src="common/transparent.gif" style="width:0;height:0" />'); alert('L\'aide ne fonctionne pas encore.'); return;}
   if (idPage == indexPage) {jQuery('.foreground').css("cursor", "pointer").html('<img src="common/transparent.gif" style="width:0;height:0" />'); alert('L\'index ne fonctionne pas encore.'); return;}
-  if (idPage == originalAZAZ) idPage = replacementAZAZ;
+  //if (idPage == originalAZAZ) idPage = replacementAZAZ;
   if (!(idPage in pages)) {
     alert('Page '+(idPage.toString())+' indisponible.');
   } else {
@@ -332,7 +340,6 @@ function displayPage(idPage) {
   var onscreen = jQuery('#onscreen');
   var page = pages[idPage];
   if (pageLevels[pageLevels.length-1] == idPage) {
-    actualLetter = 0;
     onscreen.html(''); // On va charger les infos des frames donc on vide pour initialiser la zone d'affichage de la page.
     currentLinks = new Array();
 
@@ -361,9 +368,15 @@ function displayPage(idPage) {
     link.pageid = idPage;
     link.audioid = 'audio'+idPage+'l'+i;
     if (link.type == 1) {  // Image de fond
-      onscreen.append('<img />').children().last().attr('src',lang+"/"+link.src).click(function(){return false})
+      onscreen.append('<img />').children().last().attr('src',lang+"/"+link.src).attr('id','bg'+idPage).click(function(){return false})
         .css({position:'absolute', left:link.left.toString()+'px', top:link.top.toString()+'px'});
     } else {
+      if ((link.type == 4) && (link.letter == actualLetter)) {
+        if (!jQuery('#bgMachines').length) {
+          jQuery('#bg'+pageLevels[pageLevels.length-1]).after('<img id="bgMachines" src="" />');
+          jQuery('#bgMachines').css({position:'absolute', left:'255px', top:'105px'}).attr('src',lang+"/"+link.alt);
+        }
+      }
       onscreen.append('<div style="position:absolute;left:'+(link.x1.toString())+'px;top:'+(link.y1.toString())+'px;width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px;cursor:pointer" id="link'+(currentLinks.length.toString())+'" onclick="runLink('+(currentLinks.length.toString())+');return false"><img src="common/transparent.gif" style="width:'+((link.x2-link.x1).toString())+'px;height:'+((link.y2-link.y1).toString())+'px" /></div>');
       if (("autostart" in link) && (link.autostart)) autolink = currentLinks.length;
       if (link.type == 2) // On ajoute la "controlbar"
