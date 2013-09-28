@@ -78,6 +78,7 @@ var actualLetter = 0; // Utilisé dans la roue alphabétique
 var preload = 0; // Deviendra jQuery('#preload') plus tard
 var version = 1;
 var aggressivePreload = 0; // Activation ou non du préchargement agressif
+var countingFramesMS = 250;
 
 function init() {
   preloaded = new Array();
@@ -180,12 +181,12 @@ function preloadRes(idPage) {
 }
 
 function countingFrames() {
-    animTimeLeft-=200; animTimePlaying+=200;
+    animTimeLeft-=countingFramesMS; animTimePlaying+=countingFramesMS;
     if (animTimeLeft > 0) {
-        runningAnimTimeoutID = window.setTimeout(countingFrames,200);
-        // synchro du son : si le son joue avec plus de x ms de décalage, on recale
-        var audiofile = jQuery('#'+currentLinks[runningAnimID].audioid).get(0);
-        if ((audiofile.currentTime < 3) && (audiofile.currentTime < audiofile.duration-1) && (Math.abs(audiofile.currentTime*1000-animTimePlaying) > 400)) audiofile.currentTime = animTimePlaying/1000;
+        runningAnimTimeoutID = window.setTimeout(countingFrames,countingFramesMS);
+        // synchro du son : si le son joue avec plus de x ms de décalage, on recale (fonctionne mal sur les portables)
+        //var audiofile = jQuery('#'+runningAnim.audioid).get(0);
+        //if ((audiofile.currentTime < 3) && (audiofile.currentTime < audiofile.duration-1) && (Math.abs(audiofile.currentTime*1000-animTimePlaying) > 400)) audiofile.currentTime = animTimePlaying/1000;
     } else stopAnim();
 }
 
@@ -216,13 +217,13 @@ function runAnim(anim) {
   animTimePlaying = 0;
   if ("nextpage" in anim) nextPage = anim.nextpage;
   runningAnim = anim;
-  runningAnimTimeoutID = window.setTimeout(countingFrames,200);
+  runningAnimTimeoutID = window.setTimeout(countingFrames,countingFramesMS);
   var audiofile = jQuery('#'+anim.audioid).get(0);
   audiofile.currentTime = 0;
   audiofile.play();
 }
 
-function runSound(sound, nowait=false) {
+function runSound(sound, nowait) {
   if (runningAnimTimeoutID) return stopAnim();
   if (!nowait) jQuery('#mask').css("cursor", "wait").click(function(){stopAnim();return false}).html('<img src="common/transparent.gif" style="width:638px;height:458px" />').css({width:'638px',height:'458px'});
   var audiofile = jQuery('#'+sound.audioid).get(0);
@@ -230,7 +231,7 @@ function runSound(sound, nowait=false) {
   animTimePlaying = 0;
   if ("nextpage" in sound) nextPage = sound.nextpage;
   runningAnim = sound;
-  runningAnimTimeoutID = window.setTimeout(countingFrames,200);
+  runningAnimTimeoutID = window.setTimeout(countingFrames,countingFramesMS);
   audiofile.currentTime = 0;
   audiofile.play();
 }
@@ -266,7 +267,7 @@ function runLink(idLink) {
         action.id = idLink+'a'+i;
         action.pageid = link.pageid;
         action.audioid = link.audioid+'a'+i;
-        runSound(action);
+        runSound(action, false);
       }
       if (action.type == 7) { // Animation simple
         action.id = idLink+'a'+i;
@@ -421,8 +422,8 @@ function loadLoader(langToLoad){
 }
 
 function loadPages(){
-  jQuery("#loading").attr('src',lang+'/loading.gif');
-  jQuery('.foreground').css({width:'638px', height:'458px', cursor:'wait'}).html('<img />').children().attr('src','common/ajax-loader.gif').css({'margin':'196px 0px 0px 286px'})
+  jQuery('#onscreen').html('<img src="'+lang+'/loading.gif'+'" style="position:absolute;left:0;top:0" /><div class="foreground" style="position:absolute;left:0;top:0;width:0;height:0"><img src="common/transparent.gif" /></div>');
+  jQuery('.foreground').css({width:'638px', height:'458px', cursor:'wait'}).html('<img />').children().attr('src','common/ajax-loader.gif').css({'margin':'196px 0px 0px 286px'});
   jQuery.getScript(lang+"/pages.min.js?ver="+version);
 }
 
@@ -459,7 +460,6 @@ jQuery(document).ready(function() {
     <div style="position:absolute;left:0;top:0;width:638px;height:458px"><img src="common/TITLempty.gif" /></div>
     <div style="position:absolute;left:102px;top:169px"><a href="#FR" onclick="loadLoader('FR');" title="Comment ça marche"><img src="common/flagFR.gif" /></a></div>
     <div style="position:absolute;left:333px;top:169px"><a href="#EN" onclick="loadLoader('EN');" title="The Way Things Works"><img src="common/flagEN.gif" /></a></div>
-    <img id="loading" src="common/transparent.gif" style="position:absolute;left:0;top:0" />
     <div class="foreground" style="position:absolute;left:0;top:0;width:0;height:0"><img src="common/transparent.gif" /></div>
   </div>
 </div>
