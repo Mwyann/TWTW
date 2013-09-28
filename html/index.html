@@ -415,16 +415,24 @@ function displayPage(idPage) {
   if (autolink > -1) runLink(autolink);
 }
 
+function pureGetScript(src) {
+  var body = document.getElementsByTagName('body').item(0);
+  var script = document.createElement('script');
+  script.src = src;
+  script.type = 'text/javascript';
+  body.appendChild(script);
+}
+
 function loadLoader(langToLoad){
   lang = langToLoad;
   init();
-  jQuery.getScript(lang+"/load.js?ver="+version);
+  pureGetScript(lang+"/load.js?ver="+version);
 }
 
 function loadPages(){
   jQuery('#onscreen').html('<img src="'+lang+'/loading.gif'+'" style="position:absolute;left:0;top:0" /><div class="foreground" style="position:absolute;left:0;top:0;width:0;height:0"><img src="common/transparent.gif" /></div>');
   jQuery('.foreground').css({width:'638px', height:'458px', cursor:'wait'}).html('<img />').children().attr('src','common/ajax-loader.gif').css({'margin':'196px 0px 0px 286px'});
-  jQuery.getScript(lang+"/pages.min.js?ver="+version);
+  pureGetScript(lang+"/pages.min.js?ver="+version);
 }
 
 function start(){
