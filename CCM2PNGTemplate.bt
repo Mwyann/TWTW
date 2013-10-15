@@ -178,10 +178,21 @@ typedef struct {
     short unknown_infos_a; // 1
     short screenwidth;
     short screenheight;
-    short unknown_infos_b[0x8];
+    short unknown_infos_b[0x7];
+    byte unknown_infos_c;
     ulong page_start;
-    ulong unknown_infos_c;
+    byte unknown_infos_d;
+
+    ulong unknown_infos_e[0xE];
+
+    short screenwidth2;
+    short screenheight2;
+    short unknown_infos_b2[0x13];
+
     short numframes; // 8
+
+    short unknown_infos_b3[0x5];
+
     FRAMEARRAY framearray[numframes] <optimize=false>;
 } INFOS;
 
@@ -282,7 +293,7 @@ typedef struct {
     short item_id; // Mainly 2, or random, max 56
     short item_props; // Mainly 4 or 0, or 1, 5, 16, 32, 51, 274, 496, 515
         // 16 - no auto start ; 32 - auto start
-    if (itemtype == 601) { // 1663 of them
+    if (itemtype == 1) { // 1663 of them
         // These are background pictures. They are usually the first item in the list.
         short ignore_item_89_a; // Always 0
         short ignore_item_89_b; // Always 0
@@ -291,20 +302,35 @@ typedef struct {
         short ignore_item_89_d; // Always 0
         idword image;
     }
-    if (itemtype == 602) { // 59 of them
+    if (itemtype == 2) { // 59 of them
         // This is an animation with a control bar.
         short x1,y1,x2,y2; // This is the position for the control bar
         idword cursor;
         short ignore_item_90_a; // Always 0, probaby the x offset.
-        short ignore_item_90_b; // Always 0, probably the y offset.
+        //short ignore_item_90_b; // Always 0, probably the y offset.
         short x1,y1,x2,y2; // This is the position for the control bar too ?
         idword anim;
-        idword cursor;
-        short ignore_item_90_c; // Always 0
+        //idword cursor;
+        //short ignore_item_90_c; // Always 0
         short autostart; // 0 = autostart, 1 = no autostart
         short ignore_item_90_e; // Always 4
+        short ignore_item_90_f; // Always 4
+        short ignore_item_90_g; // Always 4
+        short x1,y1,x2,y2; // This is the position for the control bar too ?
+        idword cursor;
+        short ignore_item_90_h[5]; // Always 4
+        idword cursor;
+        short ignore_item_90_i[6]; // Always 4
+        short x1,y1,x2,y2; // This is the position for the control bar too ?
+        idword cursor;
+        short ignore_item_90_j[5]; // Always 4
+        idword cursor;
+        short ignore_item_90_k[6]; // Always 4
+        short x1,y1,x2,y2; // This is the position for the control bar too ?
+        idword cursor;
+        short ignore_item_90_l[16]; // Always 4
     }
-    if (itemtype == 603) { // 10163 of them
+    if (itemtype == 3) { // 10163 of them
         // These are objects. They can be: sound or links, etc. See ACTIONITEM for more details.
         short x1,y1,x2,y2;
         idword cursor;
@@ -313,7 +339,7 @@ typedef struct {
         short numactions; // Never more than 2
         ACTIONITEM actions[numactions] <optimize=false>;
     }
-    if (itemtype == 604) { // 62 of them
+    if (itemtype == 4) { // 62 of them
         // Used only in the alphabet wheel (page 67)
         short x1,y1,x2,y2;
         idword cursor;
@@ -321,7 +347,7 @@ typedef struct {
         short ignore_item_92_b; // Always 0
         short letter; // Random values, from 0 to 28, probably the choosed letter
     }
-    if (itemtype == 605) { // 660 of them
+    if (itemtype == 5) { // 660 of them
         // Known to be used in "See also" and informations popups. Glossary popups doesn't have this.
         short ignore_item_93_a; // Always 0
         short ignore_item_93_b; // Always 0
@@ -330,7 +356,7 @@ typedef struct {
         short ignore_item_93_e; // Always 0
         short ignore_item_93_f; // Always 0
     }
-    if (itemtype == 606) { // 9 of them (the 9 buttons in the menu!)
+    if (itemtype == 6) { // 9 of them (the 9 buttons in the menu!)
         // This is the type of button for the left menu (NAV folder).
         // Where is the page id for each of those? Just after the definition of the nav! But in the wrong order...
         // item_id | id_page
@@ -352,7 +378,7 @@ typedef struct {
         short ignore_item_94_b; // Always 1
         numlinkto++;
     }
-    if (itemtype == 607) { // 222 of them
+    if (itemtype == 7) { // 222 of them
         // These are animations.
         short x1,y1,x2,y2;
         idword cursor;
@@ -368,7 +394,7 @@ typedef struct {
         idword animation;
         short ignore_item_95_1_h; // Always 1
     }
-    if (itemtype == 608) { // Only 1 (in page 867, "Options" page)
+    if (itemtype == 8) { // Only 1 (in page 867, "Options" page)
         // "Cancel" button (can be pushed)
         // Could also mean "close popup" with the popup id following.
         short x1,y1,x2,y2;
@@ -383,7 +409,7 @@ typedef struct {
         short unknown_item_96_h; // 0
         short unknown_item_96_i; // 0
     }
-    if (itemtype == 609) { // 4 of them, one is used in the "Help" page (P545)
+    if (itemtype == 9) { // 4 of them, one is used in the "Help" page (P545)
         // This is the image used in the scrollable zone. It's a very long image, text only.
         short unknown_item_97_a; // 3 of them are 50 and one of them is 1
         short x1;
@@ -396,7 +422,7 @@ typedef struct {
         short ignore_item_97_g; // Always 0
         idword image;
     }
-    if (itemtype == 610) { // 4 of them, one is used in the "Help" page (P545)
+    if (itemtype == 10) { // 4 of them, one is used in the "Help" page (P545)
         // These seems to be shortcuts to use the scrollable zone (arrow keys doesn't work though)
         short unknown_item_98_a; // 3 of them are 49 and one of them is 48
         short x1;
@@ -443,6 +469,7 @@ typedef struct {
     short ignore_page100_b; // Always 1
     short unknown_page100_c; // Always 201 BUT one which is 202
     short unknown_page100_d; // Always 1 BUT one which is 6
+    short unknown_page100_e[0x2]; // Always 1 BUT one which is 6
     short numitems; // Max is 83!
     ITEM items[numitems] <optimize=false>;
     short links_infos; // Always 0 BUT 22 which are 1
@@ -488,7 +515,9 @@ typedef struct {
         // 102: normal frame (390 of them)
         // 103: the index popup
         PAGE100 page; // 1659 of them
-    // type page 5
+    if (typepage == 5)
+        // type page 5 (LOGBOOK, questionnaire ? on a QUIZ en typepage 1 aussi)
+        PAGE100 page;
 } PAGE;
 
 string ReadIdWord(idword &id) {
@@ -514,6 +543,26 @@ typedef struct {
 } IDPOINTERS;
 
 typedef struct {
+    ushort question_id;
+    ushort question_group; // Groups from 0 to 2
+    ushort question_order;
+    ushort qlen;
+    char qstr[qlen] <open=suppress>;
+    ushort alen;
+    char astr[alen] <open=suppress>;
+    ulong hints_id[3]; // I suppose...
+} QUESTION;
+
+typedef struct {
+    QUESTION question[330] <optimize=false>;
+} QUESTIONS;
+
+typedef struct {
+    ushort length;
+
+} UNKNOWNSTRUCT;
+
+typedef struct {
     BigEndian();
     
     HEADERSTRINGS headerstrings;
@@ -521,11 +570,30 @@ typedef struct {
     IDSTRINGS idstrings;
 
     INFOS infos;
+
+    FSeek(0x107AB);
+
     INDEX index;
 
-    FSeek(header.idpointers_start);
+    UNKNOWNSTRUCT unknown_struct_a;
 
-    IDPOINTERS idpointers;
+    FSeek(0x1B549);
+
+    QUESTIONS questions;
+
+    ulong unknown_global_a[0xB] <optimize=false>;
+    ushort unknown_global_b;
+    ulong unknown_global[0xCE] <optimize=false>;
+    ushort unknown_global_d;
+    ulong unknown_global_e[0xF] <optimize=false>;
+
+    //FSeek(header.idpointers_start);
+
+    //IDPOINTERS idpointers;
+
+    FSeek(0x6C0DD+header.pages_start);
+    PAGE page;
+
 } PNGFILE <open=true>;
 
 PNGFILE TWTW;
